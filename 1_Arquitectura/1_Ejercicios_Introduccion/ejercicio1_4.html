@@ -6,8 +6,13 @@
     <title>Visualizar imagenes</title>
     <script>
         function cambiarImagen(){
-            const nombreImagen = document.getElementById("animales").value;
-            document.getElementById("imagen").src = "./animales/"+nombreImagen+".jpg";
+            if (document.getElementById("animales").value == "0"){
+                document.getElementById("imagen").hidden = true;
+            } else {
+                const nombreImagen = document.getElementById("animales").value;
+                document.getElementById("imagen").src = "./animales/"+nombreImagen+".jpg";
+                document.getElementById("imagen").hidden = false;
+            }
         }
     </script>
 </head>
@@ -18,6 +23,7 @@
     
     <label>Selecciona una imagen: </label>
     <select id="animales" onchange="cambiarImagen()">
+        <option selected value="0"> -- Animales -- </option>
         <option value="pinguino">Pingüino</option>
         <option value="tigre">Tigre</option>
         <option value="mono">Mono</option>
