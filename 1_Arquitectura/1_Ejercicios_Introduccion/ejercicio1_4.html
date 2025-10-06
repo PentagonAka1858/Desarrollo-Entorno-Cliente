@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizar imagenes</title>
+    <script>
+        function cambiarImagen(){
+            const nombreImagen = document.getElementById("animales").value;
+            document.getElementById("imagen").src = "./animales/"+nombreImagen+".jpg";
+        }
+    </script>
+</head>
+<body>
+    <!--
+        Cargar una lista plegable con nombres de imágenes que tienes guardadas en el disco y cuando se selecciona una de la lista, visualizar esa imagen.
+    -->
+    
+    <label>Selecciona una imagen: </label>
+    <select id="animales" onchange="cambiarImagen()">
+        <option value="pinguino">Pingüino</option>
+        <option value="tigre">Tigre</option>
+        <option value="mono">Mono</option>
+        <option value="lince">Lince</option>
+        <option value="ballena">Ballena</option>
+    </select>
+    <br>
+    <img src="" id="imagen">
+</body>
+</html>

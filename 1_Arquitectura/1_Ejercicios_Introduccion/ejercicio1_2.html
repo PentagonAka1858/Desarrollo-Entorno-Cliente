@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colores</title>
+    <script>
+        function selectorColorHexadecimal(){
+            const color = document.querySelector("#color").value;
+            document.getElementById("valor-color").innerText = "Hexadecimal del color: " + color;
+            console.log("Hexadecimal del color: ",color);
+        }
+        
+        function selectorLista(){
+            const listaColor = document.getElementById("lista-color").value;
+            document.getElementById("valor-lista").innerText = "Color seleccionado: " + listaColor;
+            console.log("Color seleccionado: ",listaColor);
+        }
+    </script>
+</head>
+<body>
+    <!--
+        Seleccionar de una lista plegada un color y mostrarlo por la consola.
+    -->
+    <input type="color" id="color" onchange="selectorColorHexadecimal()">
+    <p id="valor-color"></p>
+    
+    <select id="lista-color" onchange="selectorLista()">
+        <option value="azul">Azul</option>
+        <option value="amarillo">Amarillo</option>
+        <option value="rojo">Rojo</option>
+        <option value="morado">Morado</option>
+        <option value="verde">Verde</option>
+        <option value="blanco">Blanco</option>
+        <option value="negro">Negro</option>
+    </select>
+    <p id="valor-lista"></p>
+</body>
+</html>

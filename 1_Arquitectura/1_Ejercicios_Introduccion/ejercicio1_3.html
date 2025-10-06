@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cambiar div</title>
+    <script>
+        function cambiarDiv(){
+            const texto = document.querySelector("#textoACambiar").value;
+            document.querySelector("#textoCambiado").innerHTML = texto;
+        }
+    </script>
+</head>
+<body>
+    <!--
+        Solicitar en un <input> un texto y mostrarlo en una capa <div>
+        pulsando sobre un botón.
+    -->
+    
+    <label>Cambiar texto: </label><input type="text" id="textoACambiar" onchange="cambiarDiv()">
+    <div id="textoCambiado"></div>
+</body>
+</html>

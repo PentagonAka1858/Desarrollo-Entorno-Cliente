@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imprimir texto usuario</title>
+    <script>
+        window.addEventListener('DOMContentLoaded', anadirTexto)
+        
+        function anadirTexto(){
+            texto = prompt("Introduce un texto para mostrarlo en el HTML:");
+            document.getElementById("textoUsuario").innerText = texto;
+        }
+    </script>
+</head>
+<body>
+    <!--
+        Solicitar un dato por pantalla en una ventana emergente
+        y mostrarlo como contenido de un párrafo <p>.
+    -->
+    <p id="textoUsuario"></p>
+    <button onclick="anadirTexto()">Ejecutar script</button>
+</body>
+</html>

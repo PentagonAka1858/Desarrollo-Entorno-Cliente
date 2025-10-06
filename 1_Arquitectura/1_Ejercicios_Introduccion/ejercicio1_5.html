@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Negrita y cursiva</title>
+    <script>
+        // Función para añadir negrita el texto
+        function cambiarNegrita(){
+            if (document.querySelector("#negrita").value == "negrita"){
+                document.querySelector("#texto").style.fontWeight = "bold";
+                console.log("negrita");
+            } else {
+                document.querySelector("#texto").style.fontWeight = "normal";
+                console.log("no negrita");
+            }
+        }
+        
+        // Función para añadir cursivia al texto
+        function cambiarCursiva(){
+            if (document.querySelector("#cursiva").value == "cursiva"){
+                document.querySelector("#texto").style.fontStyle = "italic";
+                console.log("cursiva");
+            } else {
+                document.querySelector("#texto").style.fontStyle = "normal";
+                console.log("no cursiva");
+            }
+        }
+    </script>
+</head>
+<body>
+    <!--
+        Crear una página con un texto y dos listas plegables, una indica que
+        el texto se ponga en negrita o no, y la otra si el texto se pone en cursiva o no.
+    -->
+    
+    <p id="texto">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+    <select id="negrita" onchange="cambiarNegrita()">
+        <option value="nonegrita">Sin negrita</option>
+        <option value="negrita">Negrita</option>
+    </select>
+    <select id="cursiva" onchange="cambiarCursiva()">
+        <option value="nocursiva"> Sin cursiva</option>
+        <option value="cursiva">Cursiva</option>
+    </select>
+</body>
+</html>
