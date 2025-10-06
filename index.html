@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        /* Gradiente para el pie de página */
+        .gradient-bg {
+            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+        }
+        /* Gradiente para el sobre índice */
+        .gradient-about {
+            background-color: #f0f9ff;
+            background-image: 
+            radial-gradient(at 47% 33%, hsl(200, 50%, 85%) 0, transparent 59%), 
+            radial-gradient(at 82% 65%, hsl(210, 45%, 88%) 0, transparent 55%),
+            radial-gradient(at 15% 75%, hsl(195, 55%, 82%) 0, transparent 50%),
+            radial-gradient(at 90% 10%, hsl(205, 48%, 86%) 0, transparent 60%);
+        }
+    </style>
+    <title>Index Adrián Nieto</title>
+</head>
+<body>
+    <!-- CABECERA -->
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <nav class="mx-auto px-6 py-4 flex place-content-around justify-between items-center">
+            <div class="justify-between items-center flex space-x-6">
+                <h1 class="text-2xl font-bold text-gray-900">Adrián Nieto</h1>
+                <h1 class="text-2xl font-bold text-gray-900">2º DAW</h1>
+                <h1 class="text-2xl font-bold text-gray-900">D.W.E. Cliente</h1>
+            </div>
+            <div>
+                <div class="space-x-6 flex-1">
+                    <a href="#about" class="text-gray-600 hover:text-gray-900 transition">Sobre el índice</a>
+                    <a href="#temas" class="text-gray-600 hover:text-gray-900 transition menu">Temas</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <!-- SOBRE INDICE -->
+    <section id="about" class="gradient-about text-gray-900 relative overflow-hidden">
+        <div class="max-w-6xl mx-auto px-6 py-32 relative z-10">
+            <div class="max-w-3xl">
+                <h2 class="text-6xl font-bold mb-6 animate-fade-in">Índice de temas</h2>
+                <p class="text-2xl text-blue-700 mb-8 font-light">
+                    Temario que se imparte en Desarrollo Web en Entorno Cliente en 2º de DAW.
+                </p>
+                <p class="text-lg text-gray-700 leading-relaxed">
+                    Mar de Cádiz - Curso 25/26
+                </p>
+            </div>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-gray-50 to-transparent"></div>
+    </section>
+    
+    <!--  -->
+    
+</body>
+</html>
