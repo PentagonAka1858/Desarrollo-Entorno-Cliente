@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+</head>
+<body>
+    
+    <label>Valor 1: <input id="numero1" type="number" value="1"></label>
+    <label>Valor 2: <input id="numero2" type="number" value="1"></label>
+    <br>
+    
+    <button onclick="calcular(document.getElementById('numero1').value,
+                            document.getElementById('numero2').value,
+                            '+')">
+        Suma
+    </button>
+    
+    
+    <button onclick="calcular(document.getElementById('numero1').value,
+                            document.getElementById('numero2').value,
+                            '-')">
+            Resta
+    </button>
+    
+    
+    <button onclick="calcular(document.getElementById('numero1').value,
+                            document.getElementById('numero2').value,
+                            '*')">
+        Multiplicar
+    </button>
+    
+    
+    <button onclick="calcular(document.getElementById('numero1').value,
+                            document.getElementById('numero2').value,
+                            '/')">
+        Dividir
+    </button>
+    
+    
+    <div id="resultado">
+    
+    </div>
+    
+    <script>
+        let calcular = (num1, num2, operador) => {
+            let resultado = 0;
+            console.log("Valor 1: " + num1);
+            console.log("Valor 2: " + num2);
+            console.log("Operador: " + operador);
+            num1 = parseFloat(num1);
+            num2 = parseFloat(num2);
+            switch (operador){
+                case '+': resultado = (num1 + num2); break;
+                case '-': resultado = (num1 - num2); break;
+                case '*': resultado = (num1 * num2); break;
+                case '/': if (num2 == 0) {resultado = "Operación inválida";} else {resultado = (num1 / num2);} break;
+                default: resultado = "Operación inválida";
+            }
+            console.log("Resultado: " + resultado)
+            if (resultado === "Operación inválida"){
+                document.getElementById("resultado").innerHTML = "Operación inválida";
+            }else {
+                document.getElementById("resultado").innerHTML = num1 + " " + operador + " " + num2 + " = " + resultado;
+            }
+        }
+    </script>
+</body>
+</html>

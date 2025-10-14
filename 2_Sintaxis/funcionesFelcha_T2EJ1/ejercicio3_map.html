@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <title>Map en JS</title>
+</head>
+<body>
+    <div class="container-md">
+        <table id="tabla" class="table">
+            <theader>
+                <th>Nombre</th>
+                <th>Nº Habitantes</th>
+            </theader>
+            <tbody id="cuerpo">
+                
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="container-sm flex">
+        <button class="btn btn-primary" onclick="cargar();">Cargar</button>
+        <button class="btn btn-primary" onclick="cargar();">Eliminar</button>
+        <button class="btn btn-primary" onclick="cargar();">Cargar</button>
+        <button class="btn btn-primary" onclick="cargar();">Cargar</button>
+    </div>
+    
+    <script>
+        let ciudades = new Map();
+        
+        ciudades.set("Cádiz", 110914);
+        ciudades.set("El Puerto de Santa María", 89960);
+        ciudades.set("Puerto Real", 42151);
+        ciudades.set("Chiclana de la Frontera", 89794);
+        ciudades.set("San Fernando", 93645);
+        ciudades.set("Jerez de la Frontera", 213688);
+        
+        cargar = () => {
+            var table = document.createElement('tbody');
+            table.id = "cuerpo";
+            
+            ciudades.forEach( (numHabitantes, ciudad, ciudades) => {
+                var row = table.insertRow(0);
+                
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                
+                
+                
+                // Add some text to the new cells:
+                cell1.innerHTML = ciudad;
+                cell2.innerHTML = numHabitantes; 
+            
+            })
+            
+            document.getElementById("tabla").replaceChild(table, cuerpo);
+        }
+        
+        window.addEventListener('DOMContentLoaded', cargar);
+        
+    </script>
+</body>
+</html>
