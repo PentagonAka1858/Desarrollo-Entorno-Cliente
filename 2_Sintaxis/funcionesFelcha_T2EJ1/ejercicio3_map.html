@@ -22,6 +22,11 @@
     <div class="container-sm">
         <button class="btn btn-primary mb-1" onclick="cargar();">Cargar</button>
         <br>
+        <button class="btn btn-danger mb-1" 
+            onclick="eliminarTodo()">
+            Borrar todo
+        </button>
+        <br>
         <button class="btn btn-primary mb-1" 
             onclick="eliminar(document.getElementById('borrar').value)">
             Eliminar
@@ -72,9 +77,16 @@
         
         window.addEventListener('DOMContentLoaded', cargar);
         
+        eliminarTodo = () => {
+            ciudades.clear();
+            cargar();
+        }
+        
         eliminar = (nombreBorrar) => {
             console.log("Ciudad a borrar: " + nombreBorrar);
-            if (!ciudades.has(nombreBorrar)) {
+            if (nombreBorrar == "") {
+                alert("No se ha introducido ciudad");
+            } else if (!ciudades.has(nombreBorrar)) {
                 alert(nombreBorrar + " no existe");
             }
             ciudades.delete(nombreBorrar);
@@ -84,7 +96,7 @@
         anadir = (nombreAnadir, numHabitantes) => {
             console.log("Nombre a añadir: " + nombreAnadir);
             console.log("Nº Habitantes a añadir: " + numHabitantes);
-            if (nombreAnadir == null || numHabitantes == null || nombreAnadir == ""){
+            if (nombreAnadir == null || numHabitantes == null || nombreAnadir == "" || numHabitantes == "" || numHabitantes < 0){
                 alert("Introduce datos válidos");
             } else if (ciudades.has(nombreAnadir) && ciudades.get(nombreAnadir) == numHabitantes){
                 alert(nombreAnadir + " ya tiene " + numHabitantes + " habitantes");
@@ -95,11 +107,87 @@
         }
         
         menor = () => {
-            let table
+            let table = document.getElementById('cuerpo');
+            console.log(table);
+            
+            // Si no existen ciudades, alertamos y salimos de la función
+            if (ciudades.size == 0){
+                alert("No existen ciudades")
+                return "Not found";
+            }
+            
+            // Forma de pasar de valores de Map a array ->
+            // https://stackoverflow.com/questions/32373301/first-item-from-a-map-on-javascript-es2015
+            let [numHabitantes] = ciudades.values();
+            let [nombreCiudades] = ciudades.keys();
+            menorNumCiudad = [numHabitantes][0];
+            menorNombreCiudad = [nombreCiudades][0];
+            
+            ciudades.forEach( (numHabitantes, ciudad, ciudades) => {
+                if (numHabitantes < menorNumCiudad){
+                    menorNumCiudad = numHabitantes;
+                    menorNombreCiudad = ciudad;
+                }
+            });
+            
+            console.log("Nombre de la menor ciudad: " + menorNombreCiudad);
+            console.log("Nº habitantes de la ciudad: " + menorNumCiudad);
+            
+            // Para añadir el texto verde y en negrita:
+            // td.setAttribute('class', 'className');
+            // ó
+            // td.childNodes[0].classList.add("text-success","fw-bold");
+            table.childNodes.forEach(fila => {
+                // console.log(fila);
+                // console.log(fila.childNodes[0]);
+                if (fila.childNodes[0].innerHTML === menorNombreCiudad){
+                    // console.log("Ciudad encontrada")
+                    fila.childNodes[0].classList.add("text-success","fw-bold");
+                    //fila.childNodes[0].setAttribute('class', 'text-success fw-bold');
+                }
+            });
         }
         
         mayor = () => {
+            let table = document.getElementById('cuerpo');
+            console.log(table);
             
+            // Si no existen ciudades, alertamos y salimos de la función
+            if (ciudades.size == 0){
+                alert("No existen ciudades")
+                return "Not found";
+            }
+            
+            // Forma de pasar de valores de Map a array ->
+            // https://stackoverflow.com/questions/32373301/first-item-from-a-map-on-javascript-es2015
+            let [numHabitantes] = ciudades.values();
+            let [nombreCiudades] = ciudades.keys();
+            maxNumCiudad = [numHabitantes][0];
+            maxNombreCiudad = [nombreCiudades][0];
+            
+            ciudades.forEach( (numHabitantes, ciudad, ciudades) => {
+                if (numHabitantes > maxNumCiudad){
+                    maxNumCiudad = numHabitantes;
+                    maxNombreCiudad = ciudad;
+                }
+            });
+            
+            console.log("Nombre de la mayor ciudad: " + maxNombreCiudad);
+            console.log("Nº habitantes de la ciudad: " + maxNumCiudad);
+            
+            // Para añadir el texto verde y en negrita:
+            // td.setAttribute('class', 'className');
+            // ó
+            // td.childNodes[0].classList.add("text-success","fw-bold");
+            table.childNodes.forEach(fila => {
+                // console.log(fila);
+                // console.log(fila.childNodes[0]);
+                if (fila.childNodes[0].innerHTML === maxNombreCiudad){
+                    // console.log("Ciudad encontrada")
+                    fila.childNodes[0].classList.add("text-danger","fw-bold");
+                    //fila.childNodes[0].setAttribute('class', 'text-success fw-bold');
+                }
+            });
         }
         
     </script>
