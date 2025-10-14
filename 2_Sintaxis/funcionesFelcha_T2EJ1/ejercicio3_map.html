@@ -19,11 +19,25 @@
         </table>
     </div>
     
-    <div class="container-sm flex">
-        <button class="btn btn-primary" onclick="cargar();">Cargar</button>
-        <button class="btn btn-primary" onclick="cargar();">Eliminar</button>
-        <button class="btn btn-primary" onclick="cargar();">Cargar</button>
-        <button class="btn btn-primary" onclick="cargar();">Cargar</button>
+    <div class="container-sm">
+        <button class="btn btn-primary mb-1" onclick="cargar();">Cargar</button>
+        <br>
+        <button class="btn btn-primary mb-1" 
+            onclick="eliminar(document.getElementById('borrar').value)">
+            Eliminar
+        </button>
+        <label class="m-1">Ciudad a eliminar: <input id="borrar"></label>
+        <br>
+        <button class="btn btn-primary mb-1" 
+            onclick="anadir(document.getElementById('anadir').value, document.getElementById('numHabitantes').value)">
+            Añadir/Modificar
+        </button>
+        <label class="m-1">Nombre: <input id="anadir"></label>
+        <label class="m-1">Nº habitantes: <input type= "number" id="numHabitantes"></label>
+        <br>
+        <button class="btn btn-primary mb-1" onclick="mayor();">Mayor nº de habitantes</button>
+        <br>
+        <button class="btn btn-primary mb-1" onclick="menor();">Menor nº de habitantes</button>
     </div>
     
     <script>
@@ -37,14 +51,14 @@
         ciudades.set("Jerez de la Frontera", 213688);
         
         cargar = () => {
-            var table = document.createElement('tbody');
+            let table = document.createElement('tbody');
             table.id = "cuerpo";
             
             ciudades.forEach( (numHabitantes, ciudad, ciudades) => {
-                var row = table.insertRow(0);
+                let row = table.insertRow(0);
                 
-                var cell1 = row.insertCell(0);
-                var cell2 = row.insertCell(1);
+                let cell1 = row.insertCell(0);
+                let cell2 = row.insertCell(1);
                 
                 
                 
@@ -53,11 +67,40 @@
                 cell2.innerHTML = numHabitantes; 
             
             })
-            
             document.getElementById("tabla").replaceChild(table, cuerpo);
         }
         
         window.addEventListener('DOMContentLoaded', cargar);
+        
+        eliminar = (nombreBorrar) => {
+            console.log("Ciudad a borrar: " + nombreBorrar);
+            if (!ciudades.has(nombreBorrar)) {
+                alert(nombreBorrar + " no existe");
+            }
+            ciudades.delete(nombreBorrar);
+            cargar();
+        }
+        
+        anadir = (nombreAnadir, numHabitantes) => {
+            console.log("Nombre a añadir: " + nombreAnadir);
+            console.log("Nº Habitantes a añadir: " + numHabitantes);
+            if (nombreAnadir == null || numHabitantes == null || nombreAnadir == ""){
+                alert("Introduce datos válidos");
+            } else if (ciudades.has(nombreAnadir) && ciudades.get(nombreAnadir) == numHabitantes){
+                alert(nombreAnadir + " ya tiene " + numHabitantes + " habitantes");
+            } else {
+                ciudades.set(nombreAnadir, numHabitantes);
+                cargar();
+            }
+        }
+        
+        menor = () => {
+            let table
+        }
+        
+        mayor = () => {
+            
+        }
         
     </script>
 </body>
