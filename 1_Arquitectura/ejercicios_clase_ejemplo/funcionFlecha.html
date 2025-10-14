@@ -16,15 +16,27 @@
         console.log(nombres.map(nom => nom.charAt(0)));
         document.write("<br>Primera letra de elementos: " + nombres.map(nom => nom.charAt(0)));
 
+        let diaMax = nombres[0], diaMin = nombres[0];
+        
         let sumaNombres = nombres.reduce((acumulador, elemento) => {
             console.log("Acumulador: " + acumulador);
             console.log("Elemento: " + elemento);
+            if (elemento.length < diaMin.length){
+                diaMin = elemento;
+            }
+            if (elemento.length > diaMax.length){
+                diaMax = elemento;
+            }
             return acumulador + elemento.length;
         }, 0);
         
         // Muestra la suma de la longitud de los nombre
         console.log(sumaNombres);
         document.write("<br>Suma longitudes: " + sumaNombres);
+        document.write("<br>Dia más largo: " + diaMax);
+        document.write("<br>Día más corto: " + diaMin);
+        
+        
     </script>
 </body>
 </html>
