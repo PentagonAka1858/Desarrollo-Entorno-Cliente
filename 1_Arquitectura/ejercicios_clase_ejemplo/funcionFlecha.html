@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Función flecha</title>
+</head>
+<body>
+    <script>
+        let nombres = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+        document.write("Array: " + nombres);
+        // Muestra en un array la longitud de cada elemento del array
+        console.log(nombres.map(nom => nom.length));
+        document.write("<br>Longitud de elementos: " + nombres.map(nom => nom.length));
+        // Muestra en un array el primer caracter de cada elemento del array
+        console.log(nombres.map(nom => nom.charAt(0)));
+        document.write("<br>Primera letra de elementos: " + nombres.map(nom => nom.charAt(0)));
+
+        let sumaNombres = nombres.reduce((acumulador, elemento) => {
+            console.log("Acumulador: " + acumulador);
+            console.log("Elemento: " + elemento);
+            return acumulador + elemento.length;
+        }, 0);
+        
+        // Muestra la suma de la longitud de los nombre
+        console.log(sumaNombres);
+        document.write("<br>Suma longitudes: " + sumaNombres);
+    </script>
+</body>
+</html>
