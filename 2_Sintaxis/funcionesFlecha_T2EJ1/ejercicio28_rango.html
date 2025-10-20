@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/ejercicio28.css">
+    <title>Rango</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Comprobar si 2 números están en el rango de 50-99</h1>
+        <div id="datos">
+            <label>Numero 1<input type="number" id="numero1" onchange="verRango(document.getElementById('numero1').value, document.getElementById('numero2').value)"></label>
+            <label>Numero 2<input type="number" id="numero2" onchange="verRango(document.getElementById('numero1').value, document.getElementById('numero2').value)"></label>
+            <button onclick="verRango(document.getElementById('numero1').value, document.getElementById('numero2').value)">Calcular</button>
+        </div>
+        <div>
+            <span id="resultado"></span>
+        </div>
+    </div>
+    
+    <script>
+        
+        function verRango(num1, num2){
+            num1 = parseInt(num1);
+            num2 = parseInt(num2);
+            
+            let dentroRango = false;
+            
+            if ((num1 >= 50 && num1 <= 99) || (num2 >= 50 && num2 <= 99) ){
+                console.log(true);
+                document.getElementById("resultado").innerHTML = true;
+                document.getElementById("resultado").classList.add("true");
+                document.getElementById("resultado").classList.remove("false");
+                return true;
+            }
+            
+            document.getElementById("resultado").innerHTML = false;
+            document.getElementById("resultado").classList.add("false");
+            document.getElementById("resultado").classList.remove("true");
+            console.log(false);
+            return false;
+            
+        }
+        
+    </script>
+</body>
+</html>

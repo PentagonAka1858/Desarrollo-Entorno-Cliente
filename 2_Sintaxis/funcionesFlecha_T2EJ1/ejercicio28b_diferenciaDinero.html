@@ -3,9 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/ejercicio28b.css">
     <title>Diferencia entre 2 números</title>
 </head>
 <body>
+    <div id="container">
+        <h1>¿Quién paga la cuenta?</h1>
+        <div id="datos">
+            <span>Precio máximo: <span id="precioMax"></span>€</span>
+            <label>Numero 1<input type="number" id="numero1"></label>
+            <label>Numero 2<input type="number" id="numero2"></label>
+            <label>Numero 3<input type="number" id="numero3"></label>
+            <button onclick="quienPaga()">Ver quién paga</button>
+            <button onclick="window.location.reload();">Recargar</button>
+        </div>
+    </div>
+    <div>
+        <span id="mensajePrecio"></span>
+        <span id="resultado"></span>
+    </div>
+    
+    <script>
+        
+        let precioReal = 0;
+        
+        window.addEventListener("DOMContentLoaded", ()=> {
+            let precioMaximo = parseFloat((Math.random()*300) + 50).toFixed(2);
+            precioReal = Math.random()*precioMaximo;
+            document.getElementById("precioMax").innerHTML = precioMaximo;
+        });
+        
+        function quienPaga(){
+            
+            let precios = [];
+            
+            for (let i = 0; i < 3; i++){
+                let j = parseInt(i) + 1;
+                precios[i] = parseFloat(document.getElementById(("numero"+j)).value).toFixed(2);
+                if (precios[i] == "" || precios[i] == NaN || precios[i] == null || isNaN(precios[i])){
+                    document.getElementById("resultado").innerHTML = "Uno de los precios inválidos. Recarga."
+                    return 0;
+                }
+            }
+            
+            
+            console.log(precios);
+            
+            let rango = -Infinity;
+            let paga = 0;
+            
+            for (let i = 0; i < 3; i++){
+                if (Math.abs(precioReal - precios[i]) >= rango){
+                    rango = Math.abs(precioReal - precios[i]);
+                    paga = parseInt(i)+1;
+                }
+            }
+            
+            if (document.getElementById("resultado").innerHTML != ""){
+                document.getElementById("resultado").innerHTML = "Ya intentado, recarga.";
+                return 0;
+            }
+            
+            document.getElementById("mensajePrecio").innerHTML = "El precio a pagar era de " + precioReal.toFixed(2) + "€.";
+            document.getElementById("resultado").innerHTML = "Paga el número " + paga;
+            
+        }
+        
+    </script>
     
 </body>
 </html>

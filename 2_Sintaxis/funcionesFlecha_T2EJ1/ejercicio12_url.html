@@ -7,5 +7,25 @@
 </head>
 <body>
     
+    <a href="#" onclick="getUrl()">Cambio</a>
+    <a href="#bueno" onclick="getUrl()">Cambio</a>
+    <a href="#malo" onclick="getUrl()">Cambio</a>
+    
+    <div><span id="ruta"></span></div>
+    
+    <script>
+        
+        window.addEventListener("DOMContentLoaded", getUrl());
+        
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+        
+        async function getUrl() {
+            await sleep(0);
+            let url = window.location.href;
+            document.getElementById("ruta").innerHTML = url;
+        }
+    </script>
 </body>
 </html>
