@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navidad</title>
+</head>
+<body>
+    <h1>¿Cuánto queda para navidad?</h1>
+    <div>
+        <p>Quedan <span id="dias"></span> dias para Navidad de <span id="anio"></span>.</p>
+    </div>
+    
+    <script>
+        
+        document.addEventListener("DOMContentLoaded", calcular());
+        
+        function calcular(){
+            const hoy = new Date(Date.now());
+            
+            let navidad = new Date();
+            
+            if (hoy.getMonth() == 11 && hoy.getDate() >= 25){
+                navidad = new Date((hoy.getFullYear()+1), 11, 25);
+            } else {
+                navidad = new Date(hoy.getFullYear(), 11, 25);
+            }
+            
+            document.getElementById("dias").innerHTML = Math.round((navidad - hoy) / 1000 / 60 / 60 / 24);
+            document.getElementById("anio").innerHTML = navidad.getFullYear();
+        }
+        
+    </script>
+    
+</body>
+</html>

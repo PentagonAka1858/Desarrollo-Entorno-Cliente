@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adivinar numero</title>
+</head>
+<body>
+    <h1>Adivina el número aleatorio de 1 a 10</h1>
+    <div>
+        <p id="numeroAleatorio"></p>
+    </div>
+    <div>
+        <label>Numero a introducir:<input type="num" id="numUsuario"></label><button id="botonAdivinar" onclick="adivinarNumero();">Adivinar</button>
+    </div>
+    
+    <script>
+        
+        let numeroAdivinar = 0;
+        
+        document.getElementById("numUsuario")
+            .addEventListener("keyup", function(event) {
+            event.preventDefault();
+            if (event.keyCode === 13) {
+                document.getElementById("botonAdivinar").click();
+            }
+        });
+        
+        function generarNumero(){
+            return parseInt(Math.random() * 10) + 1;
+        }
+        
+        function adivinarNumero(){
+            numeroAdivinar = generarNumero();
+            let numeroUsuario = document.getElementById("numUsuario").value;
+            console.log(numeroAdivinar + " vs " + numeroUsuario);
+            if (numeroUsuario != numeroAdivinar){
+                alert("Has tenido mala suerte... El número era " + numeroAdivinar + ". Generaremos un nuevo numero");
+            } else {
+                alert("El número era " + numeroAdivinar + ", ¡ACERTASTE! Generaremos un nuevo numero");
+            }
+        }
+        
+    </script>
+    
+</body>
+</html>
