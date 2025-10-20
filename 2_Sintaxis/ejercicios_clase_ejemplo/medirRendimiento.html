@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rendimiento JS</title>
+</head>
+<body>
+    
+    <div id="result"></div>
+    
+    <script>
+        
+        function log(message) {
+            console.log(message);
+            document.getElementById('result').innerHTML = document.getElementById('result').innerHTML + "<br>" + message;
+        };
+        
+        var start = Date.now();
+        
+        // Lo que queremos medir
+        var a = new Array(50000000);
+        for (var n = 0; n < a.length; n++) {
+            a[n] = n * n;
+        }
+        var end = Date.now();
+        
+        log("Array de 50000000 datos");
+        log(("Rendimiento for: ") + (end - start) + " milisegundos o " + ((end - start)/1000 + " segundos"));
+        
+        start = Date.now();
+        
+        // Lo que queremos medir
+        let i = 0;
+        console.log(a.length);
+        while (i < a.length){
+            a[i] = i*i;
+            i++;
+        }
+        end = Date.now();
+        
+        log(("Rendimiento while: ") + (end - start) + " milisegundos o " + ((end - start)/1000 + " segundos"));
+        
+        start = Date.now();
+        
+        // Lo que queremos medir
+        a.map(n => {
+            n*n;
+        });
+        end = Date.now();
+        
+        log(("Rendimiento .map: ") + (end - start) + " milisegundos o " + ((end - start)/1000 + " segundos"));
+        
+        start = Date.now();
+        
+        // Lo que queremos medir
+        a.forEach(n => {
+            n*n;
+        });
+        end = Date.now();
+        
+        log(("Rendimiento .forEach: ") + (end - start) + " milisegundos o " + ((end - start)/1000 + " segundos"));
+        
+        
+    </script>
+</body>
+</html>

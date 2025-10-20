@@ -55,6 +55,13 @@
         ciudades.set("San Fernando", 93645);
         ciudades.set("Jerez de la Frontera", 213688);
         
+        let [numHabitantes] = ciudades.values();
+        let [nombreCiudades] = ciudades.keys();
+        menorNumCiudad = [numHabitantes][0];
+        menorNombreCiudad = [nombreCiudades][0];
+        maxNumCiudad = [numHabitantes][0];
+        maxNombreCiudad = [nombreCiudades][0];
+        
         cargar = () => {
             let table = document.createElement('tbody');
             table.id = "cuerpo";
@@ -118,10 +125,10 @@
             
             // Forma de pasar de valores de Map a array ->
             // https://stackoverflow.com/questions/32373301/first-item-from-a-map-on-javascript-es2015
-            let [numHabitantes] = ciudades.values();
-            let [nombreCiudades] = ciudades.keys();
-            menorNumCiudad = [numHabitantes][0];
-            menorNombreCiudad = [nombreCiudades][0];
+            // let [numHabitantes] = ciudades.values();
+            // let [nombreCiudades] = ciudades.keys();
+            // menorNumCiudad = [numHabitantes][0];
+            // menorNombreCiudad = [nombreCiudades][0];
             
             ciudades.forEach( (numHabitantes, ciudad, ciudades) => {
                 if (numHabitantes < menorNumCiudad){
@@ -160,10 +167,10 @@
             
             // Forma de pasar de valores de Map a array ->
             // https://stackoverflow.com/questions/32373301/first-item-from-a-map-on-javascript-es2015
-            let [numHabitantes] = ciudades.values();
-            let [nombreCiudades] = ciudades.keys();
-            maxNumCiudad = [numHabitantes][0];
-            maxNombreCiudad = [nombreCiudades][0];
+            // let [numHabitantes] = ciudades.values();
+            // let [nombreCiudades] = ciudades.keys();
+            // maxNumCiudad = [numHabitantes][0];
+            // maxNombreCiudad = [nombreCiudades][0];
             
             ciudades.forEach( (numHabitantes, ciudad, ciudades) => {
                 if (numHabitantes > maxNumCiudad){
