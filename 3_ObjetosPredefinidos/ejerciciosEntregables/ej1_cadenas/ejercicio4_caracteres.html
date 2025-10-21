@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extraer caracteres</title>
+</head>
+<body>
+    
+    <label>Texto: <input id="texto" type="text"></label><br>
+    <label>Nº de letras a eliminar: <input id="numero" type="number"></label><br>
+    <button id="mostrar">Mostrar texto cortado</button>
+    <span id="resultado"></span>
+    
+    <script>
+        
+        document.getElementById("mostrar").addEventListener("click", () => {
+            getCaracteres(document.getElementById("texto").value, document.getElementById("numero").value);
+        });
+        
+        function getCaracteres(cadena, numero){
+            if (isNaN(numero) || parseInt(numero) >= cadena.length){
+                document.getElementById("resultado").innerHTML = "Número inválido o mayor a la longitud de caractéres.";
+                return -1;
+            }
+            numero = parseInt(numero);
+            let palabraEliminada = cadena.substring(numero);
+            document.getElementById("resultado").innerHTML = palabraEliminada;
+            return 1;
+        }
+        
+    </script>
+</body>
+</html>

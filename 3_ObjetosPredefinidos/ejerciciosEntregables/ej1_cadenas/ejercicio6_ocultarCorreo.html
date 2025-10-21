@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ocultar correo</title>
+</head>
+<body>
+    
+    <label>Correo: <input id="texto" type="text"></label><br>
+    <button id="mostrar">Mostrar correo ocultado</button><br>
+    <span id="resultado"></span>
+    
+    <script>
+        
+        document.getElementById("mostrar").addEventListener("click", () => {
+            ocultarCorreo(document.getElementById("texto").value);
+        });
+        
+        function ocultarCorreo(correo){
+            document.getElementById("resultado").innerHTML = "";
+            let correoEntrada = String(correo);
+            let dominio = correoEntrada.split("@");
+            console.log(dominio.length);
+            if (dominio.length != 2 || dominio[0].length < 1 || dominio[1].length < 1 || !dominio[1].includes(".")){
+                document.getElementById("resultado").innerHTML = "Correo inválido";
+                return -1
+            }
+            dominio[1] = "@"+dominio[1];
+            let usuario = dominio[0];
+            let usuarioOculto = "";
+            for (let i = 0; i < usuario.length; i++){
+                if (i < usuario.length/2 && usuario.length > 1){
+                    usuarioOculto = usuarioOculto.concat(usuario.charAt(i));
+                } else{
+                    usuarioOculto = usuarioOculto.concat(".",".",".");
+                    break;
+                }
+            }
+            console.log(usuarioOculto);
+            console.log(dominio[1]);
+            document.getElementById("resultado").innerHTML = usuarioOculto + dominio[1];
+        }
+        
+    </script>
+</body>
+</html>
