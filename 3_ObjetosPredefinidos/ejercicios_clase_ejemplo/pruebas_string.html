@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba string</title>
+</head>
+<body>
+    <span>Revisa la consola</span>
+    <script>
+        let cad="Sergi:Garcia:123456";
+        let tfo;
+        cad=cad.toUpperCase();
+        console.log(cad);
+        splitTodosCampos=cad.split(":");
+        split1Campo=cad.split(":",1);
+        console.log(splitTodosCampos);
+        console.log(split1Campo);
+        tfo=splitTodosCampos[2];
+        //Cambio en el telefono los números 3 por 9s
+        tfo=tfo.replace("2","9");
+        console.log(tfo);
+        //Muestro el quinto número del teléfono
+        console.log(tfo.charAt(4));
+        console.log("Bienvenido al CEEDCV");
+    </script>
+    
+</body>
+</html>
