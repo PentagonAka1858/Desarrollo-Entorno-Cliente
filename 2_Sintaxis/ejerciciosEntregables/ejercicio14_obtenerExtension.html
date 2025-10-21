@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extensión de archivo</title>
+</head>
+<body>
+    
+    <h1>Obtener la extensión de un archivo</h1>
+    <span>Revisa el código y la consola.</span>
+    <button onclick="location.reload()">Recargar</button>
+    
+    <script>
+        
+        let input = prompt("Escribe el nombre de la variable:");
+        
+        // Revisamos que no sea nulo o que no tenga extension
+        if (input == null || (input.split('.').pop()) == input){
+            input = "No tiene extensión";
+        } else {
+            input = "."+input.split('.').pop();
+        }
+        
+        console.log(input);
+        
+    </script>
+</body>
+</html>

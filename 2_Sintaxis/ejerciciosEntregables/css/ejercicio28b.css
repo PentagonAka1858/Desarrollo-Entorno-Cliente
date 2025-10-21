@@ -29,6 +29,13 @@ h1 {
     font-weight: 700;
 }
 
+h2 {
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 40px;
+    font-weight: 700;
+}
+
 #datos {
     display: flex;
     flex-direction: column;

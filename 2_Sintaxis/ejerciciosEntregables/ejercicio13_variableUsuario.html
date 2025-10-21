@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Variable asignada por usuario</title>
+</head>
+<body>
+    
+    <h1>Asignar el nombre de una variable a través de input</h1>
+    <span>Revisa el código y la consola.</span>
+    
+    <script>
+        
+        let value = 4;
+        let input = prompt("Escribe el nombre de la variable:");
+        window[input] = value;
+        // EL USUARIO TIENE QUE INTRODUCIR SI O SI LA PALABRA "variable"
+        console.log(variable);
+        
+        // Otra forma:
+        value = 2;
+        let input2 = prompt("Escribe el nombre de la variable:");
+        eval(`var ${input2} = ${value}`);
+        // EL USUARIO TIENE QUE INTRODUCIR SI O SI LA PALABRA "variable2"
+        console.log(variable2);
+        
+    </script>
+</body>
+</html>
