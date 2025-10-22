@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mayúscula</title>
+</head>
+<body>
+    
+    <label>Texto: <input id="texto" type="text"></label><br>
+    <button id="mostrar">Añadir maýusculas al inicio de cada palabra</button><br>
+    <span id="resultado"></span>
+    
+    <script>
+        
+        document.getElementById("mostrar").addEventListener("click", () => {
+            mayusculas(document.getElementById("texto").value);
+        });
+        
+        function mayusculas(text){
+            let texto = String(text);
+            texto = " ".concat(texto)
+            
+            for (let i = 1; i < texto.length ; i++){
+                if (texto.charAt(i-1) == " "){
+                    texto = texto.replace(String(texto.charAt(i)),String(texto.charAt(i)).toUpperCase());
+                } else {
+                    texto = texto.replace(String(texto.charAt(i)),String(texto.charAt(i)).toLowerCase());
+                }
+            }
+            
+            document.getElementById("resultado").innerHTML = texto;
+            
+        }
+        
+    </script>
+</body>
+</html>
