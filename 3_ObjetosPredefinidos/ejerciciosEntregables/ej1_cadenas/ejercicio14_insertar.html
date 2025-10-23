@@ -6,18 +6,36 @@
     <title>Insertar</title>
 </head>
 <body>
-    <h1>FALTA POR IMPLEMENTAR</h1>
+    <h1>Insertar una cadena en otra</h1>
     <label>Texto: <input id="texto" type="text"></label><br>
     <label>Texto a insertar: <input id="textoInsertar" type="text"></label><br>
+    <label>Índice donde se inserta: <input id="indice" type="number" step="1" placeholder="0" min="0"></label>
     <button id="mostrar">Añadir al texto</button><br>
     <span id="resultado"></span>
     
     <script>
         
         document.getElementById("mostrar").addEventListener("click", () => {
-            // document.getElementById("texto").value;
+            insertar(document.getElementById("textoInsertar").value,document.getElementById("texto").value,document.getElementById("indice").value);
         });
         
+        function insertar(textoAInsertar, textoAlQueSeInserta, indice){
+            let texto = String(textoAlQueSeInserta);
+            let textoInsertar = String(textoAInsertar);
+            if (indice == "") indice = 0;
+            
+            if (texto == ""){
+                document.getElementById("resultado").innerHTML = "El texto inicial es inválido.";
+                return -1;
+            } else if (parseInt(indice) < 0 || parseInt(indice) > texto.length){
+                document.getElementById("resultado").innerHTML = "El índice es inválido.";
+                return -1;
+            }
+            
+            let textoInsertado = texto.slice(0,indice) + textoInsertar + texto.slice(indice);
+            
+            document.getElementById("resultado").innerHTML = textoInsertado;
+        }
         
     </script>
 </body>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Videojuego</title>
+</head>
+<body>
+    <h1>Contar cuantas veces aparece una cadena en otra.</h1>
+    <label>Usuario 1: <input id="textoUsuario1" type="text"></label><br>
+    <label>Usuario 2: <input id="textoUsuario2" type="text"></label><br>
+    <label>Usuario 3: <input id="textoUsuario3" type="text"></label><br>
+    <button id="mostrar">Adivinar contraseña</button><br>
+    <span id="resultado"></span>
+    
+    <script>
+        
+        document.getElementById("mostrar").addEventListener("click", () => {
+            contar(document.getElementById("textoUsuario1").value, document.getElementById("textoUsuario2").value, document.getElementById("textoUsuario3").value);
+        });
+        
+        let listaContrasenas = ["L4ultimavezKtelod1go"];
+        
+        
+        function contar(usuario1, usuario2, usuario3){
+            document.getElementById("resultado").innerHTML = "";
+            let contrasena = listaContrasenas[0];
+            let textoUsuarios = [String(usuario1), String(usuario2), String(usuario3)];
+            let listaVocales = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'];
+            let listaNumeros = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
+            let sumaPuntosConsonantes = 0, sumaPuntosNumeros = 0, sumaPuntosVocales = 0;
+            let numeroUsuario = 0;
+            let mayoresPuntos = 0;
+            let ganador = 0;
+            let sumaTotal = 0;
+            
+            for (let textoUsuario of textoUsuarios){
+                document.getElementById("resultado").innerHTML += "<br>"
+                numeroUsuario = numeroUsuario + 1
+                sumaPuntosConsonantes = 0;
+                sumaPuntosNumeros = 0;
+                sumaPuntosVocales = 0;
+                sumaTotal = 0;
+                // Para cada texto de usuario, comprobamos que no se salte de la longitud de la contraseña
+                if (textoUsuario.length > contrasena.length){
+                    document.getElementById("resultado").innerHTML += "El usuario " + numeroUsuario + " se pasa de largo";
+                } else { // En caso de que tenga buen tamaño, comprobamos cada caracter del texto
+                    document.getElementById("resultado").innerHTML += "Usuario " + numeroUsuario + ":";
+                    for (let caracterUsuario of textoUsuario){
+                    // Comparamos cada caracter con el caracter de la contraseña elegida
+                        for (let caracterContrasena of contrasena){
+                            if (caracterUsuario == caracterContrasena){
+                                console.log(caracterContrasena);
+                                // Si son iguales los caracteres, comprobamos que sea consonante, vocal o número
+                                if (listaVocales.includes(caracterUsuario)){
+                                    sumaPuntosVocales = sumaPuntosVocales + 1;
+                                    document.getElementById("resultado").innerHTML += "<br>" + caracterUsuario + " -> + 1 punto.";
+                                } else if (listaNumeros.includes(caracterUsuario)){
+                                    sumaPuntosNumeros = sumaPuntosNumeros + 3;
+                                    document.getElementById("resultado").innerHTML += "<br>" + caracterUsuario + " -> + 3 puntos.";
+                                }else {
+                                    sumaPuntosConsonantes = sumaPuntosConsonantes + 2;
+                                    document.getElementById("resultado").innerHTML += "<br>" + caracterUsuario + " -> + 2 puntos.";
+                                }
+                            }
+                        }
+                    }
+                }
+                console.log(sumaPuntosVocales);
+                console.log(sumaPuntosNumeros);
+                console.log(sumaPuntosConsonantes);
+                sumaTotal = sumaPuntosVocales + sumaPuntosNumeros + sumaPuntosConsonantes;
+                console.log("puntos" + sumaTotal);
+                if (mayoresPuntos <= sumaTotal){
+                    console.log("a");
+                    mayoresPuntos = sumaTotal;
+                    ganador = numeroUsuario;
+                }
+                document.getElementById("resultado").innerHTML += "<br>Tiene un total de " + (sumaPuntosConsonantes + sumaPuntosNumeros + sumaPuntosVocales) + " puntos.<br>"
+                
+            }
+            
+            document.getElementById("resultado").innerHTML += "<br><br> El ganador es el usuario " + ganador + " con " + mayoresPuntos + " puntos";
+            
+        }
+        
+    </script>
+</body>
+</html>
