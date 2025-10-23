@@ -19,12 +19,13 @@
             contar(document.getElementById("textoUsuario1").value, document.getElementById("textoUsuario2").value, document.getElementById("textoUsuario3").value);
         });
         
-        let listaContrasenas = ["L4ultimavezKtelod1go"];
+        let listaContrasenas = ["L4ultimavezKtelod1go", "Contraseña", "1234", "H3Ll0world"];
         
         
         function contar(usuario1, usuario2, usuario3){
             document.getElementById("resultado").innerHTML = "";
-            let contrasena = listaContrasenas[0];
+            let contrasena = listaContrasenas[parseInt(Math.random()*listaContrasenas.length)];
+            console.log(contrasena);
             let textoUsuarios = [String(usuario1), String(usuario2), String(usuario3)];
             let listaVocales = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'];
             let listaNumeros = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
@@ -71,7 +72,7 @@
                 console.log(sumaPuntosConsonantes);
                 sumaTotal = sumaPuntosVocales + sumaPuntosNumeros + sumaPuntosConsonantes;
                 console.log("puntos" + sumaTotal);
-                if (mayoresPuntos <= sumaTotal){
+                if (mayoresPuntos < sumaTotal){
                     console.log("a");
                     mayoresPuntos = sumaTotal;
                     ganador = numeroUsuario;
@@ -79,9 +80,11 @@
                 document.getElementById("resultado").innerHTML += "<br>Tiene un total de " + (sumaPuntosConsonantes + sumaPuntosNumeros + sumaPuntosVocales) + " puntos.<br>"
                 
             }
-            
-            document.getElementById("resultado").innerHTML += "<br><br> El ganador es el usuario " + ganador + " con " + mayoresPuntos + " puntos";
-            
+            if (ganador == 0){
+                document.getElementById("resultado").innerHTML += "<br><br> No hay ganador";
+            } else {
+                document.getElementById("resultado").innerHTML += "<br><br> El ganador es el usuario " + ganador + " con " + mayoresPuntos + " puntos";
+            }
         }
         
     </script>
