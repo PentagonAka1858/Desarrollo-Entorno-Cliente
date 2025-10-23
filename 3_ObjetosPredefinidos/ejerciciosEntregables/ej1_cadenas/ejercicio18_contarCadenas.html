@@ -15,14 +15,30 @@
     <script>
         
         document.getElementById("mostrar").addEventListener("click", () => {
-            // document.getElementById("texto").value;
+            contar(document.getElementById("texto").value,document.getElementById("textoInsertar").value);
         });
         
         function contar(textoQueEsContado, textoQueSeCuenta){
             let texto = String(textoQueEsContado);
             let textoAContar = String(textoQueSeCuenta);
             
+            if (texto == ""){
+                document.getElementById("resultado").innerHTML = `Texto (primer campo) inválido.`; return -1;
+            }
+            if (textoAContar == ""){
+                document.getElementById("resultado").innerHTML = `Texto a buscar inválido.`; return -1;
+            }
             
+            let textoExtraido = texto.split(textoAContar);
+            let numeroRepeticiones = textoExtraido.length - 1;
+            
+            if (numeroRepeticiones > 1){
+                document.getElementById("resultado").innerHTML = `La cadena &quot;${textoAContar}&quot; se repite ${numeroRepeticiones} veces.`;
+            } else if (numeroRepeticiones == 1){
+                document.getElementById("resultado").innerHTML = `La cadena &quot;${textoAContar}&quot; se repite ${numeroRepeticiones} vez.`;
+            } else {
+                document.getElementById("resultado").innerHTML = `La cadena &quot;${textoAContar}&quot; no se repite.`;
+            }
             
         }
         
