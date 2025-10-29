@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El mayor del arrays</title>
+</head>
+<body>
+    <h1>El mayor de 3 números</h1>
+    <label>Numero 1:<input type="number" step="1" id="numero1"></label><br>
+    <label>Numero 2:<input type="number" step="1" id="numero2"></label><br>
+    <label>Numero 3:<input type="number" step="1" id="numero3"></label><br>
+    <button id="calcular">Calcular el mayor</button>
+    <div id="resultado"></div>
+    <script>
+        // DEFINICION DEL ARRAY PARA CALCULAR
+        let arrayNumeros = [];
+        
+        // BOTON DE CALCULAR
+        document.getElementById("calcular").addEventListener("click", () => {
+
+            // Si no hay valores numéricos en cualquiera de los numeros muestra error
+            if (isNaN(parseInt(document.getElementById("numero1").value)) || isNaN(parseInt(document.getElementById("numero2").value)) || isNaN(parseInt(document.getElementById("numero3").value))){
+                alert("Introduce un número.");
+                return -1;
+            }
+
+            arrayNumeros = [];
+            
+            // Guardamos en el array los numeros
+            arrayNumeros.push(parseInt(document.getElementById("numero1").value));
+            arrayNumeros.push(parseInt(document.getElementById("numero2").value));
+            arrayNumeros.push(parseInt(document.getElementById("numero3").value));
+
+            // Llamamos a la función para calcular el mayor
+            calcularMayor(arrayNumeros);
+        });
+        
+        function calcularMayor(array){
+            let arrayNums = new Array();
+            arrayNums = array;
+            
+            /*
+            // FORMA DE HACERLO CON FOREACH
+            let elMayor = -Infinity;
+            arrayNums.forEach( numero => {
+                if (numero > elMayor) elMayor = numero;
+            });
+            document.getElementById("resultado").innerHTML = "El mayor es el número " + elMayor;
+            */
+            
+            // FORMA DE HACERLO CON SORT
+            // Sacado de la documentación: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
+            arrayNums.sort(compareNumbers);
+            document.getElementById("resultado").innerHTML = "El mayor es el número " + arrayNums[0];
+        }
+
+        // Función auxiliar para el sort. Ajusta que valor va antes que quien, por ejemplo:
+        // si se compara a y b y la diferencia de a - b sale positiva, ordena a después de b ( [b, a] ).
+        // Si sale negativa, ordena b después de a ( [a, b] ).
+        // Si sale 0, se queda el orden original
+        // Se debe usar para comparar numericamente y no alfabéticamente.
+        function compareNumbers(a, b) {
+            return b - a;
+        }
+        
+    </script>
+    
+</body>
+</html>

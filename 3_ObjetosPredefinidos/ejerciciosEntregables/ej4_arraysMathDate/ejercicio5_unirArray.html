@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unir elementos de un array</title>
+</head>
+<body>
+    <h1>Unir elementos de un array</h1>
+    <span>Añade valores en la siguiente entrada.</span><br>
+    <label>Texto a añadir:<input type="text" id="elemento"></label><br>
+    <button id="anadir">Añadir al array</button>
+    <button id="borrar">Borrar array</button>
+    <div id="array"></div>
+    <div id="arrayEspacios"></div>
+    <div id="arrayComas"></div>
+    <div id="arrayNada"></div>
+    <script>
+        // DEFINICION DEL ARRAY PARA CALCULAR
+        let array = [];
+        
+        // ESCUCHAR EL BOTON DE AÑADIR, VALIDAR ENTRADA
+        document.getElementById("anadir").addEventListener("click", () => {
+            // SI EL VALOR EN VALIDO, EJECUTAMOS LA FUNCION PARA AÑADIR AL ARRAY
+            anadirAlArray(document.getElementById("elemento").value);
+            // LIMPIAMOS EL INPUT Y AÑADIMOS EL ARRAY AL DIV CON ARRAY
+            document.getElementById("elemento").value = "";
+            document.getElementById("array").innerHTML = "Array sin unir: " + array;
+            document.getElementById("arrayEspacios").innerHTML = "Array unido por espacios: " + array.join(" ");
+            document.getElementById("arrayComas").innerHTML = "Array unido por comas: " + array.join(", ");
+            document.getElementById("arrayNada").innerHTML = "Array unido sin separador: " + array.join("");
+        });
+        
+        // BOTON DE BORRAR EL ARRAY
+        document.getElementById("borrar").addEventListener("click", () => {
+            array = [];
+            document.getElementById("array").innerHTML = "";
+            document.getElementById("arrayEspacios").innerHTML = "";
+            document.getElementById("arrayComas").innerHTML = "";
+            document.getElementById("arrayNada").innerHTML = "";
+        });
+        
+        // FUNCION PARA AÑADIR NUMEROS AL ARRAY (MULTIPLES O 1)
+        function anadirAlArray(posibleDatos){
+            let datos = String(posibleDatos);
+            // Si el numero añade la ",", suponemos que son varios
+            if (datos.includes(",")){
+                // Lo dividimos en un array que usa de divisor la ","
+                // y luego por cada uno lo añadimos parseado al array
+                datos.split(",").forEach(e => {
+                    array.push(e);
+                });
+            } else {
+                // En caso de ser un numero único, 
+                // lo añadimos al array el numero
+                array.push(datos);
+            }
+        }
+        
+    </script>
+    
+</body>
+</html>

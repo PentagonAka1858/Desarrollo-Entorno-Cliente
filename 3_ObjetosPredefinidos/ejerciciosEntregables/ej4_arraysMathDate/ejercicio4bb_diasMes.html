@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nombre mes</title>
+</head>
+<body>
+    <h1>Número de días dado una fecha</h1>
+    <span>Dado un mes y un año, decir cuántos días tiene ese mes.</span><br>
+    <label>Mes: <input type="number" step="1" min="1" max="12" id="mes"></label>
+    <label>Año: <input type="number" step="1" min="0" id="anio"></label>
+    <button id="mostrarDias">Mostrar días</button>
+
+    <div id="resultado"></div>
+
+    <script>
+        
+        document.getElementById("mostrarDias").addEventListener("click", () =>{
+            if (document.getElementById("anio").value < 0 || isNaN(parseInt(document.getElementById("anio").value))) {
+                document.getElementById("resultado").innerHTML = "Año no válido.";
+                return -1;
+            }
+            if (document.getElementById("mes").value > 12 || document.getElementById("mes").value < 1) {
+                document.getElementById("resultado").innerHTML = "Mes no válido.";
+                return -1;
+            }
+
+            calcularDias(parseInt(document.getElementById("mes").value), parseInt(document.getElementById("anio").value));
+        });
+
+        function calcularDias(mesIndef, anioIndef){
+            let diasMes = {
+                "Enero": 31,
+                "Febrero": 28,
+                "Marzo": 31,
+                "Abril": 30,
+                "Mayo": 31,
+                "Junio": 30,
+                "Julio": 31,
+                "Agosto": 31,
+                "Septiembre": 30,
+                "Octubre": 31,
+                "Noviembre": 30,
+                "Diciembre": 31
+            };
+            let mesNombre = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+            
+            let mes = parseInt(mesIndef);
+            let anio = parseInt(anioIndef);
+
+            if ((anio % 4 == 0 && anio % 100 != 0) || anio % 400 == 0){
+                diasMes.Febrero = 29;
+            }
+
+            document.getElementById("resultado").innerHTML = mesNombre[mes-1] + " tiene " + diasMes[mesNombre[mes-1]] + " días el año " + anio;
+
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eliminar elemento</title>
+</head>
+<body>
+    <h1>Eliminar el primer elemento que coincida con un elemento del array</h1>
+    <span>Añade valores enteros en la siguiente entrada.</span><br>
+    <label>Elemeto a añadir:<input type="text" id="texto"></label><br>
+    <button id="anadir">Añadir/Refrescar</button><br>
+    <label>Elemeto a borrar:<input type="text" id="elementoBorrar"></label><br>
+    <button id="eliminar">Eliminar elemento</button><br>
+    <button id="borrar">Borrar array</button>
+    <div id="array"></div>
+    <div id="resultado"></div>
+    <script>
+        // DEFINICION DEL ARRAY PARA CALCULAR
+        let array = [];
+        
+        // ESCUCHAR EL BOTON DE AÑADIR, VALIDAR ENTRADA
+        document.getElementById("anadir").addEventListener("click", () => {
+            if (document.getElementById("texto").value == ""){
+                document.getElementById("array").innerHTML = array;
+                return -1;
+            }
+            // SI EL VALOR EN VALIDO, EJECUTAMOS LA FUNCION PARA AÑADIR AL ARRAY
+            array.push(document.getElementById("texto").value);
+            // LIMPIAMOS EL INPUT Y AÑADIMOS EL ARRAY AL DIV CON ARRAY
+            document.getElementById("texto").value = "";
+            document.getElementById("array").innerHTML = array;
+        });
+        
+        // BOTON DE ELIMINAR
+        document.getElementById("eliminar").addEventListener("click", () => {
+            eliminarElemento(array, document.getElementById("elementoBorrar").value);
+        });
+        
+        // BOTON DE BORRAR EL ARRAY
+        document.getElementById("borrar").addEventListener("click", () => {
+            array = [];
+            document.getElementById("array").innerHTML = "";
+            document.getElementById("resultado").innerHTML = "";
+        });
+        
+        // FUNCION PARA CALCULAR LA SUMA DEL ARRAY
+        function eliminarElemento(arrayIndef, elementoIndef){
+            let arrayDef = new Array;
+            arrayDef = arrayIndef;
+            let elementoDef = String(elementoIndef);
+            let index = arrayDef.indexOf(elementoDef);
+            if (index != -1){
+                do {
+                    arrayDef.splice(index, 1);
+                    document.getElementById("resultado").innerHTML = "El array después de eliminar el elemento: " + arrayDef;
+                    index = arrayDef.indexOf(elementoDef);
+                } while (index != -1);
+                
+            } else {
+                alert("No se ha encontrado el elemento " + elementoDef);
+            }
+            
+        }
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diferencia fechas</title>
+</head>
+<body>
+    <h1>Número de días dado una fecha</h1>
+    <span>Dado un mes y un año, decir cuántos días tiene ese mes.</span><br>
+    <label>Fecha: <input type="date" id="fecha1"></label>
+    <label>Fecha: <input type="date" id="fecha2"></label>
+    <button id="calculo">Mostrar diferencia en días</button>
+
+    <div id="resultado"></div>
+
+    <script>
+        
+        document.getElementById("calculo").addEventListener("click", () =>{
+            calcularMes(document.getElementById("fecha1").value, document.getElementById("fecha2").value);
+        });
+
+        function calcularMes(fecha1Indef, fecha2Indef){
+            let fecha1 = new Date(fecha1Indef);
+            let fecha2 = new Date(fecha2Indef);
+            let diferencia = 0;
+            if (fecha1.getTime() > fecha2.getTime()){
+                diferencia = fecha1.getTime() - fecha2.getTime();
+            } else {
+                diferencia = fecha2.getTime() - fecha1.getTime();
+            }
+            diferencia = diferencia / 1000 / 60 / 60 / 24;
+            if (diferencia != 1){
+                document.getElementById("resultado").innerHTML = "Hay una diferencia de " + diferencia + " días entre las dos fechas.";
+            } else {
+                document.getElementById("resultado").innerHTML = "Hay una diferencia de " + diferencia + " día entre las dos fechas.";
+            }
+        }
+    </script>
+</body>
+</html>

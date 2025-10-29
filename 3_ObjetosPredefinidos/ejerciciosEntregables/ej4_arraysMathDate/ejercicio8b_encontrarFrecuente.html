@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elementos repetidos de arrays</title>
+</head>
+<body>
+    <h1>Elemento más repetido de un array</h1>
+    <span>Añade valores enteros en la siguiente entrada.</span><br>
+    <label>Elemeto a añadir:<input type="text" id="texto"></label><br>
+    <button id="anadir">Añadir al array</button>
+    <button id="calcular">Calcular el mayor repetido</button>
+    <button id="borrar">Borrar array</button>
+    <div id="array"></div>
+    <div id="resultado"></div>
+    <script>
+        // DEFINICION DEL ARRAY PARA CALCULAR
+        let array = [];
+        
+        // ESCUCHAR EL BOTON DE AÑADIR, VALIDAR ENTRADA
+        document.getElementById("anadir").addEventListener("click", () => {
+            if (document.getElementById("texto").value == ""){
+                return -1;
+            }
+            // SI EL VALOR EN VALIDO, EJECUTAMOS LA FUNCION PARA AÑADIR AL ARRAY
+            array.push(document.getElementById("texto").value);
+            // LIMPIAMOS EL INPUT Y AÑADIMOS EL ARRAY AL DIV CON ARRAY
+            document.getElementById("texto").value = "";
+            document.getElementById("array").innerHTML = array;
+        });
+        
+        // BOTON DE CALCULAR
+        document.getElementById("calcular").addEventListener("click", () => {
+            calcularArray(array);
+        });
+        
+        // BOTON DE BORRAR EL ARRAY
+        document.getElementById("borrar").addEventListener("click", () => {
+            array = [];
+            document.getElementById("array").innerHTML = "";
+            document.getElementById("resultado").innerHTML = "";
+        });
+        
+        // FUNCION PARA CALCULAR LA SUMA DEL ARRAY
+        function calcularArray(arrayIndef){
+            let arrayDef = [];
+            arrayDef = arrayIndef;
+            let sumaApariciones = 0;
+            let mayorSumaApariciones = 0;
+            let elementoMasApariciones = 0;
+            // Si la longitud del array (no se han añadido numeros) es 0, mostramos un mensaje
+            if (arrayDef.length == 0){
+                document.getElementById("resultado").innerHTML = "Añade elementos al array";
+                return -1;
+            }
+            // Si tiene elementos, por cada uno de los elementos lo añadimos al valor de suma
+            arrayDef.forEach( e => {
+                sumaApariciones = 0;
+                arrayDef.forEach(a => {
+                    if (e == a){
+                        sumaApariciones += 1;
+                    }
+                });
+                if (sumaApariciones > mayorSumaApariciones) {
+                    mayorSumaApariciones = sumaApariciones;
+                    elementoMasApariciones = e;
+                }
+            });
+
+            // Mostramos el array separados por "+" y con el valor de la suma al final
+            document.getElementById("resultado").innerHTML = "El elemento que más se repite es <b>" + elementoMasApariciones + "</b>, con un total de <b>" + mayorSumaApariciones + "</b> de repeticiones.";
+        }
+    </script>
+    
+</body>
+</html>
