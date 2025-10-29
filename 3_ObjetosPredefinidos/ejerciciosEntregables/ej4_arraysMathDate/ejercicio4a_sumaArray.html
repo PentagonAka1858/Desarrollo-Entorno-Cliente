@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suma de arrays</title>
+</head>
+<body>
+    <h1>Suma de elementos en un array</h1>
+    <span>Añade valores enteros en la siguiente entrada.</span><br>
+    <span>Puedes añadir varios números usando ',' para distinguir entre números.</span><br>
+    <label>Numero a añadir:<input id="numeros"></label><br>
+    <button id="anadir">Añadir al array</button>
+    <button id="calcular">Calcular suma</button>
+    <button id="borrar">Borrar array</button>
+    <div id="array"></div>
+    <div id="resultado"></div>
+    <script>
+        // DEFINICION DEL ARRAY PARA CALCULAR
+        let arrayNumeros = [];
+        
+        // ESCUCHAR EL BOTON DE AÑADIR, VALIDAR ENTRADA
+        document.getElementById("anadir").addEventListener("click", () => {
+            if (document.getElementById("numeros").value == ""){
+                alert("Introduce un número.");
+                return -1;
+            }
+            if (document.getElementById("numeros").value.includes(" ")){
+                alert("El número no puede contener espacios en blanco.");
+                return -1;
+            }
+            
+            if (isNaN(document.getElementById("numeros").value)){
+                alert("Debe ser un numero");
+                return -1;
+            }
+            
+            // SI EL VALOR EN VALIDO, EJECUTAMOS LA FUNCION PARA AÑADIR AL ARRAY
+            anadirAlArray(document.getElementById("numeros").value);
+            // LIMPIAMOS EL INPUT Y AÑADIMOS EL ARRAY AL DIV CON ARRAY
+            document.getElementById("numeros").value = "";
+            document.getElementById("array").innerHTML = arrayNumeros;
+        });
+        
+        // BOTON DE CALCULAR
+        document.getElementById("calcular").addEventListener("click", () => {
+            calcularArray(arrayNumeros);
+        });
+        
+        // BOTON DE BORRAR EL ARRAY
+        document.getElementById("borrar").addEventListener("click", () => {
+            arrayNumeros = [];
+            document.getElementById("array").innerHTML = "";
+            document.getElementById("resultado").innerHTML = "";
+        });
+        
+        // FUNCION PARA AÑADIR NUMEROS AL ARRAY (MULTIPLES O 1)
+        function anadirAlArray(posibleNumeros){
+            let numeros = String(posibleNumeros);
+            // Si el numero añade la ",", suponemos que son varios
+            if (numeros.includes(",") && !numeros.includes(" ")){
+                // Lo dividimos en un array que usa de divisor la ","
+                // y luego por cada uno lo añadimos parseado al array
+                numeros.split(",").forEach(e => {
+                    arrayNumeros.push(parseInt(e));
+                });
+            } else {
+                // En caso de ser un numero único, 
+                // lo añadimos al array el numero
+                arrayNumeros.push(parseInt(numeros));
+            }
+        }
+        
+        // FUNCION PARA CALCULAR LA SUMA DEL ARRAY
+        function calcularArray(arrayIndef){
+            let array = [];
+            array = arrayIndef;
+            let suma = 0;
+            
+            // Si la longitud del array (no se han añadido numeros) es 0, mostramos un mensaje
+            if (array.length == 0){
+                document.getElementById("resultado").innerHTML = "Añade elementos al array";
+                return -1;
+            }
+            // Si tiene elementos, por cada uno de los elementos lo añadimos al valor de suma
+            array.forEach( e => {
+                suma = suma + e;
+            });
+            // Mostramos el array separados por "+" y con el valor de la suma al final
+            document.getElementById("resultado").innerHTML = array.join(" + ") + " = " + suma;
+        }
+    </script>
+    
+</body>
+</html>
