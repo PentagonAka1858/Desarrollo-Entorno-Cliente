@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div id="miObjeto">Click me</div>
+    
+    <script>
+        
+        function mostrarMensaje(evento){
+            
+            if(evento.type==="keyup"){
+                alert(evento.keyCode);
+            } else if(evento.type==="click"){
+                alert(evento.clientX+" "+evento.clientY);
+            }
+        }
+        
+        document.getElementById("miObjeto").addEventListener("click",mostrarMensaje);
+        document.addEventListener("keyup",mostrarMensaje);
+        document.getElementById("miObjeto").addEventListener("dblclick",function(){
+            alert("Codigo metido directamente"); 
+        });
+        
+    </script>
+    
+</body>
+</html>

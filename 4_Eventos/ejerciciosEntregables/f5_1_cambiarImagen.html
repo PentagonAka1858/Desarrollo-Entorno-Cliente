@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cambiar imagen</title>
+    <style>
+        body{
+            display: flex;
+            height: 98vh;
+            width: 98vw;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        img {
+            width: 30vw;
+            height: 40vh;
+        }
+    </style>
+</head>
+<body>
+    <div id="imagen">
+        <img id="img" src="./img/bruce.jpg" alt="Imagen de Bruce Wayne">
+    </div>
+    
+    <script>
+        document.getElementById("imagen").onmousedown = cambiarImagen;
+        document.getElementById("imagen").onmouseup = cambiarImagenOriginal;
+        
+        function cambiarImagen(){
+            document.getElementById("img").src = "./img/batman.jpg";
+            document.body.style.backgroundColor = "black";
+        }
+        
+        function cambiarImagenOriginal(){
+            document.getElementById("img").src = "./img/bruce.jpg";
+            document.body.style.backgroundColor = "white";
+        }
+        
+    </script>
+    
+</body>
+</html>

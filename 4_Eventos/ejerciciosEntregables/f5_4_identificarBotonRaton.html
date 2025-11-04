@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Identificar click</title>
+</head>
+<body>
+    
+    <script>
+        
+        document.addEventListener("mousedown", evento => {
+            alert(evento.button == 1 ? "Click central" : evento.button == 0 ? "Click izquierdo" : "Click derecho");
+        });
+        
+    </script>
+    
+</body>
+</html>

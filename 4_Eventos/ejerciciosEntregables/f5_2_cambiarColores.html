@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cambiar colores</title>
+    <style>
+        body{
+            display: flex;
+            height: 98vh;
+            width: 98vw;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        #imagen, #boton {
+            width: 30vw;
+            height: 40vh;
+        }
+    </style>
+</head>
+<body>
+    <!--
+    Realizar un script que responda estos eventos:
+        - Al pulsar botón del ratón el color de fondo del cuadro de mensaje debe ser amarillo (#FFFF00).
+        - Cuando se pulsa una tecla, el color de fondo debe ser azul (#CCE6FF).
+        - Al volver a mover el ratón, el color de fondo vuelve a ser blanco.
+    -->
+    <div id="imagen">
+        <button id="boton">Color</button>
+    </div>
+    
+    <script>
+        document.getElementById("boton").onclick = amarillo;
+        document.body.onkeydown = azul;
+        document.body.addEventListener("mousemove", blanco);
+        
+        function amarillo(evento){
+            this.style.backgroundColor = "yellow";
+        }
+        
+        function azul(evento){
+            this.style.backgroundColor = "blue";
+        }
+        
+        function blanco(evento){
+            this.style.backgroundColor = "white";
+        }
+    </script>
+    
+</body>
+</html>
