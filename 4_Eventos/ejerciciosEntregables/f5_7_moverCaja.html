@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mover caja</title>
+    <style>
+        body { 
+            margin: 0; 
+            overflow: hidden;
+            height: 100vh;
+        }
+        #caja { 
+            position: absolute; 
+            width: 100px; 
+            height: 100px; 
+            background: purple; 
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="caja"></div>
+    <script>
+        let posX = 0, posY = 0; // Posición inicial
+        let salto = 20; // Salto de pixeles por cada vez que se mueve
+        let tamanio = 100; // Tamaño de la caja
+        console.log(window.innerWidth);
+        console.log(window.innerHeight);
+
+        document.addEventListener("DOMContentLoaded", () => {
+            alert("Puedes mover la caja con las flechas y el teclado numero (4,8,6 y 2). Usa shift + flechas para mover más rápido.");
+        });
+
+        document.addEventListener('keydown', (evento) => {
+            if (evento.shiftKey == false) {
+                if (evento.key === 'ArrowUp' || evento.code === 'Numpad8') posY -= salto;
+                if (evento.key === 'ArrowDown' || evento.code === 'Numpad2') posY += salto;
+                if (evento.key === 'ArrowLeft' || evento.code === 'Numpad4') posX -= salto;
+                if (evento.key === 'ArrowRight' || evento.code === 'Numpad6') posX += salto;
+            } else {
+                if (evento.key === 'ArrowUp' || evento.code === 'Numpad8') posY -= salto*4;
+                if (evento.key === 'ArrowDown' || evento.code === 'Numpad2') posY += salto*4;
+                if (evento.key === 'ArrowLeft' || evento.code === 'Numpad4') posX -= salto*4;
+                if (evento.key === 'ArrowRight' || evento.code === 'Numpad6') posX += salto*4;
+            }
+            
+            posX = Math.max(0, Math.min(posX, window.innerWidth - tamanio));
+            posY = Math.max(0, Math.min(posY, window.innerHeight - tamanio));
+            console.log("Posicion X: " + posX);
+            console.log("Posicion Y: " + posY);
+            document.getElementById("caja").style.left = posX + 'px';
+            document.getElementById("caja").style.top = posY + 'px';
+        });
+    </script>
+</body>
+</html>

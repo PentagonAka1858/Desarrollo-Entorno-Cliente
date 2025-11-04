@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tecla pulsada</title>
+    <style>
+        body{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 99vw;
+            height: 98vh;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pulse una tecla para identificar cual pulsas</h1>
+    <h1 id="resultado">Pulsa una tecla</h1>
+    
+    <script>
+        function mostrarMensaje(evento){
+            if(evento.type==="keydown" && evento instanceof KeyboardEvent){
+                document.getElementById("resultado").innerHTML = (evento.key) + " (" + (evento.code) + ")";
+                if (evento.ctrlKey == true && evento.key != "Control"){
+                    document.getElementById("resultado").innerHTML = "Ctrl + " + (evento.key) + " (" + (evento.code) + ")";
+                }
+                if (evento.altKey == true && evento.key != "Alt"){
+                    document.getElementById("resultado").innerHTML = "Alt + " + (evento.key) + " (" + (evento.code) + ")";
+                }
+                if (evento.shiftKey == true && evento.key != "Shift"){
+                    document.getElementById("resultado").innerHTML = "Shift + " + (evento.key) + " (" + (evento.code) + ")";
+                }
+            }
+        }
+        
+        document.addEventListener("keydown",mostrarMensaje);
+
+    </script>
+
+</body>
+</html>

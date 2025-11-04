@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cambiar imagen</title>
+    <style>
+        body{
+            display: flex;
+            flex-direction: column;
+            height: 98vh;
+            width: 98vw;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        img {
+            width: 30vw;
+            height: 40vh;
+        }
+    </style>
+</head>
+<body>
+    <div id="imagen">
+        <img class="imagenes" src="./img/bruce.jpg" alt="Imagen de Bruce Wayne">
+        <img class="imagenes" src="./img/batman.jpg" alt="Imagen de Batman">
+    </div>
+    <h1 id="URL"></h1>
+    <script>
+        
+        Array.from(document.getElementsByClassName("imagenes")).forEach(elemento =>{
+            // Comprobamos que el elemento es un elemento HTMLElement
+            if (elemento instanceof HTMLElement){
+                elemento.addEventListener("mouseenter", mostrarURL);
+            }
+        });
+        
+        function mostrarURL(){
+            //console.log(this);
+            //console.log(this.src);
+            //alert(this.src);
+            document.getElementById("URL").innerHTML = this.src;
+        }
+        
+        
+    </script>
+    
+</body>
+</html>
