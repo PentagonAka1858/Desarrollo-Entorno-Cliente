@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Matriz 1</h1>
+    <div id="matriz1"></div>
+    <h1>Matriz 2</h1>
+    <div id="matriz2"></div>
+    <br>
+    <button onclick="calcularMatrices()">Calcular matriz</button>
+    <div id="resultado"></div>
+    
+    <script>
+        // TODO: Hacer que sea interactivo con el usuario
+        let matriz1 = [ 
+                        [1,2,3], 
+                        [4,5,6], 
+                        [7,8,9]
+        ];
+        let matriz2 = [
+                        [1,2,3], 
+                        [4,5,6], 
+                        [7,8,9]
+        ];
+        
+        document.addEventListener("DOMContentLoaded", () => {
+            matriz1.forEach(fila => {
+                document.getElementById("matriz1").innerHTML += fila + "<br>";
+            });
+            matriz2.forEach(fila => {
+                document.getElementById("matriz2").innerHTML += fila + "<br>";
+            });
+        });
+        
+        function calcularMatrices(){
+            let matriz3 = matriz1.map((fila, indiceFila) => {
+            let nuevaFila = fila.map((numero, indiceColumna) => {
+                return numero + matriz2[indiceFila][indiceColumna];
+            });
+            return nuevaFila;
+        });
+        
+        console.log(matriz3);
+        document.getElementById("resultado").innerHTML = "<h1>Matriz resultante</h1>";
+        matriz3.forEach(fila => {
+                document.getElementById("resultado").innerHTML += fila + "<br>";
+            });
+        }
+        
+    </script>
+    
+</body>
+</html>
