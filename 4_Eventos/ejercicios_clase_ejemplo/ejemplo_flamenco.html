@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flamenco</title>
+</head>
+<body>
+    
+    <h1>Palos del flamenco</h1>
+    <div id="palos"></div>
+    
+    <script>
+        
+        let solea = new Map();
+        solea.set("nombre", "Soleá");
+        solea.set("descripcion", "Dentro de los palos más conocidos del flamenco, encontramos la Soleá. Este sería uno de los palos más profundos y tradicionales.\nLa palabra soleá ya nos da varias pistas de sobre la temática que va a prevalecer en los cantes.\nLa palabra soléa viene de «soledad», y por lo tanto, sus letras suelen ser melancólicas y tiene un compás pausado de 12 tiempos. La soleá es sin duda, uno de los cantes básicos del flamenco, por ello es la madre de muchos otros palos.");
+        solea.set("caracteristicas", ["Compás de 12 tiempos", "Tempo lento", "Letras melancólicas, que hablan de la soledad, dolor o reflexiones sobre la vida"]);
+        
+        let alegrias = new Map();
+        alegrias.set("nombre", "Alegrías");
+        alegrias.set("descripcion", "Otro palo cuyo nombre nos da muchas pistas sobre la temáticas de sus letras.  Las alegrías, como bien indica su nombre, son son uno de los palos más alegres del flamenco.\nSu procedencia es Cádiz, y se identifican por tener un ritmo rápido  pero al mismo tiempo elegante, están pensadas para invitar a bailarlas. Aunque comparte el mismo compás que la soleá, tiene un carácter es más diversos: celebratorio, vital y lleno de gracia.");
+        alegrias.set("caracteristicas", ["Compás de 12 tiempos", "Tempo vivo", "Temas relacionados con la naturaleza, el amor y la fiesta"]);
+        
+        let bulerias = new Map();
+        bulerias.set("nombre", "Bulerías");
+        bulerias.set("descripcion", "La bulería es uno de los palos más usados para festejar y dejar volar la creatividad del artista.  No obstante, es bastante compleja de interpretar por su libre compás y su velocidad.\nLa bulería es perfecta para cerrar un actuación de forma más energética,  aunque requiere el dominio del compás y mucho arte.");
+        bulerias.set("caracteristicas", ["Compás de 12 tiempos con acentos únicos", "Muy rápida y dinámica", "Gran protagonismo del ritmo y la improvisación"]);
+        
+        let tientos = new Map();
+        tientos.set("nombre", "Tientos");
+        tientos.set("descripcion", "Los tientos son palos solemnes y pausados, cargados de emoción y fuerza expresiva. Su compás es el mismo que el del tango flamenco, pero a un tempo mucho más lento. Son ideales para transmitir sentimientos intensos y dolorosos, y a menudo se combinan con los tangos.");
+        tientos.set("caracteristicas", ["Compás de 4 tiempos", "Tempo lento", "Cante sentido y expresivo"]);
+        
+        let tangos = new Map();
+        tangos.set("nombre", "Tangos");
+        tangos.set("descripcion", "Los tangos flamencos son uno de los estilos más populares y accesibles del flamenco. Su ritmo marcado y alegre los hace ideales para el baile. Existen muchas variantes según la región: tangos de Granada, de Cádiz, de Triana, entre otros.");
+        tangos.set("caracteristicas", ["Compás de 4 tiempos", "Ritmo bailable y pegadizo", "Letra desenfadada y festiva"]);
+        
+        let seguiriyas = new Map();
+        seguiriyas.set("nombre", "Seguiriyas");
+        seguiriyas.set("descripcion", "La seguiriyas es uno de los palos más antiguos y profundos del flamenco. Representa el lamento, el dolor y la tragedia, y requiere gran expresividad por parte del cantaor. Su estructura rítmica es compleja, con un compás que marca claramente la intensidad del cante.");
+        seguiriyas.set("caracteristicas", ["Compás de 12 tiempos con acentuaciones muy marcadas", "Tempo lento", "Letras que abordan la muerte, la pérdida y el sufrimiento"]);
+        
+        let fandangos = new Map();
+        fandangos.set("nombre", "Fandangos");
+        fandangos.set("descripcion", "El fandango es un palo muy versátil que ha dado origen a otros estilos flamencos como las malagueñas o los verdiales. Se caracteriza por comenzar con un cante libre (sin compás marcado) y, en muchas ocasiones, entrar luego en ritmo. Existen múltiples variantes regionales, como los fandangos de Huelva.");
+        fandangos.set("caracteristicas", ["Inicio libre y final con compás", "Gran riqueza melódica", "Temas variados, desde el amor hasta lo cotidiano"]);
+        
+        
+        
+        let palosFlamenco = [solea, alegrias, bulerias, tientos, tangos, seguiriyas, fandangos];
+        
+        document.addEventListener("DOMContentLoaded", () => {
+            palosFlamenco.forEach(palo => {
+                let textoHTML = "";
+                textoHTML += `<div id="${palo.get("nombre")}">
+                    <h2>${palo.get("nombre")}</h2>
+                    <span>${palo.get("descripcion")}</span><br><br>
+                    <b>Características:</b><br>
+                    <ul>`;
+                
+                palo.get("caracteristicas").forEach(caracteristica => {
+                    textoHTML += '<li>'+ caracteristica + '</li>';
+                });
+                
+                textoHTML += `</ul> </div>`;
+                document.getElementById("palos").innerHTML += textoHTML;
+            });
+        });
+        
+    </script>
+    
+</body>
+</html>
