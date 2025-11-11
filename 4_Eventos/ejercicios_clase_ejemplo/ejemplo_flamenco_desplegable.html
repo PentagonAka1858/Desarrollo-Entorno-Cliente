@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/ejemplo_flamenco_desplegable.css">
+    <title>Flamenco</title>
+</head>
+<body>
+    
+    <h1>Palos del Flamenco</h1>
+
+    <div class="selector">
+        <label for="palosFlamenco" id="seleccionarTexto"><strong>Selecciona un palo:</strong></label>
+
+        <select name="palosFlamenco" id="palosFlamenco">
+        </select>
+
+        <div class="info-buttons" id="botonesInfo" style="display: none;">
+            <button onclick="mostrarInfo('tempo')">Añadir tempo</button>
+            <button onclick="mostrarInfo('letra')">Añadir tipo de letra</button>
+            <button onclick="mostrarInfo('compas')">Añadir compás</button>
+        </div>
+    </div>
+
+    <div id="palos" hidden></div>
+
+    <script>
+        // https://www.scribd.com/document/619995867/12-PALOS-FLAMENCOS
+        // https://marceloprofedemusica.wixsite.com/compasesflamencos/usos-avanzados
+        // http://www.compas-flamenco.com/es/palos.html
+        let solea = new Map();
+        solea.set("nombre", "Soleá");
+        solea.set("descripcion", "Dentro de los palos más conocidos del flamenco, encontramos la Soleá. Este sería uno de los palos más profundos y tradicionales.\nLa palabra soleá ya nos da varias pistas de sobre la temática que va a prevalecer en los cantes.\nLa palabra soléa viene de «soledad», y por lo tanto, sus letras suelen ser melancólicas y tiene un compás pausado de 12 tiempos. La soleá es sin duda, uno de los cantes básicos del flamenco, por ello es la madre de muchos otros palos.");
+        solea.set("caracteristicas", ["Compás de 12 tiempos", "Tempo lento", "Letras melancólicas, que hablan de la soledad, dolor o reflexiones sobre la vida"]);
+        solea.set("compas", 12);
+        solea.set("acentos", [3, 6, 8, 10, 12]);
+
+        let alegrias = new Map();
+        alegrias.set("nombre", "Alegrías");
+        alegrias.set("descripcion", "Otro palo cuyo nombre nos da muchas pistas sobre la temáticas de sus letras.  Las alegrías, como bien indica su nombre, son son uno de los palos más alegres del flamenco.\nSu procedencia es Cádiz, y se identifican por tener un ritmo rápido  pero al mismo tiempo elegante, están pensadas para invitar a bailarlas. Aunque comparte el mismo compás que la soleá, tiene un carácter es más diversos: celebratorio, vital y lleno de gracia.");
+        alegrias.set("caracteristicas", ["Compás de 12 tiempos", "Tempo vivo", "Temas relacionados con la naturaleza, el amor y la fiesta"]);
+        alegrias.set("compas", 12);
+        alegrias.set("acentos", [3, 6, 8, 10, 12]);
+
+        let bulerias = new Map();
+        bulerias.set("nombre", "Bulerías");
+        bulerias.set("descripcion", "La bulería es uno de los palos más usados para festejar y dejar volar la creatividad del artista.  No obstante, es bastante compleja de interpretar por su libre compás y su velocidad.\nLa bulería es perfecta para cerrar un actuación de forma más energética,  aunque requiere el dominio del compás y mucho arte.");
+        bulerias.set("caracteristicas", ["Compás de 12 tiempos con acentos únicos", "Muy rápida y dinámica", "Gran protagonismo del ritmo y la improvisación"]);
+        bulerias.set("compas", 12);
+        bulerias.set("acentos", [3, 7, 8, 10, 12]);
+        
+        let tientos = new Map();
+        tientos.set("nombre", "Tientos");
+        tientos.set("descripcion", "Los tientos son palos solemnes y pausados, cargados de emoción y fuerza expresiva. Su compás es el mismo que el del tango flamenco, pero a un tempo mucho más lento. Son ideales para transmitir sentimientos intensos y dolorosos, y a menudo se combinan con los tangos.");
+        tientos.set("caracteristicas", ["Compás de 4 tiempos", "Tempo lento", "Cante sentido y expresivo"]);
+        tientos.set("compas", 4);
+        tientos.set("acentos", [1, 3]);
+        
+        let tangos = new Map();
+        tangos.set("nombre", "Tangos");
+        tangos.set("descripcion", "Los tangos flamencos son uno de los estilos más populares y accesibles del flamenco. Su ritmo marcado y alegre los hace ideales para el baile. Existen muchas variantes según la región: tangos de Granada, de Cádiz, de Triana, entre otros.");
+        tangos.set("caracteristicas", ["Compás de 4 tiempos", "Ritmo bailable y pegadizo", "Letra desenfadada y festiva"]);
+        tangos.set("compas", 4);
+        tangos.set("acentos", [1, 3]);
+        
+        let seguiriyas = new Map();
+        seguiriyas.set("nombre", "Seguiriyas");
+        seguiriyas.set("descripcion", "La seguiriyas es uno de los palos más antiguos y profundos del flamenco. Representa el lamento, el dolor y la tragedia, y requiere gran expresividad por parte del cantaor. Su estructura rítmica es compleja, con un compás que marca claramente la intensidad del cante.");
+        seguiriyas.set("caracteristicas", ["Compás de 12 tiempos con acentuaciones muy marcadas", "Tempo lento", "Letras que abordan la muerte, la pérdida y el sufrimiento"]);
+        seguiriyas.set("compas", 12);
+        seguiriyas.set("acentos", [1, 3, 5, 8, 11]);
+        
+        let fandangos = new Map();
+        fandangos.set("nombre", "Fandangos");
+        fandangos.set("descripcion", "El fandango es un palo muy versátil que ha dado origen a otros estilos flamencos como las malagueñas o los verdiales. Se caracteriza por comenzar con un cante libre (sin compás marcado) y, en muchas ocasiones, entrar luego en ritmo. Existen múltiples variantes regionales, como los fandangos de Huelva.");
+        fandangos.set("caracteristicas", ["Inicio libre y final con compás", "Gran riqueza melódica", "Temas variados, desde el amor hasta lo cotidiano"]);
+        fandangos.set("compas", 12);
+        fandangos.set("acentos", [3, 6, 9, 12]);
+        
+        
+        let palosFlamenco = [solea, alegrias, bulerias, tientos, tangos, seguiriyas, fandangos];
+        // Palo seleccionado actualmente
+        let paloSeleccionado = null;
+        // Información actual mostrada en la página
+        let infoActual = {
+            tempo: false,
+            letra: false,
+            compas: false
+        };
+        
+
+
+        // Función para dibujar el compás de cada palo
+        function dibujarCompas(compas, acentos) {
+            let html = '<div class="compas">';
+            for (let i = 1; i <= compas; i++) {
+                let esFuerte = acentos.includes(i);
+                html += `<div class="ritmoCompas ${esFuerte ? "fuerte" : ""}">${i}</div>`;
+            }
+            html += "</div>";
+            return html;
+        }
+
+        // Función para mostrar información
+        function actualizarVista() {
+            
+            let contenido = "";
+            
+            // Añadir nombre y descripción del palo
+            contenido += `
+                <div class="info-especifica">
+                    <h2>${paloSeleccionado.get("nombre")}</h2>
+                    <p>${paloSeleccionado.get("descripcion")}</p>
+                </div>
+            `;
+            
+            // Añadir tempo si está activado
+            if (infoActual.tempo) {
+                contenido += `
+                    <div class="info-especifica">
+                        <h2>Tempo</h2>
+                        <p>${paloSeleccionado.get("caracteristicas")[1]}</p>
+                    </div>
+                `;
+            }
+            
+            // Añadir tipo de letra si está activado
+            if (infoActual.letra) {
+                contenido += `
+                    <div class="info-especifica">
+                        <h2>Tipo de letra</h2>
+                        <p>${paloSeleccionado.get("caracteristicas")[2]}</p>
+                    </div>
+                `;
+            }
+            
+            // Añadir compás si está activado
+            if (infoActual.compas) {
+                contenido += `
+                    <div class="info-especifica">
+                        <h2>Compás</h2>
+                        <p>${paloSeleccionado.get("caracteristicas")[0]}</p>
+                        <p><em>Los números en negrita y destacados representan los acentos fuertes del compás</em></p>
+                        ${dibujarCompas(paloSeleccionado.get("compas"), paloSeleccionado.get("acentos"))}
+                    </div>
+                `;
+            }
+            
+            document.getElementById("palos").innerHTML = contenido;
+        }
+
+        // Función para manejar la visualización de información
+        function mostrarInfo(tipo) {
+            
+            // Alternar el estado de la información
+            infoActual[tipo] = !infoActual[tipo];
+            
+            actualizarVista();
+        }
+        
+        document.addEventListener("DOMContentLoaded", () => {
+
+            // Crear el desplegable
+            /*
+            <select name="palosFlamenco" id="palosFlamenco">
+                <option value="" disabled selected>--Please choose an option--</option>
+                <option value="Soleá">Soleá</option>
+                <option value="Alegrías">Alegrías</option>
+                <option value="Bulerías">Bulerías</option>
+                <option value="Tientos">Tientos</option>
+                <option value="Tangos">Tangos</option>
+                <option value="Seguiriyas">Seguiriyas</option>
+                <option value="Fandangos">Fandangos</option>
+            </select>
+            */
+            let opciones = palosFlamenco.map(palo => `<option value="${palo.get("nombre")}">${palo.get("nombre")}</option>`).join("");
+            document.getElementById("palosFlamenco").innerHTML = `
+                <option value="" disabled selected>--Selecciona un palo--</option>
+                ${opciones}
+            `;
+
+            // Al seleccionar un palo, mostramos su información.
+            document.getElementById("palosFlamenco").addEventListener("change", (seleccionado) => {
+                // Actualizar el palo seleccionado
+                paloSeleccionado = palosFlamenco.find(palo => palo.get("nombre") === seleccionado.target.value);
+
+                // Eliminamos el hidden del contenedor de palos
+                document.getElementById("palos").hidden = false;
+                
+                // Resetear el estado de información
+                infoActual = {
+                    palo: true,
+                    tempo: false,
+                    letra: false,
+                    compas: false
+                };
+                
+                document.getElementById("botonesInfo").style.display = "flex";
+                actualizarVista();
+            });
+        });
+        
+    </script>
+    
+</body>
+</html>
