@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 2 Adrián Nieto</title>
+</head>
+<body>
+    
+    <h1>Ejercicio 2 - Módulos 2º DAW</h1>
+    
+    <button onclick="longitud()">Mostrar nº de módulos almacenados</button>
+    <button onclick="contenidoEstructurasMap()">Mostrar estructura</button>
+    <button onclick="abreviaturas()">Mostrar siglas de los módulos</button>
+    <button onclick="nombreCompleto()">Mostrar nombre completo de los módulos</button>
+    <button onclick="existeDAW()">Comprobar si existe DAW</button>
+    <button onclick="cambiarNombre()">Cambiar nombre DAW</button>
+    <button onclick="borrarDAW()">Eliminar DAW y mostrar todos los módulos</button>
+    
+    <div id="resultado"></div>
+    
+    <script>
+        
+        // CREACION DE MÓDULOS CON ESTRUCTURA MAP
+        let dwec = new Map();
+        dwec.set("siglas", "DWEC");
+        dwec.set("nombre", "Desarrollo Web en Entorno Cliente");
+        dwec.set("horasSemanales", "6 horas a la semana");
+        
+        let dwes = new Map();
+        dwes.set("siglas", "DWES");
+        dwes.set("nombre", "Desarrollo Web en Entorno Servidor");
+        dwes.set("horasSemanales", "7 horas a la semana");
+        
+        let despliegue = new Map();
+        despliegue.set("siglas", "DAW");
+        despliegue.set("nombre", "Despliegue de Aplicaciones Web");
+        despliegue.set("horasSemanales", "2 horas a la semana");
+        
+        let di = new Map();
+        di.set("siglas", "DI");
+        di.set("nombre", "Diseño de Interfaces");
+        di.set("horasSemanales", "5 horas a la semana");
+        
+        // Estructura que guarda todos los módulos
+        let asignaturasMap = new Map();
+        
+        asignaturasMap.set("DEWC", dwec);
+        asignaturasMap.set("DWES", dwes);
+        asignaturasMap.set("DAW", despliegue);
+        asignaturasMap.set("DI", di);
+        
+        // Guardamos el div con id resultado para mejor legibilidad en las funciones
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            var resultado = document.getElementById("resultado");
+            
+        });
+        
+        function longitud() {
+            // Muestra el tamaño del mapa de asignaturas
+            resultado.innerHTML = "a) Asignaturas totales = " + asignaturasMap.size + "<br>";
+        }
+        
+        
+        function contenidoEstructurasMap() {
+            // Limpia la consola y muestra la estructura de todos los datos del mapa de asignaturas
+            console.clear();
+            resultado.innerHTML = "b) Revisar consola <br>";
+            asignaturasMap.forEach(asignatura => {
+                console.log(asignatura);
+            });
+        }
+        
+        function abreviaturas(){
+            resultado.innerHTML = "c) ";
+            // Muestra el valor de la clave siglas de cada asignatura
+            asignaturasMap.forEach(asignatura => {
+                resultado.innerHTML += asignatura.get("siglas") + " ";
+            })
+        }
+        
+        function nombreCompleto(){
+            resultado.innerHTML = "d) <br>";
+            // Muestra el valor de la clave nombre de cada asignatura
+            asignaturasMap.forEach(asignatura => {
+                resultado.innerHTML += asignatura.get("nombre") + "<br>";
+            })
+        }
+        
+        function existeDAW(){
+            resultado.innerHTML = "e) ";
+            // Si el  mapa contiene la clave "DAW" mostramos que existe
+            if (asignaturasMap.has("DAW")){
+                resultado.innerHTML += "Existe" ;
+            } else {
+                // Si no existe, mostramos que no existe
+                resultado.innerHTML += "No existe" ;
+            }
+        }
+        
+        function cambiarNombre(){
+            resultado.innerHTML = "f) ";
+            if (asignaturasMap.has("DAW")){
+                // Si existe la clave DAW, cogemos el nombre y le añadimos un 2 al final
+                let nombreCompleto = asignaturasMap.get("DAW").get("nombre");
+                nombreCompleto += "2";
+                // Guardamos este nombre en el Map de DAW
+                asignaturasMap.get("DAW").set("nombre", nombreCompleto);
+                // Mostramos por pantalla el nuevo nombre
+                resultado.innerHTML += asignaturasMap.get("DAW").get("nombre");
+            } else {
+                // Si no existe, mostramos el error
+                resultado.innerHTML += "No existe el módulo DAW";
+            }
+            
+        }
+        
+        function borrarDAW(){
+            resultado.innerHTML = "g) ";
+            // Si hay existe al borrar DAW de la estructura se lo mostramos
+            // y mostramos todos los datos de la estructura modificada
+            if (asignaturasMap.delete("DAW")){
+                resultado.innerHTML += "Borrado<br>Revisar consola";
+                asignaturasMap.forEach(asignatura => {
+                    console.log(asignatura);
+                });
+            } else {
+                // Si no, decimos que ya no existe
+                resultado.innerHTML += "No existia";
+            }
+            
+        }
+        
+    </script>
+    
+</body>
+</html>

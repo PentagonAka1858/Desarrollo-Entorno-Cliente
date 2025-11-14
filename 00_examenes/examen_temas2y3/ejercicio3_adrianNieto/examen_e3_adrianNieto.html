@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 3</title>
+</head>
+<body>
+    
+    <h1>Ejercicio 3 - Lista de distintos tipos</h1>
+    
+    <p>Introduce una lista de datos con 2 booleanos, 2 números y 2 cadenas.</p>
+    
+    <div id="resultado"></div>
+    
+    <script>
+        
+        document.addEventListener("DOMContentLoaded", () => {
+            alert("Vamos a crear un array de 6 elementos.")
+            let lista = [];
+            let repetir = false;
+            
+            do {
+                for (let i = 0; i < 6; i++){
+                    lista.push(prompt("Introduce el " + (i+1) +"º dato:"));
+                }
+                lista.forEach(elemento => {
+                    if (elemento == null){
+                        repetir = true;
+                    }
+                });
+            } while (repetir == true);
+            
+            
+            // Mostramos la lista
+            document.getElementById("resultado").innerHTML = lista;
+            
+            // Mostramos cual de los dos elementos texto es mayor
+            let listaTexto = [];
+            let textoMayor = "";
+            
+            // Creamos una lista con los textos de la lista original
+            lista.forEach(elemento => {
+                console.log(typeof(elemento));
+                if (typeof(elemento) == "string"){
+                    listaTexto.push(elemento);
+                }
+            });
+            // Si en la lista de textos, tiene uno mayor longitud que el texto mayor
+            // asignamos ese texto a textoMayor
+            listaTexto.forEach(texto => {
+                if (texto.length > textoMayor.length){
+                    textoMayor = texto;
+                }
+            });
+            // Mostramos en pantalla el texto mayor
+            document.getElementById("resultado").innerHTML += "<br>Texto mayor: " + textoMayor;
+            
+            // Operacion con booleanos
+            let operaciones = [true,false];
+            // Mostramos el restulado de booleano1 Y booleano2 y de boolean1 O booleano2
+            let mensajeBool = "<br> La operación and es " + (operaciones[0] && operaciones[1]) +
+            " y la operación or es " + (operaciones[0] || operaciones[1]);
+            document.getElementById("resultado").innerHTML += mensajeBool;
+            
+            // Operaciones numéricas
+            let operacionNumerica = [1,2];
+            let mensajeNum = "<br> La suma es " + (operacionNumerica[0] + operacionNumerica[1]) +
+            " y la resta es " + (operacionNumerica[0] - operacionNumerica[1]);
+            document.getElementById("resultado").innerHTML += mensajeNum;
+            
+            // Creamos la lista nueva con los datos ordenados
+            let nuevoArray = [];
+            // Pusheamos todos los datos de las listas creadas a lo largo del documento
+            // Primero booleanos
+            nuevoArray.push(operaciones[0]);
+            nuevoArray.push(operaciones[1]);
+            // Luego strings
+            nuevoArray.push(listaTexto[0]);
+            nuevoArray.push(listaTexto[1]);
+            // Luego numeros
+            nuevoArray.push(operacionNumerica[0]);
+            nuevoArray.push(operacionNumerica[1]);
+            // Mostramos la nueva lista
+            document.getElementById("resultado").innerHTML += "<br>" + nuevoArray;
+        });
+        
+    </script>
+    
+</body>
+</html>
