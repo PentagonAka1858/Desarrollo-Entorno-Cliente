@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uso debugger</title>
+</head>
+<body>
+    
+    <script>
+        let userName = 'Juan';
+        
+        function showMessage() {
+            userName = "Bob"; // (1) Cambió la variable externa
+
+            let message = 'Hola, ' + userName;
+            alert(message);
+        }
+
+        alert( userName ); // Juan antes de llamar la función
+
+        showMessage();
+
+        alert( userName ); // Bob, el valor fué modificado por la función
+        
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sumatorio</title>
+</head>
+<body>
+    
+    <script>
+        
+        let palabra = prompt("Introduce la palabra:");
+        let repeticiones = prompt("Introduce número de repeticiones:");
+        let saltos = prompt("Introduce número de líneas a repetir:");
+        
+        alert(sumatorio(palabra,repeticiones));
+        alert(sumatorioMult(palabra,repeticiones,saltos));
+        
+        function sumatorio(a,n){
+            let palabra = "";
+            n = parseInt(n);
+            console.log(n);
+            for (let i = 0; i < n; i++){
+                palabra += a;
+            }
+            return palabra;
+        }
+        
+        function sumatorioMult(a,n,z){
+            z = parseInt(z);
+            n = parseInt(n);
+            let palabraUnidad = sumatorio(a,n);
+            console.log("Palabra unidad:" + palabraUnidad);
+            let palabraTotal = "";
+            console.log("Palabra total:" + palabraTotal);
+            for (let i = 0; i < z; i++){
+                console.log("Palabra total:" + palabraTotal);
+                palabraTotal = palabraTotal.concat((palabraUnidad + "\n"));
+                console.log(palabraTotal);
+            }
+            return palabraTotal;
+        }
+        
+    </script>
+    
+</body>
+</html>
