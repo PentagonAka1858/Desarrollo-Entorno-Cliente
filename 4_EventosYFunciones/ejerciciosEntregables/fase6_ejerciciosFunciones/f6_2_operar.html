@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Función operar</title>
+</head>
+<body>
+    
+    <h1>Función operar</h1>
+    <p>Mirar consola</p>
+    
+    <script>
+        
+        operar(2, 3, "SUMA");
+        operar(2, 3, "SUMAMUL");
+        
+        
+        function operar(num1, num2, operador){
+            operador = operador.toLowerCase();
+            if (operador != "suma" && operador != "sumamul"){
+                return "Operación inválida";
+            }
+            if (isNaN(num1) || isNaN(num2)){
+                return "Números inválidos";
+            }
+            
+            let resultado = 0;
+            //console.log("Valor 1: " + num1);
+            //console.log("Valor 2: " + num2);
+            //console.log("Operador: " + operador);
+            num1 = parseFloat(num1);
+            num2 = parseFloat(num2);
+            
+            if (operador == "suma"){
+                resultado = num1 + num2;
+                console.log("Resultado suma: " + resultado);
+            } else {
+                resultado = operar(num1, num2, "SUMA") + ( num1* num2);
+                console.log("Resultado suma y multiplicación: " + resultado);
+            }
+            
+            return resultado;
+            
+        }
+        
+    </script>
+    
+</body>
+</html>

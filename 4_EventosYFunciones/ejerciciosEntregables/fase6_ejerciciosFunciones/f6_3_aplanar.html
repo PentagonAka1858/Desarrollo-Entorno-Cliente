@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Función aplanar</title>
+</head>
+<body>
+    
+    <h1>Función aplanar</h1>
+    <p>Mirar consola</p>
+    
+    <script>
+        
+        let array = [
+            1, 
+            [
+                2,
+                3,
+                [4, 5, 6],
+                7
+            ],
+            8,
+            9,
+            [10, 11, 12],
+            13
+        ]; // Pasamos el array a un array único con una función recursiva
+        
+        console.log(array);
+        let arrayPlano = aplanar(array);
+        console.log(arrayPlano);
+        
+        /**
+         * Para darle contexto al IDE (VSCode) usaremos
+         * este JSDoc para especificar que arraySinAplanar es un Array
+         * 
+         * Esta función devolverá un array aplanado, es decir, sacará 
+         * del array todos los datos que no sean un array
+         * Y los unirá en un mismo array
+         * @param {Array} arraySinAplanar
+         */
+        function aplanar(arraySinAplanar) {
+            let arrayAplanado = [];
+            
+            // Comprobamos cada elemento del array
+            for (let i = 0; i < arraySinAplanar.length; i++) {
+                // Si el elemento en cuestión es un array, volvemos a ejecutar la función para ese mismo array
+                if (Array.isArray(arraySinAplanar[i])) {
+                    arrayAplanado = arrayAplanado.concat(aplanar(arraySinAplanar[i]));
+                // Si el elemento no es un array, añadimos el elemento al nuevo array a devolver
+                } else {
+                    arrayAplanado.push(arraySinAplanar[i]);
+                }
+            }
+            return arrayAplanado;
+        }
+        
+    </script>
+    
+</body>
+</html>

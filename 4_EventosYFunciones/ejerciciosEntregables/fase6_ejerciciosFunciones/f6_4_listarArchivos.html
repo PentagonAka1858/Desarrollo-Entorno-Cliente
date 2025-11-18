@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Función listar archivos</title>
+</head>
+<body>
+    
+    <h1>Listar archivos de un objeto</h1>
+    <p>Mirar consola</p>
+    
+    <script>
+        
+        const carpetaObj = {
+            carpeta1: {
+                archivo1: "contenido1",
+                archivo2: "contenido2",
+                subcarpeta: {
+                    archivo3: "contenido3"
+                }
+            },
+            carpeta2: {
+                archivo4: "contenido4"
+            }
+        };
+        
+        console.log(listarArchivos(carpetaObj));
+        
+        function listarArchivos(carpeta){
+            let arrayArchivos = [];
+            // Por cada clave (valor izquierda) en el objeto carpeta:
+            for (let clave in carpeta) {
+                // Si el tipo del valor la clave es un objeto, volvemos a ejecutar la función para ese mismo objeto
+                if (typeof carpeta[clave] === "object") {
+                    arrayArchivos = arrayArchivos.concat(listarArchivos(carpeta[clave]));
+                } else {
+                    // Si no lo es, devolvemos esa clave
+                    arrayArchivos.push(clave);
+                }
+            }
+            return arrayArchivos;
+        }
+        
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Función crear usuario</title>
+</head>
+<body>
+    
+    <h1>Crear usuario con objetos</h1>
+    <p>Mirar consola</p>
+    
+    <script>
+        
+        let juan = {
+            nombre: "Juan",
+            edad: 25,
+            pais: "España"
+        }
+        
+        let sinEdad = {
+            nombre: "Sined",
+            pais: "España"
+        }
+        
+        let sinNombre = {
+            edad: 21,
+            pais: "España"
+        }
+        
+        let sinPais = {
+            nombre: "Sinpa",
+            edad: 42
+        }
+        
+        let personas = [
+            juan,
+            sinEdad,
+            sinNombre,
+            sinPais
+        ];
+        
+        
+        
+        personas.forEach(persona => {
+            console.log(persona);
+            console.log(crearUsuario(persona));
+        });
+        
+        function crearUsuario(objeto) {
+            objeto.nombre = (objeto.nombre ?? "Nombre desconocido");
+            objeto.edad = (objeto.edad ?? "Edad desconocida");
+            objeto.pais = (objeto.pais ?? "Pais desconocido");
+            let cadenaInformacion = `${objeto.nombre}, ${objeto.edad}, ${objeto.pais}`;
+            return cadenaInformacion;
+        }
+        
+    </script>
+    
+</body>
+</html>
