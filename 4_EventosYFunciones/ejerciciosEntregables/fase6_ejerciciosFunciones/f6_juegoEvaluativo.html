@@ -7,46 +7,14 @@
 </head>
 <body>
     
+    <h1>Resolver laberinto</h1>
+    <p>Comprobar consola</p>
+    <h2>Laberinto a resolver:</h2>
+    <div id="laberinto" style="white-space: pre; border: black solid 2px; max-width: fit-content;"></div>
+    <div id="salida">¿Existe salida?</div>
     <script>
         
-        const laberinto = [
-            ["S", " ", "X", "F"],
-            ["X", " ", "X", " "],
-            [" ", " ", " ", " "],
-            ["X", "X", " ", " "]
-        ];
         
-        const visitado = [
-            [" ", " ", " ", " "],
-            [" ", " ", " ", " "],
-            [" ", " ", " ", " "],
-            [" ", " ", " ", " "]
-        ];
-        
-        let posInicialX = 0;
-        let posInicialY = 0;
-        let haySoloUnInicio = true;
-        let inicios = 0;
-        
-        // Buscamos la posición inicial del laberinto (la letra S)
-        laberinto.forEach(fila => {
-            if (fila.indexOf("S") != -1) {
-                if (inicios != 0) {
-                    haySoloUnInicio = false;
-                }
-                posInicialX = fila.indexOf("S");
-                console.log("Posición inicial X: " + posInicialX);
-                posInicialY = laberinto.indexOf(fila);
-                console.log("Posición inicial Y: " + posInicialY);
-                inicios += 1;
-            }
-        });
-        
-        if (haySoloUnInicio) {
-            console.log(resolverLaberinto(laberinto, posInicialX, posInicialY, visitado));
-        } else {
-            console.log("Hay múltiples posiciones iniciales, no se puede resolver");
-        }
 
         /**
          * JSDOC para que visual studio code sepa que tipo de dato es cada parámetro
@@ -91,6 +59,63 @@
             // quiere decir que no existe un camino hasta "F"
             return false;
         }
+        
+        // Funcón para pintar el laberinto en HTML
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            const laberinto = [
+            ["S", " ", "X", "F"],
+            ["X", " ", "X", " "],
+            [" ", " ", " ", " "],
+            ["X", "X", " ", " "]
+            ];
+            
+            const visitado = [
+                [" ", " ", " ", " "],
+                [" ", " ", " ", " "],
+                [" ", " ", " ", " "],
+                [" ", " ", " ", " "]
+            ];
+            
+            let posInicialX = 0;
+            let posInicialY = 0;
+            let haySoloUnInicio = true;
+            let inicios = 0;
+            
+            // Buscamos la posición inicial del laberinto (la letra S)
+            laberinto.forEach(fila => {
+                if (fila.indexOf("S") != -1) {
+                    if (inicios != 0) {
+                        haySoloUnInicio = false;
+                    }
+                    posInicialX = fila.indexOf("S");
+                    console.log("Posición inicial X: " + posInicialX);
+                    posInicialY = laberinto.indexOf(fila);
+                    console.log("Posición inicial Y: " + posInicialY);
+                    inicios += 1;
+                }
+            });
+            let resuelto;
+            
+            if (haySoloUnInicio) {
+                resuelto = resolverLaberinto(laberinto, posInicialX, posInicialY, visitado);
+                console.log(resuelto);
+            } else {
+                console.log("Hay múltiples posiciones iniciales, no se puede resolver");
+            }
+            
+            laberinto.forEach(fila => {
+                document.getElementById("laberinto").innerHTML += fila.join(" ") + "<br>";
+            });
+            
+            if (resuelto) {
+                sePuedeResolver = "SI";
+            } else {
+                sePuedeResolver = "NO";
+            }
+            
+            document.getElementById("salida").innerHTML = sePuedeResolver;
+        });
         
     </script>
     
