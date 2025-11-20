@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resolver laberinto</title>
+</head>
+<body>
+    
+    <script>
+        
+        const laberinto = [
+            ["S", " ", "X", "F"],
+            ["X", " ", "X", " "],
+            [" ", " ", " ", " "],
+            ["X", "X", " ", " "]
+        ];
+        
+        const visitado = [
+            [" ", " ", " ", " "],
+            [" ", " ", " ", " "],
+            [" ", " ", " ", " "],
+            [" ", " ", " ", " "]
+        ];
+        
+        let posInicialX = 0;
+        let posInicialY = 0;
+        let haySoloUnInicio = true;
+        let inicios = 0;
+        
+        // Buscamos la posición inicial del laberinto (la letra S)
+        laberinto.forEach(fila => {
+            if (fila.indexOf("S") != -1) {
+                if (inicios != 0) {
+                    haySoloUnInicio = false;
+                }
+                posInicialX = fila.indexOf("S");
+                console.log("Posición inicial X: " + posInicialX);
+                posInicialY = laberinto.indexOf(fila);
+                console.log("Posición inicial Y: " + posInicialY);
+                inicios += 1;
+            }
+        });
+        
+        if (haySoloUnInicio) {
+            console.log(resolverLaberinto(laberinto, posInicialX, posInicialY, visitado));
+        } else {
+            console.log("Hay múltiples posiciones iniciales, no se puede resolver");
+        }
+
+        /**
+         * JSDOC para que visual studio code sepa que tipo de dato es cada parámetro
+         * @param {string[][]} laberinto
+         * @param {number} x
+         * @param {number} y
+         * @param {string[][]} visitado
+         */
+        function resolverLaberinto(laberinto, x, y, visitado) {
+            // Comprobamos que la posición a resolver no esté fuera de rango
+            if (y < 0 || y >= laberinto.length || x < 0 || x >= laberinto[0].length) {
+                return false;
+            }
+
+            // Comprobamos que no haya obstaculo o ya sea un punto visitado
+            if (laberinto[y][x] === "X" || visitado[y][x] === "VISITADO") {
+                return false;
+            }
+
+            // Comprobamos que la posición nueva sea la salida
+            if (laberinto[y][x] === "F") {
+                return true;
+            }
+
+            // Marcamos la casilla actual como visitada
+            visitado[y][x] = "VISITADO";
+
+            // Nos movemos de forma recursiva para cada dirección,
+            // debemos tener en cuenta que "y" es fila y "x" es la columna
+            if (resolverLaberinto(laberinto, x + 1, y, visitado) || 
+                resolverLaberinto(laberinto, x, y + 1, visitado) ||
+                resolverLaberinto(laberinto, x - 1, y, visitado) || 
+                resolverLaberinto(laberinto, x, y - 1, visitado)) {
+                // Hasta que no se tope con un "final", se seguirá moviendo en cualquiera de las direcciones,
+                // y al realizar un movimiento, vuelve a realizar este estos movimientos. 
+                // Es decir, va visitando cada casilla del laberinto y devolverá true
+                // si encuentra un camino hasta "F" sin que haya "X" ni "VISITADO" de por medio. 
+                return true;
+            }
+            
+            // En caso de que no haya encontrado ningún camino que devuelva true,
+            // quiere decir que no existe un camino hasta "F"
+            return false;
+        }
+        
+    </script>
+    
+</body>
+</html>

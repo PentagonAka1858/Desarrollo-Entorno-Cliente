@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Permutar</title>
+</head>
+<body>
+    
+    <h1>Permutar un array</h1>
+    <p>Mirar la consola</p>
+    
+    <script>
+        
+        let array = ["a", "b", "c", "d"];
+        
+        console.log(permutar(array));
+        
+        function permutar(lista){
+            let n = lista.length;
+            let nuevoArray = [];
+            // Si la lista tiene menos de 2 elementos devolvemos la propia lista
+            if (n<2) {
+                // El operator "..." desempaqueta el array
+                nuevoArray = [...lista]; // (* Ver nota)
+            } else if (n===2) {
+                // Si la lista tiene dos elementos devolvemos un array con dos arrays
+                nuevoArray = [[lista[0], lista[1]], [lista[1], lista[0]]];
+            } else {
+                // Si tiene más de 2 elementos, iteramos por ellos tomando uno fijo y permutando el resto de elementos
+                for (let j=0; j<n; j++) {
+                    // Lista menor es la lista sin el elemento j
+                    let listaMenor = lista.slice(0,j).concat(lista.slice(j+1));
+                    // El nuevo array será la permutación de esta lista
+                    let subNuevoArray = permutar(listaMenor);
+                    // Por cada elemento en la longitud del nuevo array, lo añadimos al array que devolveremos
+                    for (let i=0; i<subNuevoArray.length; i++){
+                        nuevoArray.push([lista[j], ...subNuevoArray[i]]);
+                    }
+                }
+            }
+            return nuevoArray;
+        }
+        
+    </script>
+    
+</body>
+</html>
