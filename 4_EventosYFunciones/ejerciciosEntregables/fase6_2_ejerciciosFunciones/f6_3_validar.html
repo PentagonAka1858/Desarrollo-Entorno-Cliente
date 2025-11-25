@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 3</title>
+</head>
+<body>
+    
+    <h1>Ejercicio 3</h1>
+    <p>Revisar consola y código fuente</p>
+    
+    <script>
+        
+        /*
+        Usa una expresión de función para crear un validador que revise si una cadena contiene más de 10
+        caracteres.
+        */
+        
+        const validar = function(cadena) {
+            return cadena.length > 10;
+        };
+        
+        console.log("Palabra a validar: Cadena de 12");
+        console.log(validar("Cadena de 12"), " <- Longitud: " + "Cadena de 12".length);
+        console.log("Palabra a validar: Hola");
+        console.log(validar("Hola"), " <- Longitud: " + "Hola".length);
+        console.log("Palabra a validar: 1234567890");
+        console.log(validar("1234567890"), " <- Longitud: " + "1234567890".length);
+        console.log("Palabra a validar: 12345678901");
+        console.log(validar("12345678901"), " <- Longitud: " + "12345678901".length);
+        
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <h1>Operar con callback</h1>
+    <p>Mirar consola y código fuente</p>
+    
+    <script>
+        
+        // Función principal que recibe dos números y un callback
+        // Callback llama a una función (que se recibe el nombre por parámetro)
+        // Y ejecuta dicha función con el resto de parámetros
+        function operar(a, b, callback) {
+            return callback(a, b);
+        }
+
+        // Definimos las operaciones como funciones
+        function suma(x, y) {
+            return x + y;
+        }
+
+        function resta(x, y) {
+            return x - y;
+        }
+
+        function multiplicacion(x, y) {
+            return x * y;
+        }
+
+        console.log(operar(10, 5, suma));
+        console.log(operar(10, 5, resta));
+        console.log(operar(10, 5, multiplicacion));
+
+        console.log(operar(10, 5, (a, b) => a / b));
+        
+    </script>
+    
+</body>
+</html>

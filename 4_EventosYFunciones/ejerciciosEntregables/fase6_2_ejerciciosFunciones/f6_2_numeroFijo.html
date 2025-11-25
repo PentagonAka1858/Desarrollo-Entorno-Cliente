@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 2</title>
+</head>
+<body>
+    
+    <h1>Ejercicio 2</h1>
+    <p>Mirar consola y código fuente</p>
+    
+    <script>
+        
+        // Función que devuelve otra función con número fijo
+        function crearSumador(numeroFijo) {
+            // Devuelve una nueva función que "recuerda" el número fijo en la función anterior
+            return function(otroNumero) {
+                return numeroFijo + otroNumero;
+            };
+        }
+        
+        const sumar1 = crearSumador(1);
+        const sumar5 = crearSumador(5);
+        const sumar10 = crearSumador(10);
+
+        console.log(sumar1(3));
+        console.log(sumar5(20));
+        console.log(sumar10(7));
+        
+    </script>
+    
+</body>
+</html>
