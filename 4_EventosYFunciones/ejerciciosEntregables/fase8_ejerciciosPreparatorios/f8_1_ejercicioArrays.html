@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio Array</title>
+</head>
+<body>
+    <!--
+    
+    Enunciado
+        Dado un array de palabras, escribe una función capitalizarYContarVocales(words)
+        que:
+            1. Devuelva un nuevo array con cada palabra capitalizada (primera letra en mayúscula y resto en minúscula).
+            2. Devuelva también un objeto que indique el número total de vocales (a, e, i, o, u — sin distinguir mayúsculas minúsculas) encontradas en todas las palabras. 
+                La función debe devolver un objeto con la forma 
+                    { palabras: [...], totalVocales: N }.
+            Ejemplo:
+                ● Entrada: ["hola", "mUndo", "árbol", "PIrrAmiDe"]
+                ● Salida esperada:
+                    { palabras: ["Hola", "Mundo", "Árbol", "Pirrámide"],
+                    totalVocales: 9 }
+    -->
+    
+    <div>
+        <div>
+            <h1>Ejercicio 1</h1>
+            <p>
+                Capitaliza palabras y cuenta vocales en un array de palabras.
+                La función devuelve las palabras capitalizadas (primera letra en mayúscula)
+                y el número total de vocales encontradas.
+            </p>
+            
+            <div>
+                <p>Ingresa palabras separadas por comas:</p>
+                <p>Separa las palabras con comas. Puedes usar tildes y mayúsculas/minúsculas mezcladas.</p>
+                <input type="text" id="palabras">
+            </div>
+            
+            <button onclick="ejecutarEjercicio()">Ejecutar Ejercicio 1</button>
+            
+            <div id="resultado" class="resultado">
+                <h3>Resultado:</h3>
+                <p id="output"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function capitalizarYContarVocales(words) {
+            const vocales = ['a', 'e', 'i', 'o', 'u', 'á', 'é', 'í', 'ó', 'ú', 'à', 'è', 'ì', 'ò', 'ù', 'ü'];
+            let totalVocales = 0;
+            
+            // Recorremos el array words y por cada palabra
+            // pasamos la primera a mayúscula y pasamos el resto de la palabra
+            // a minúscula. 
+            // Además, contamos de cada palabra las vocales
+            let palabrasCapitalizadas = words.map(palabra => {
+                let capitalizada = palabra.charAt(0).toUpperCase() + palabra.slice(1).toLowerCase();
+                
+                for (let char of palabra.toLowerCase()) {
+                    if (vocales.includes(char)) {
+                        totalVocales++;
+                    }
+                }
+                
+                return capitalizada;
+            });
+            
+            // La función devolverá un objeto "{}" con las claves
+            // palabras y totalVocales, que tengan la capitalización
+            // y el total de vocales contados.
+            return {
+                palabras: palabrasCapitalizadas,
+                totalVocales: totalVocales
+            };
+        }
+
+        // Función que ejecuta con la palabra introducida por HTML la función
+        function ejecutarEjercicio() {
+            // Capturamos datos de html y lo procesamos
+            // a un array con los espacios de los extremos cortados
+            let input = document.getElementById('palabras').value;
+            let palabras = input.split(',').map(palabra => palabra.trim());
+            
+            // También filtramos por longitud de array (intentamos que no
+            // haya cadenas "" en el array)
+            palabras = palabras.filter(p => p.length > 0);
+            
+            // Si la longitud del array es de 0, es decir, no 
+            // se han introducido palabras o son inválidas
+            // no ejecutamos la función y avisamos al usuario
+            if (palabras.length === 0) {
+                alert('Por favor ingresa al menos una palabra');
+                return;
+            }
+            
+            // El resultado será la función creada con las palabras recogidas
+            let resultado = capitalizarYContarVocales(palabras);
+            
+            // Función para pasar de objeto JS a cadena JSON.
+            // Argumento 1: objeto a convertir
+            // Argumento 2: campos a extraer (si es null, extrae todo)
+            // Arugmento 3: nº espacios o caracteres a introducir como identación,
+            //  si se usa null o cadena vacía se hará en una línea 
+            let resultadoJSON = JSON.stringify(resultado, ["palabras", "totalVocales"], 3);
+            
+            // Mensajes como objeto de JS y como cadena en formato JSON
+            console.log(resultado);
+            console.log(resultadoJSON);
+            
+            // Guardamos en el resultado del HTML el resultado obtenido de la función creada
+            document.getElementById('output').innerHTML = "Palabras: " + resultado.palabras + "<br>Total vocales: " + resultado.totalVocales;
+        }
+
+        // Permitir ejecutar con Enter
+        document.getElementById('palabras').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                ejecutarEjercicio();
+            }
+        });
+    </script>
+    
+    
+</body>
+</html>

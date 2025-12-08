@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Procesador de Tareas</title>
+</head>
+<body>
+    <h1>Procesador de tareas asíncronas</h1>
+    
+    <div>
+        <h2>Agregar tarea</h2>
+        <label>ID de la tarea:</label>
+        <input type="text" id="idTarea" placeholder="Ej: A">
+        
+        <label>Duración (ms):</label>
+        <input type="number" id="duracionTarea" placeholder="Ej: 300">
+        
+        <button onclick="agregarTarea()">Agregar Tarea</button>
+    </div>
+    
+    <div>
+        <h2>Tareas agregadas:</h2>
+        <div id="listaTareas"></div>
+    </div>
+    
+    <div>
+        <button onclick="ejecutarTareas()">Procesar todas las tareas</button>
+        <button onclick="limpiar()">Limpiar</button>
+    </div>
+    
+    <div>
+        <h2>Consola de salida:</h2>
+        <div id="consola"></div>
+    </div>
+    
+    <div>
+        <h2>Resultado final:</h2>
+        <p id="resultado"></p>
+    </div>
+
+    <script>
+        // Array para almacenar las tareas
+        let tareas = [];
+        
+        // Función para agregar una tarea al array
+        function agregarTarea() {
+            // Capturamos los datos del usuario
+            let id = document.getElementById('idTarea').value;
+            let duracion = parseInt(document.getElementById('duracionTarea').value);
+            
+            // Si no se introducen los dos datos correctamente, que de error al usuario
+            // QUE SE CONSIDERA CORRECTO (TRUE)?
+            // - Strings con contenido
+            // Cualquier número distinto de 0
+            if (!id || !duracion || parseInt(duracion) < 0) {
+                alert('Por favor completa ambos campos correctamente (nombre - valor > 0)');
+                return;
+            }
+            
+            // Si no hay errores, enviamos al array de tareas el objeto con id y duración establecida
+            tareas.push({ id, duracion });
+            
+            // Limpiar inputs
+            document.getElementById('idTarea').value = '';
+            document.getElementById('duracionTarea').value = '';
+            
+            // Mostramos las tareas
+            mostrarTareas();
+        }
+        
+        // Función para mostrar las tareas agregadas al usuario
+        function mostrarTareas() {
+            let lista = document.getElementById('listaTareas');
+            lista.innerHTML = '';
+            
+            // Por cada tarea en el array creamos un elemento HTML p y 
+            // le añadimos los datos de la tarea en cuestión
+            tareas.forEach(t => {
+                let p = document.createElement('p');
+                p.innerHTML = `ID: ${t.id}, Duración: ${t.duracion}ms`;
+                lista.appendChild(p);
+            });
+        }
+        
+        // Función procesa todas las tareas
+        function procesarTareas(tareas, callbackFinal) {
+            let resultado = []; // Array para guardar el orden de finalización
+            let tareasCompletadas = 0; // Contador de tareas terminadas
+            
+            // Recorremos cada tarea
+            tareas.forEach(tarea => {
+                // setTimeout simula una operación asíncrona
+                // Se ejecuta después de 'tarea.duracion' milisegundos
+                setTimeout(() => {
+                    // Todo esto se ejecutará al terminar el tiempo de duración
+                    
+                    // Imprimimos en HTML
+                    imprimirConsola(`Tarea ${tarea.id} completada`);
+                    
+                    // Añadimos el id al resultado en el orden que finalizan
+                    resultado.push(tarea.id);
+                    tareasCompletadas++;
+                    
+                    // Si todas las tareas terminaron, llamamos al callback final
+                    if (tareasCompletadas === tareas.length) {
+                        callbackFinal(resultado);
+                    }
+                }, tarea.duracion); // duración que tardará en ejecutar la tarea
+            });
+        }
+        
+        // Función para imprimir en la "consola" (elemento con id consola) del HTML
+        function imprimirConsola(mensaje) {
+            let consola = document.getElementById('consola');
+            let p = document.createElement('p');
+            p.innerHTML = mensaje;
+            consola.appendChild(p);
+        }
+        
+        // Función que se ejecuta al hacer clic en "Procesar"
+        function ejecutarTareas() {
+            // Si el array no tiene objetos, avisamos al usuario
+            if (tareas.length === 0) {
+                alert('No hay tareas para procesar');
+                return;
+            }
+            
+            document.getElementById('consola').innerHTML = '';
+            document.getElementById('resultado').innerHTML = '';
+            
+            // Llamamos a procesarTareas con un callback final para mostrar los datos en el HTML
+            procesarTareas(tareas, function(resultado) {
+                // Este callback se ejecuta cuando todas las tareas terminan
+                document.getElementById('resultado').innerHTML = 
+                    `Orden de finalización: [${resultado.map(id => `'${id}'`).join(', ')}]`;
+            });
+        }
+        
+        // Función para limpiar todo
+        function limpiar() {
+            tareas = [];
+            document.getElementById('listaTareas').innerHTML = '';
+            document.getElementById('consola').innerHTML = '';
+            document.getElementById('resultado').innerHTML = '';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 3 - Funciones Anónimas</title>
+</head>
+<body>
+    <h1>Ejercicio 3 — Funciones Anónimas (Arrow Functions)</h1>
+    
+    <p>
+        <strong>Descripción:</strong><br>
+        Filtra y transforma un array usando funciones anónimas (arrow functions).
+        Primero se aplica el filtro, luego la transformación a los elementos que pasaron el filtro.
+    </p>
+
+    <div>
+        <label><strong>Array de números (separados por comas):</strong></label><br>
+        <input type="text" id="array" size="50" placeholder="Ej: 1,2,3,4,5,6"><br><br>
+    </div>
+    
+    <div>
+        <label><strong>Función de filtro (usar 'n' como parámetro):</strong></label><br>
+        <input type="text" id="filtro" size="50" placeholder="Ej: n % 2 === 0"><br>
+        <small><em>Debe retornar true/false. Ejemplos: n % 2 === 0 (pares), n > 3 (mayores que 3), n % 2 !== 0 (impares)</em></small><br><br>
+    </div>
+    
+    <div>
+        <label><strong>Función de transformación (usar 'n' como parámetro):</strong></label><br>
+        <input type="text" id="transformacion" size="50" placeholder="Ej: n * n"><br>
+        <small><em>Ejemplos: n * n (cuadrado), n * 2 (duplicar), n * 3 (triplicar), n + 10 (sumar 10)</em></small>
+        <br><br>
+    </div>
+    
+    <button onclick="ejecutarEjercicio()"><strong>Ejecutar Ejercicio 3</strong></button>
+    
+    <div id="resultado"></div>
+
+    <script>
+        function filtrarYTransformar(arr, filtro, transformacion) {
+            return arr.filter(filtro).map(transformacion);
+        }
+
+        function ejecutarEjercicio() {
+            try {
+                let arrayInput = document.getElementById('array').value;
+                let filtroInput = document.getElementById('filtro').value;
+                let transformacionInput = document.getElementById('transformacion').value;
+                
+                // Parsear el array para aceptar nada mas que valores númericos y se separen por , para formar el array
+                let arr = arrayInput.split(',').map(n => parseFloat(n.trim())).filter(n => !isNaN(n));
+                
+                // Si el array es menor a 0 devolvemos
+                if (arr.length == 0) {
+                    alert('Por favor ingresa números válidos en el array');
+                    return;
+                }
+                
+                // Creamos las funciones de filtrado y transformación del usuario
+                const filtro = eval(`(n) => ${filtroInput}`);
+                const transformacion = eval(`(n) => ${transformacionInput}`);
+                
+                // Ejecutar la función
+                let resultado = filtrarYTransformar(arr, filtro, transformacion);
+                
+                // Mostrar resultados detallados
+                let filtrados = arr.filter(filtro);
+                
+                let output = '<h2>Resultado:</h2>';
+                output += '<p><strong>Array original:</strong> [' + arr.join(', ') + ']</p>';
+                output += '<p><strong>Función de filtro:</strong> n => ' + filtroInput + '</p>';
+                output += '<p><strong>Después del filtro:</strong> [' + filtrados.join(', ') + ']</p>';
+                output += '<p><strong>Función de transformación:</strong> n => ' + transformacionInput + '</p>';
+                output += '<p><strong>Resultado final:</strong> [' + resultado.join(', ') + ']</p>';
+                
+                document.getElementById('resultado').innerHTML = output;
+            } catch (error) {
+                alert('Error en las funciones: ' + error.message + '\n\nAsegúrate de usar "n" como nombre de parámetro.');
+            }
+        }
+        
+        // Permitir ejecutar con Enter
+        document.getElementById('array').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                ejecutarEjercicio();
+            }
+        });
+        
+        // Permitir ejecutar con Enter
+        document.getElementById('filtro').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                ejecutarEjercicio();
+            }
+        });
+        
+        // Permitir ejecutar con Enter
+        document.getElementById('transformacion').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                ejecutarEjercicio();
+            }
+        });
+    </script>
+</body>
+</html>

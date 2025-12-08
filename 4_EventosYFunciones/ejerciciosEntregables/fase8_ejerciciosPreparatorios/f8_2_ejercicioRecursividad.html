@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sumatorio</title>
+</head>
+<body>
+    
+    <!--
+    Enunciado
+        Escribe una función recursiva sumarHasta(n) que calcule la suma de todos los enteros
+        positivos desde 1 hasta n.
+            ● Si n es menor o igual que 0, la función debe devolver 0.
+            ● No usar bucles: resolver únicamente con recursión.
+    -->
+    
+    <div>
+        <div>
+            <h1>Ejercicio 2</h1>
+            <p>
+                Calcula la suma de todos los enteros positivos desde 1 hasta n usando recursión.
+                Si n es menor o igual que 0, la función devuelve 0.
+            </p>
+            
+            <div>
+                <p>Ingresa un número entero (n):</p>
+                <input type="number" id="numero" min="0">
+            </div>
+            
+            <button onclick="ejecutarEjercicio()">Ejecutar Ejercicio 2</button>
+            
+            <div id="resultado" class="resultado">
+                <h3>Resultado:</h3>
+                <p id="output"></p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        
+        // Función para sumar todos los numeros de 0 a N
+        function sumarHasta(n) {
+            // Si llegamos al caso n=0 (o menos) devolvemos 0 
+            if (n <= 0) {
+                return 0;
+            }
+            
+            // Si es mayor a 0, sumamos el numero actual con el sumatorio hasta el numero anterior
+            return n + sumarHasta(n - 1);
+        }
+        
+        // Función para ejecutar la función sumatorio y procesar la entrada del usuario
+        function ejecutarEjercicio() {
+            const numero = parseInt(document.getElementById('numero').value);
+            
+            // Si no introduce numero, no es válido
+            if (isNaN(numero)) {
+                alert('Por favor ingresa un número válido');
+                return;
+            }
+            
+            // ejecutamos la función con el numero del usuario
+            const resultado = sumarHasta(numero);
+            
+            // Mensaje de resultado con sumatorio
+            let explicacion = '';
+            
+            if (numero > 0) {
+                // Creamos un array desde 1 hasta el número y los unimos con un +
+                let secuencia = [];
+                for (let i = 1; i <= numero; i++){
+                    secuencia.push(i);
+                }
+                secuencia = secuencia.join(' + '); 
+                
+                explicacion += `${secuencia} = ${resultado}\n\n`;
+            } else {
+                explicacion = `No es un valor válido.`;
+            }
+            
+            document.getElementById('output').innerHTML = explicacion;
+        }
+
+        // Permitir ejecutar con Enter
+        document.getElementById('numero').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                ejecutarEjercicio();
+            }
+        });
+    </script>
+    
+</body>
+</html>
