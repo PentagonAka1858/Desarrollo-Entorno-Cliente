@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fibonacci</title>
+</head>
+<body>
+    
+    <h1>Ejercicio fibonacci</h1>
+    
+    
+    
+    <label>Introduce el número n a calcular*: </label><input type="number" id="numeroFib">
+    <br><br>
+    <button onclick="calcular();">Calcular</button>
+    
+    <br><br>
+    <div id="result"></div>
+    <br><br>
+    
+    <i>*: Si se usa más de 40, tardará mucho en cargar.</i>
+    
+    <script>
+    
+        function fibonacci(n) {
+            
+            if (n <= 1) {
+                return n;
+            }
+            
+            return fibonacci(n-2)+fibonacci(n-1);
+            
+        }
+        
+        function calcular() {
+            let posicionACalcular = document.getElementById("numeroFib").value;
+            let resultado = "Introduce un dato.";
+            if (!isNaN(parseInt(posicionACalcular))) {
+                resultado = `El número en la posición ${posicionACalcular} es ` + fibonacci(parseInt(posicionACalcular));
+            }
+            
+            document.getElementById("result").innerHTML = resultado;
+        }
+        
+        document.addEventListener('keydown', (evento) => {
+            if (evento.key == 'Enter') {
+                calcular();
+            }
+        });
+        
+    
+    </script>
+    
+</body>
+</html>
