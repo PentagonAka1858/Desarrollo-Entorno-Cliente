@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 1</title>
+</head>
+<body>
+    
+    <h1>Adivinar capitales</h1>
+
+    <div id="inicioJuego">
+        <p id="palabras"></p>
+
+        <p>Capital para adivinar: <input type="text" id="palabraIntento"></p>
+        <button id="adivinar">Adivinar</button>
+        <br><br>
+        <span>Pista: </span><p id="pista"></p>
+        <p id="resultado"></p>
+        <br>
+        <button onclick="preparacionJuego()">Reiniciar</button>
+    </div>
+
+    <script>
+
+        // Variables que se necesitan a lo largo del programa 
+        let palabras = [];
+        let palabraParaAdivinar = "";
+        let intentosAdivinar = 0;
+        let ganador = false;
+
+        function preparacionJuego() {
+            // Reiniciamos el ganador
+            ganador = false;
+            // Reiniciamos el array de palabras
+            palabras = []; 
+            // Contador de palabras
+            let i = 1; 
+            // Index aleatorio a usar posteriormente
+            let indexAleatorio;
+
+            // Borramos el mensaje de perder o ganar
+            document.getElementById("resultado").innerHTML = ``;
+            
+            // Pedir al usuario mientras el array tenga menos de 8 palabras
+            do {
+                // Pedimos al usuario las palabras nuevas
+                let palabra = prompt(`Introduce una capital (capital numero ${i}) para añadir al juego: `);
+
+                // Si no tiene una longitud válida damos un error
+                // y si lo tiene válido, lo guardamos en el array
+                // con mayúsculas y sumamos en 1 el contador de palabras
+                if (palabra.length >= 5) {
+                    palabras.push(palabra.toLowerCase());
+                    i++;
+                } else {
+                    alert("La palabra debe ser mayor de 5 letras");
+                }
+            } while (palabras.length < 6);
+
+            // Mostramos al usuario las palabras introducidas
+            document.getElementById("palabras").innerHTML = `Posibles palabras a adivinar: ${palabras.join(", ")}`;
+            // Depuración para ver el array de palabras
+            console.log(palabras);
+
+            // Seleccionamos un índice aleatorio para seleccionar la palabra aleatoriamente
+            do {
+                // Comprobamos que este entre 0 y la longitud del array (para evitar errores)
+                indexAleatorio = (Math.floor((Math.random()*palabras.length)));
+                console.log("Indice: " + indexAleatorio);
+            } while (indexAleatorio < 0 && indexAleatorio > palabras.length);
+
+            // Seleccionamos la palabra a adivinar
+            palabraParaAdivinar = palabras[indexAleatorio];
+            // Tenemos tantos intentos como la palabra es de larga
+            intentosAdivinar = palabraParaAdivinar.length;
+            // Depuración para ver la palabra a adivinar
+            console.log(palabraParaAdivinar);
+            
+            // Pintar por primera vez el número de letras que tiene la palabra
+            let palabraPista = palabraParaAdivinar.slice(0, palabraParaAdivinar.length - intentosAdivinar);
+            let guiones = "";
+            
+            for (let j = 0; j < palabraParaAdivinar.length - palabraPista.length; j++){
+                guiones = guiones.concat("-");
+            }
+            
+            document.getElementById("pista").innerHTML = guiones;
+
+        }
+
+        // Preparamos el juego al cargar el DOM
+        document.addEventListener("DOMContentLoaded", preparacionJuego);
+
+        // Cada vez que hacemos click en adivinar
+        document.getElementById("adivinar").addEventListener("click", () => {
+            // Pasamos la palabra introducida a mayúscula y la asignamos a una variable
+            let palabraIntroducida = document.getElementById("palabraIntento").value.toLowerCase();
+            
+            // Limpiamos el input
+            document.getElementById("palabraIntento").value = "";
+
+            // Si no quedan intentos que adivinar, avisamos que el usuario ha perdido
+            if (intentosAdivinar <= 1 && ganador == false){
+                document.getElementById("resultado").innerHTML = `<b>Perdiste, reinicia el juego</b>`;
+                document.getElementById("pista").innerHTML = "";
+                return;
+            }
+            
+            // Comprobamos si la palabra a adivinar es igual que la introducida
+            if (palabraParaAdivinar == palabraIntroducida || ganador == true){
+                // Lo asignamos como ganador (para evitar repetición de pulsación del botón)
+                ganador = true;
+                // Mostramos que ha ganado
+                document.getElementById("resultado").innerHTML = `<b>¡GANASTE! Reinicia el juego</b>`;
+                document.getElementById("pista").innerHTML = "";
+                return;
+            }
+
+            // Restamos un intento
+            intentosAdivinar = intentosAdivinar - 1;
+            
+            // Si estamos en este punto, quiere decir que no hemos adivinado
+            // Le damos una pista al usuario hasta que se quede sin intentos
+            let palabraPista = palabraParaAdivinar.slice(0, palabraParaAdivinar.length - intentosAdivinar);
+            let guiones = "";
+            
+            for (let j = 0; j < palabraParaAdivinar.length - palabraPista.length; j++){
+                guiones = guiones.concat("-");
+            }
+            document.getElementById("pista").innerHTML = palabraPista + guiones;
+
+        });
+
+    </script>
+</body>
+</html>
