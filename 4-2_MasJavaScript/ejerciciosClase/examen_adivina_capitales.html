@@ -23,12 +23,46 @@
 
     <script>
 
+        /*
+        
+        Explicación paso a paso de cómo funciona el programa:
+        
+        1º)
+        El paso 1 sería crear la preparación del juego, el cual prepara las palabras y selecciona 1 palabra.
+        
+            1-1)
+            El juego se prepara. En esta preparación, el usuario introducirá
+            6 capitales por texto con su validación (longitud de palabra y cantidad de palabras).
+            
+            1-2)
+            Luego muestra al usuario las palabras introducidas, y se selecciona de forma aleatoria
+            una de las palabras. Mostramos tambien con guiones la cantidad de letras que tiene la palabra a adivinar.
+        
+        2º)
+        El paso 2 del juego sería el usuario adivinando la palabra cada vez que pulsa el botón de adivinar.
+            
+            2-1)
+            Comprobamos que aún le quedan intentos. Si no le quedan intentos, le mostramos que ha perdido
+            y que debe reiniciar el juego
+        
+            2-2)
+            Comprobamos que la palabra sea la ganadora.
+            En caos de serlo comprobamos los premios que tendrá, usando un switch
+            para comprobar cuantos intentos lleva, y si lleva menos de 4, darle su premio correspondiente
+            
+            2-3)
+            Si llega aquí el usuario, es que puede intentarlo de nuevo otra vez. Restamos un intento, 
+            cambiamos la pista (añadimos una letra) y la mostramos por pantalla.
+        
+        */
+
         // Variables que se necesitan a lo largo del programa 
         let palabras = [];
         let palabraParaAdivinar = "";
         let intentosAdivinar = 0;
         let ganador = false;
 
+        // Paso 1º)
         function preparacionJuego() {
             // Reiniciamos el ganador
             ganador = false;
@@ -42,6 +76,7 @@
             // Borramos el mensaje de perder o ganar
             document.getElementById("resultado").innerHTML = ``;
             
+            // Paso 1-1)
             // Pedir al usuario mientras el array tenga menos de 8 palabras
             do {
                 // Pedimos al usuario las palabras nuevas
@@ -63,6 +98,7 @@
             // Depuración para ver el array de palabras
             console.log(palabras);
 
+            // Paso 1-2)
             // Seleccionamos un índice aleatorio para seleccionar la palabra aleatoriamente
             do {
                 // Comprobamos que este entre 0 y la longitud del array (para evitar errores)
@@ -81,6 +117,7 @@
             let palabraPista = palabraParaAdivinar.slice(0, palabraParaAdivinar.length - intentosAdivinar);
             let guiones = "";
             
+            // Pintamos tantos guiones como diferencia tenga la palabra para adivinar y la palabra pista
             for (let j = 0; j < palabraParaAdivinar.length - palabraPista.length; j++){
                 guiones = guiones.concat("-");
             }
@@ -89,9 +126,11 @@
 
         }
 
+        // Paso 1º)
         // Preparamos el juego al cargar el DOM
         document.addEventListener("DOMContentLoaded", preparacionJuego);
 
+        // Paso 2º)
         // Cada vez que hacemos click en adivinar
         document.getElementById("adivinar").addEventListener("click", () => {
             // Pasamos la palabra introducida a mayúscula y la asignamos a una variable
@@ -100,6 +139,7 @@
             // Limpiamos el input
             document.getElementById("palabraIntento").value = "";
 
+            // Paso 2-1)
             // Si no quedan intentos que adivinar, avisamos que el usuario ha perdido
             if (intentosAdivinar <= 1 && ganador == false){
                 document.getElementById("resultado").innerHTML = `<b>Perdiste, reinicia el juego</b>`;
@@ -107,16 +147,35 @@
                 return;
             }
             
+            // Paso 2-2)
             // Comprobamos si la palabra a adivinar es igual que la introducida
             if (palabraParaAdivinar == palabraIntroducida || ganador == true){
+                
+                // Asignamos una variable para el preio del ganador
+                let premio = 0;
+                // Calculamos el numero de intentos con la longitud de la palabra menos los intentos que quedan aún.
+                let numIntentos = palabraParaAdivinar.length - intentosAdivinar;
+                
+                // Dependiendo del número de intentos que se hayan realizado, calculamos el premio
+                // en caso de 0 (longitud de palabra e intentos a adivinar coincide, es decir, al primer intento),
+                // el premio será de 500€, en caso de 1 (longitud de palabra 1 mayor a los intentos restantes)
+                // el premio será de 300€, y en caso de 2 el premio será de 100. En el resto de intentos no habrá premios
+                switch (numIntentos) {
+                    case 0: premio = 500; break;
+                    case 1: premio = 300; break;
+                    case 2: premio = 100; break;
+                    default: premio = 0;
+                }
+                
                 // Lo asignamos como ganador (para evitar repetición de pulsación del botón)
                 ganador = true;
                 // Mostramos que ha ganado
-                document.getElementById("resultado").innerHTML = `<b>¡GANASTE! Reinicia el juego</b>`;
+                document.getElementById("resultado").innerHTML = `<b>¡GANASTE en el intento ${numIntentos+1}, por lo que ganas ${premio}€! Reinicia el juego</b>`;
                 document.getElementById("pista").innerHTML = "";
                 return;
             }
 
+            // Paso 2-3)
             // Restamos un intento
             intentosAdivinar = intentosAdivinar - 1;
             
