@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+    <title>📚 Web Development Class - Homework Index</title>
+    <style>
+
+        body {
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            min-height: 100vh;
+        }
+
+        /* Minimal custom styles for iframe and resizer */
+        .preview-frame {
+            background: white;
+        }
+        
+        .resizer {
+            cursor: col-resize;
+            user-select: none;
+        }
+        
+        .resizer:hover {
+            background: oklch(var(--p));
+        }
+        
+        body {
+            overflow: hidden;
+        }
+        
+        .explorer-content::-webkit-scrollbar,
+        .unit-nav::-webkit-scrollbar {
+            width: 8px;
+            height: 6px;
+        }
+        
+        .explorer-content::-webkit-scrollbar-thumb,
+        .unit-nav::-webkit-scrollbar-thumb {
+            background: oklch(var(--p));
+            border-radius: 4px;
+        }
+        
+        .explorer-content::-webkit-scrollbar-track,
+        .unit-nav::-webkit-scrollbar-track {
+            background: oklch(var(--b2));
+        }
+        .main {
+            display: grid;
+            grid-template-rows: auto 1fr;
+        }
+    </style>
+</head>
+<body class="bg-base-100">
+    <!-- Header -->
+    <header class="navbar bg-base-200 border-b-2 border-primary shadow-lg">
+        <div class="flex-1">
+            <div class="flex items-center gap-3">
+                <span class="text-4xl">💻</span>
+                <h1 class="text-xl font-bold text-primary">Web Development Class - Homework Index</h1>
+            </div>
+        </div>
+        <div class="flex-none">
+            <div class="flex items-center gap-2">
+                <label class="text-sm text-base-content/70">Theme:</label>
+                <div class="join">
+                    <button class="btn btn-sm join-item" onclick="setTheme('light')" title="Light">Light</button>
+                    <button class="btn btn-sm join-item" onclick="setTheme('dark')" title="Dark">Dark</button>
+                    <button class="btn btn-sm join-item" onclick="setTheme('coffee')" title="Coffee">Coffee</button>
+                    <button class="btn btn-sm join-item" onclick="setTheme('dracula')" title="Dracula">Dracula</button>
+                    <button class="btn btn-sm join-item" onclick="setTheme('retro')" title="Retro">Retro</button>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <section class="main">
+        <!-- Unit Navigation -->
+        <nav class="bg-base-200 border-b border-base-300 px-4 py-2 overflow-x-auto unit-nav">
+            <div class="flex gap-2 min-w-max" id="unitNav">
+                <button class="btn btn-sm btn-primary" data-unit="all" onclick="filterByUnit('all')">
+                    📚 All Units
+                    <span class="badge badge-secondary" id="totalCount">0</span>
+                </button>
+                <!-- Unit buttons generated here -->
+            </div>
+        </nav>
+
+            <!-- Main Container -->
+            <div class="flex">
+                <!-- File Explorer -->
+                <aside class="w-96 bg-base-200 border-r-2 border-base-300 flex flex-col" id="fileExplorer">
+                    <div class="bg-base-300 px-4 py-3 border-b border-base-300 flex items-center gap-2">
+                        <span class="text-xl">📁</span>
+                        <span class="font-semibold">File Explorer</span>
+                    </div>
+                    
+                    <div class="p-3 border-b border-base-300">
+                        <input type="text" id="searchInput" placeholder="🔍 Search activities... (Ctrl+K)" 
+                            class="input input-bordered input-sm w-full focus:input-primary" />
+                    </div>
+                    
+                    <div class="flex-1 overflow-y-auto p-2 explorer-content" id="explorerContent">
+                        <!-- Activities generated here -->
+                    </div>
+                </aside>
+
+                <!-- Resizer -->
+                <div class="w-1.5 bg-base-300 resizer transition-colors" id="resizer"></div>
+
+                <!-- Preview Panel -->
+                <main class="flex-1 flex flex-col bg-base-100" id="previewPanel">
+                    <div class="bg-base-200 border-b border-base-300 px-4 py-2 hidden" id="previewHeader">
+                        <div class="flex items-center justify-between gap-4">
+                            <div class="flex items-center gap-3 flex-1 min-w-0">
+                                <span class="font-semibold text-primary truncate" id="previewTitle">Activity Name</span>
+                                <span class="text-sm text-base-content/60 truncate" id="previewPath">path/to/file.html</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="btn btn-sm btn-ghost" id="refreshBtn" title="Refresh">
+                                    🔄 Refresh
+                                </button>
+                                <a class="btn btn-sm btn-primary" id="openNewTabBtn" href="#" target="_blank" title="Open in new tab">
+                                    🔗 Open
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex-1 p-4 flex flex-col h-full">
+                        <div class="flex-1 flex flex-col items-center justify-center text-base-content/60" id="emptyState">
+                            <span class="text-6xl opacity-50 mb-4">👆</span>
+                            <p class="text-lg">Select an activity from the file explorer to preview</p>
+                        </div>
+                        <iframe class="w-full h-full border-2 border-primary rounded-lg shadow-xl preview-frame hidden" id="previewFrame"></iframe>
+                    </div>
+                </main>
+            </div>
+
+    </section>
+
+
+    <!-- Stats Bar -->
+    <footer class="bg-base-200 border-t border-base-300 px-4 py-2">
+        <div class="flex justify-between text-sm text-base-content/70">
+            <div class="flex items-center gap-2">
+                <span>📊</span>
+                <span id="statsUnits">0 Units</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <span>📄</span>
+                <span id="statsActivities">0 Activities</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <span>🎨</span>
+                <span id="currentTheme">Light</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ============================================
+        // CONFIGURATION
+        // ============================================
+        const courseData = {
+            units: [
+                {
+                    id: "unit1",
+                    name: "Unit 1: HTML Basics",
+                    icon: "📝",
+                    activities: [
+                        { name: "Introduction to HTML", file: "unit1/intro-html.html", description: "Basic HTML structure and elements" },
+                        { name: "HTML Forms", file: "unit1/forms.html", description: "Creating interactive forms with inputs" },
+                        { name: "HTML Tables", file: "unit1/tables.html", description: "Building data tables with HTML" },
+                        { name: "Semantic HTML", file: "unit1/semantic.html", description: "Using semantic elements for better structure" }
+                    ]
+                },
+                {
+                    id: "unit2",
+                    name: "Unit 2: CSS Fundamentals",
+                    icon: "🎨",
+                    activities: [
+                        { name: "CSS Selectors", file: "unit2/selectors.html", description: "Understanding CSS selectors and specificity" },
+                        { name: "Box Model", file: "unit2/box-model.html", description: "Margin, padding, border, and content" },
+                        { name: "Flexbox Layout", file: "unit2/flexbox.html", description: "Creating flexible layouts with Flexbox" },
+                        { name: "CSS Grid", file: "unit2/grid.html", description: "Building complex layouts with CSS Grid" },
+                        { name: "Responsive Design", file: "unit2/responsive.html", description: "Media queries and mobile-first design" }
+                    ]
+                },
+                {
+                    id: "unit3",
+                    name: "Unit 3: JavaScript Basics",
+                    icon: "⚡",
+                    activities: [
+                        { name: "Variables & Data Types", file: "unit3/variables.html", description: "Understanding JavaScript variables and types" },
+                        { name: "Functions", file: "unit3/functions.html", description: "Creating and using functions" },
+                        { name: "DOM Manipulation", file: "unit3/dom.html", description: "Interacting with the Document Object Model" },
+                        { name: "Events", file: "unit3/events.html", description: "Handling user interactions with events" }
+                    ]
+                },
+                {
+                    id: "unit4",
+                    name: "Unit 4: Advanced JavaScript",
+                    icon: "🚀",
+                    activities: [
+                        { name: "Arrays & Objects", file: "unit4/arrays-objects.html", description: "Working with complex data structures" },
+                        { name: "Async JavaScript", file: "unit4/async.html", description: "Promises, async/await, and fetch API" },
+                        { name: "Local Storage", file: "unit4/storage.html", description: "Persisting data in the browser" }
+                    ]
+                },
+                {
+                    id: "unit5",
+                    name: "Unit 5: Projects",
+                    icon: "🏆",
+                    activities: [
+                        { name: "Calculator", file: "unit5/calculator.html", description: "Interactive calculator project" },
+                        { name: "Todo List", file: "unit5/todo.html", description: "Task management application" },
+                        { name: "Weather App", file: "unit5/weather.html", description: "Fetching and displaying weather data" },
+                        { name: "Final Project", file: "unit5/final.html", description: "Complete web application project" }
+                    ]
+                }
+            ]
+        };
+
+        const themeNames = {
+            'light': 'Light',
+            'dark': 'Dark',
+            'coffee': 'Coffee',
+            'dracula': 'Dracula',
+            'retro': 'Retro'
+        };
+
+        let currentUnit = 'all';
+        let currentActivity = null;
+        let allActivities = [];
+
+        // ============================================
+        // THEME MANAGEMENT
+        // ============================================
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('preferredTheme', theme);
+            document.getElementById('currentTheme').textContent = themeNames[theme] || theme;
+        }
+
+        // ============================================
+        // INITIALIZE
+        // ============================================
+        function init() {
+            courseData.units.forEach(unit => {
+                unit.activities.forEach(activity => {
+                    allActivities.push({
+                        ...activity,
+                        unitId: unit.id,
+                        unitName: unit.name,
+                        unitIcon: unit.icon
+                    });
+                });
+            });
+
+            renderUnitNavigation();
+            renderFileExplorer();
+            updateStats();
+            setupSearch();
+            setupResizer();
+            
+            const savedTheme = localStorage.getItem('preferredTheme') || 'light';
+            setTheme(savedTheme);
+        }
+
+        // ============================================
+        // RENDER UNIT NAVIGATION
+        // ============================================
+        function renderUnitNavigation() {
+            const unitNav = document.getElementById('unitNav');
+            document.getElementById('totalCount').textContent = allActivities.length;
+            
+            courseData.units.forEach(unit => {
+                const btn = document.createElement('button');
+                btn.className = 'btn btn-sm btn-ghost';
+                btn.dataset.unit = unit.id;
+                btn.innerHTML = `
+                    ${unit.icon} ${unit.name.split(':')[0]}
+                    <span class="badge badge-secondary">${unit.activities.length}</span>
+                `;
+                btn.onclick = () => filterByUnit(unit.id);
+                unitNav.appendChild(btn);
+            });
+        }
+
+        // ============================================
+        // FILTER BY UNIT
+        // ============================================
+        function filterByUnit(unitId) {
+            currentUnit = unitId;
+            
+            document.querySelectorAll('.unit-nav .btn').forEach(btn => {
+                if (btn.dataset.unit === unitId) {
+                    btn.classList.add('btn-primary');
+                    btn.classList.remove('btn-ghost');
+                } else {
+                    btn.classList.remove('btn-primary');
+                    btn.classList.add('btn-ghost');
+                }
+            });
+            
+            document.getElementById('searchInput').value = '';
+            renderFileExplorer();
+            
+            if (unitId !== 'all') {
+                const unitFolder = document.querySelector(`[data-unit-folder="${unitId}"]`);
+                if (unitFolder) {
+                    unitFolder.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    const details = unitFolder.querySelector('details');
+                    if (details) details.open = true;
+                }
+            }
+        }
+
+        // ============================================
+        // RENDER FILE EXPLORER
+        // ============================================
+        function renderFileExplorer(searchTerm = '') {
+            const content = document.getElementById('explorerContent');
+            content.innerHTML = '';
+            
+            const unitsToShow = currentUnit === 'all' 
+                ? courseData.units 
+                : courseData.units.filter(u => u.id === currentUnit);
+            
+            let hasResults = false;
+            
+            unitsToShow.forEach(unit => {
+                const filteredActivities = unit.activities.filter(activity => {
+                    if (!searchTerm) return true;
+                    const search = searchTerm.toLowerCase();
+                    return activity.name.toLowerCase().includes(search) ||
+                           activity.description.toLowerCase().includes(search) ||
+                           activity.file.toLowerCase().includes(search);
+                });
+                
+                if (filteredActivities.length === 0) return;
+                hasResults = true;
+                
+                const shouldExpand = currentUnit !== 'all' || searchTerm;
+                
+                const folder = document.createElement('div');
+                folder.className = 'mb-2';
+                folder.dataset.unitFolder = unit.id;
+                
+                folder.innerHTML = `
+                    <details class="collapse collapse-arrow bg-base-300 rounded-lg" ${shouldExpand ? 'open' : ''}>
+                        <summary class="collapse-title font-semibold flex items-center justify-between">
+                            <span>${unit.icon} ${unit.name}</span>
+                            <span class="badge badge-primary">${filteredActivities.length}</span>
+                        </summary>
+                        <div class="collapse-content">
+                            ${filteredActivities.map(activity => `
+                                <div class="card bg-base-100 shadow-sm hover:shadow-md transition-all cursor-pointer mb-2 border-2 border-transparent hover:border-primary activity-item" data-file="${activity.file}">
+                                    <div class="card-body p-3">
+                                        <div class="flex items-start gap-3">
+                                            <span class="text-xl">📄</span>
+                                            <div class="flex-1 min-w-0">
+                                                <h3 class="font-medium text-sm">${activity.name}</h3>
+                                                <p class="text-xs text-base-content/60 mt-1">${activity.description}</p>
+                                            </div>
+                                            <button class="btn btn-xs btn-ghost open-new-tab-btn" data-file="${activity.file}" title="Open in new tab">🔗</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </details>
+                `;
+                
+                folder.querySelectorAll('.activity-item').forEach(item => {
+                    item.addEventListener('click', (e) => {
+                        if (e.target.closest('.open-new-tab-btn')) return;
+                        
+                        const file = item.dataset.file;
+                        const activity = unit.activities.find(a => a.file === file);
+                        loadPreview(activity, unit);
+                        
+                        document.querySelectorAll('.activity-item').forEach(i => {
+                            i.classList.remove('border-primary', 'bg-primary/10');
+                        });
+                        item.classList.add('border-primary', 'bg-primary/10');
+                    });
+                });
+                
+                folder.querySelectorAll('.open-new-tab-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        window.open(btn.dataset.file, '_blank');
+                    });
+                });
+                
+                content.appendChild(folder);
+            });
+            
+            if (!hasResults) {
+                content.innerHTML = `
+                    <div class="text-center py-8 text-base-content/60">
+                        <div class="text-4xl mb-2">🔍</div>
+                        <p>No activities found</p>
+                    </div>
+                `;
+            }
+        }
+
+        // ============================================
+        // LOAD PREVIEW
+        // ============================================
+        function loadPreview(activity, unit) {
+            currentActivity = activity;
+            
+            document.getElementById('previewHeader').classList.remove('hidden');
+            document.getElementById('emptyState').classList.add('hidden');
+            document.getElementById('previewFrame').classList.remove('hidden');
+            
+            document.getElementById('previewTitle').textContent = `${unit.icon} ${activity.name}`;
+            document.getElementById('previewPath').textContent = activity.file;
+            document.getElementById('previewFrame').src = activity.file;
+            document.getElementById('openNewTabBtn').href = activity.file;
+        }
+
+        // ============================================
+        // REFRESH PREVIEW
+        // ============================================
+        document.getElementById('refreshBtn').addEventListener('click', () => {
+            const frame = document.getElementById('previewFrame');
+            if (frame.src) frame.src = frame.src;
+        });
+
+        // ============================================
+        // SEARCH
+        // ============================================
+        function setupSearch() {
+            const searchInput = document.getElementById('searchInput');
+            let debounceTimer;
+            
+            searchInput.addEventListener('input', (e) => {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(() => {
+                    renderFileExplorer(e.target.value);
+                }, 300);
+            });
+        }
+
+        // ============================================
+        // RESIZER
+        // ============================================
+        function setupResizer() {
+            const resizer = document.getElementById('resizer');
+            const explorer = document.getElementById('fileExplorer');
+            let isResizing = false;
+            
+            resizer.addEventListener('mousedown', () => {
+                isResizing = true;
+                document.body.style.cursor = 'col-resize';
+                document.body.style.userSelect = 'none';
+            });
+            
+            document.addEventListener('mousemove', (e) => {
+                if (!isResizing) return;
+                const newWidth = e.clientX;
+                if (newWidth >= 250 && newWidth <= 600) {
+                    explorer.style.width = newWidth + 'px';
+                }
+            });
+            
+            document.addEventListener('mouseup', () => {
+                isResizing = false;
+                document.body.style.cursor = '';
+                document.body.style.userSelect = '';
+            });
+        }
+
+        // ============================================
+        // UPDATE STATS
+        // ============================================
+        function updateStats() {
+            document.getElementById('statsUnits').textContent = `${courseData.units.length} Units`;
+            document.getElementById('statsActivities').textContent = `${allActivities.length} Activities`;
+        }
+
+        // ============================================
+        // KEYBOARD SHORTCUTS
+        // ============================================
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                document.getElementById('searchInput').focus();
+            }
+            
+            if (e.key === 'Escape') {
+                const searchInput = document.getElementById('searchInput');
+                if (document.activeElement === searchInput) {
+                    searchInput.value = '';
+                    renderFileExplorer();
+                    searchInput.blur();
+                }
+            }
+        });
+
+        // Initialize
+        init();
+    </script>
+</body>
+</html>
