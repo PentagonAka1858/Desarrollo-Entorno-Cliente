@@ -21,22 +21,65 @@
             let repetir = false;
             
             do {
+                lista = [];
                 for (let i = 0; i < 6; i++){
                     lista.push(prompt("Introduce el " + (i+1) +"º dato:"));
                 }
+
+                // Comprobación de datos nulos
                 lista.forEach(elemento => {
                     if (elemento == null){
                         repetir = true;
                     }
                 });
+
+                // Conversión de datos
+                lista.forEach(elemento => {
+                    if (elemento.toLowerCase() == "true") {
+                        lista[lista.indexOf(elemento)] = true;
+                    } else if (elemento.toLowerCase() == "false") {
+                        lista[lista.indexOf(elemento)] = false;
+                    } else if (!isNaN(parseInt(elemento))) {
+                        lista[lista.indexOf(elemento)] = parseInt(elemento);
+                    }
+                });
+
+                // Validación de datos (2 booleanos, 2 números y 2 cadenas)
+                if (lista.filter(elemento => typeof(elemento) == "boolean").length != 2 || 
+                    lista.filter(elemento => typeof(elemento) == "number").length != 2 ||
+                    lista.filter(elemento => typeof(elemento) == "string").length != 2) {
+                    alert("No has introducido 2 booleanos, 2 números y 2 cadenas.");
+                    repetir = true;
+                }
+
+                console.log(lista);
+
             } while (repetir == true);
+
+            // Array para almacenar los strings
+            let listaTexto = [];
+            // Array para almacenar los boolean
+            let operaciones = [];
+            // Array para almacenar los numeros
+            let operacionNumerica = [];
             
+            // Introducimos en cada array los elementos de cada tipo
+            lista.forEach(elemento => {
+                if (typeof(elemento) == "boolean") {
+                    operaciones.push(elemento);
+                } else if (typeof(elemento) == "number") {
+                    operacionNumerica.push(elemento);
+                } else if (typeof(elemento) == "string") {
+                    listaTexto.push(elemento);
+                }
+            });
+
             
             // Mostramos la lista
             document.getElementById("resultado").innerHTML = lista;
             
             // Mostramos cual de los dos elementos texto es mayor
-            let listaTexto = [];
+            // Variable para almacenar el texto mayor
             let textoMayor = "";
             
             // Creamos una lista con los textos de la lista original
@@ -56,15 +99,13 @@
             // Mostramos en pantalla el texto mayor
             document.getElementById("resultado").innerHTML += "<br>Texto mayor: " + textoMayor;
             
-            // Operacion con booleanos
-            let operaciones = [true,false];
+            
             // Mostramos el restulado de booleano1 Y booleano2 y de boolean1 O booleano2
             let mensajeBool = "<br> La operación and es " + (operaciones[0] && operaciones[1]) +
             " y la operación or es " + (operaciones[0] || operaciones[1]);
             document.getElementById("resultado").innerHTML += mensajeBool;
             
-            // Operaciones numéricas
-            let operacionNumerica = [1,2];
+            
             let mensajeNum = "<br> La suma es " + (operacionNumerica[0] + operacionNumerica[1]) +
             " y la resta es " + (operacionNumerica[0] - operacionNumerica[1]);
             document.getElementById("resultado").innerHTML += mensajeNum;
