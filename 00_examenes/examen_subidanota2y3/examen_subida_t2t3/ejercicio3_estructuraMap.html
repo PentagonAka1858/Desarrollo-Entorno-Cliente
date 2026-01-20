@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estructura de Datos Map</title>
+</head>
+<body>
+    <h1>Estructura de Datos Map</h1>
+
+    <p>Mirar la consola para ver la creación del Map</p>
+    
+    <!--
+    
+    Crea un Map llamado productos. Inserta 5 productos (tras crear el mapa) con la siguiente
+    estructura:
+        ● Clave: ID del producto (ej: "P01").
+        ● Valor: Un objeto con las propiedades { nombre, categoria, precio }. (Nota:
+        No uses arrays ni otras estructuras para almacenar los datos iniciales).
+
+    -->
+
+    <script>
+
+        // Creación de variable Map
+        const producto = new Map();
+
+        // Estructura básica de crear un nuevo producto
+        producto.set('P01', {
+            nombre: 'Ratón',
+            categoria: 'Periférico',
+            precio: 13.4
+        });
+
+        producto.set('P02', {
+            nombre: 'Teclado',
+            categoria: 'Periférico',
+            precio: 26.2
+        });
+
+        producto.set('P03', {
+            nombre: 'Ordenador',
+            categoria: 'Sobremesa',
+            precio: 399.99
+        });
+
+        producto.set('P04', {
+            nombre: 'Disco duro',
+            categoria: 'Componente',
+            precio: 103.4
+        });
+
+        producto.set('P05', {
+            nombre: 'Memoria RAM',
+            categoria: 'Componente',
+            precio: 1234.2
+        });
+
+        // Estructura Map con todos los productos
+        console.log(producto);
+
+        // Cómo acceder a cada producto
+        console.log(producto.get('P01'));
+        console.log(producto.get('P01').nombre);
+        console.log(producto.get('P01').categoria);
+        console.log(producto.get('P01').precio);
+
+    </script>
+</body>
+</html>

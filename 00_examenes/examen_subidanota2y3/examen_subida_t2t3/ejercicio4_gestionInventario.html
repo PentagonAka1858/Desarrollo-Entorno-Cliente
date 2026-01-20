@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Inventario</title>
+</head>
+<body>
+    <h1>Gestión de Inventario</h1>
+
+    <p>Mirar la consola, habrá más detalles</p>
+
+    <!--
+    
+    Utilizando el Map anterior:
+        1. Comprueba si existe el ID "P02". Si existe, suma 10€ a su precio actual.
+        2. Recorre el mapa y muestra en el HTML solo los nombres de los productos que
+        tengan un precio superior a 50€.
+
+
+    -->
+
+    <div id="resultado"></div>
+
+    <script>
+
+        /******************************************
+                PARTIMOS DEL EJERCICIO ANTERIOR
+        *******************************************/
+
+        // Creación de variable Map
+        const productos = new Map();
+
+        // Estructura básica de crear un nuevo producto
+        productos.set('P01', {
+            nombre: 'Ratón',
+            categoria: 'Periférico',
+            precio: 13.4
+        });
+
+        productos.set('P02', {
+            nombre: 'Teclado',
+            categoria: 'Periférico',
+            precio: 26.2
+        });
+
+        productos.set('P03', {
+            nombre: 'Ordenador',
+            categoria: 'Sobremesa',
+            precio: 399.99
+        });
+
+        productos.set('P04', {
+            nombre: 'Disco duro',
+            categoria: 'Componente',
+            precio: 103.4
+        });
+
+        productos.set('P05', {
+            nombre: 'Memoria RAM',
+            categoria: 'Componente',
+            precio: 1234.2
+        });
+
+        // Estructura Map con todos los productos
+        console.log(productos);
+
+        // Cómo acceder a cada producto
+        console.log(productos.get('P01'));
+        console.log(productos.get('P01').nombre);
+        console.log(productos.get('P01').categoria);
+        console.log(productos.get('P01').precio);
+
+        /******************************************
+                FINAL DEL EJERCICIO ANTERIOR
+        *******************************************/
+        console.log('\nEJERCICIO 4:');
+
+        // 1. Comprueba si existe el ID "P02". Si existe, suma 10€ a su precio actual.
+
+        // Precio antes del cambio
+        console.log('Precio antes del cambio: '+ (productos.get('P02').precio));
+        
+        // Comprobamos si existe en la estructura Map el producto con clave P02
+
+        if (productos.has('P02')) {
+            // En caso de existir, sumamos 10 a su precio
+            alert('Existe el producto con clave P02, sumando 10€ al precio');
+            productos.get('P02').precio = productos.get('P02').precio+10;
+        } else {
+            alert('No existe el producto con clave P02');
+        }
+
+        console.log('Precio después del cambio: '+ (productos.get('P02').precio));
+
+        // CASO QUE NO EXISTE EL ID:
+        if (productos.has('P10')) {
+            alert('Existe el producto con clave P10, sumando 10€ al precio');
+            productos.get('P10').precio = productos.get('P10').precio+10;
+        } else {
+            alert('No existe el producto con clave P10');
+        }
+
+        // 2. Recorre el mapa y muestra en el HTML solo los nombres de 
+        // los productos que tengan un precio superior a 50€.
+
+        document.getElementById("resultado").innerHTML = "Productos que tienen precio superior a 50€:<br>";
+
+        // Recorremos todos los productos y por cada producto 
+        // comprobamos que su precio sea mayor a 50
+        // en caso de serlo mostramos en el HTML el nombre y su precio
+        productos.forEach(producto => {
+            if (producto.precio > 50) {
+                document.getElementById("resultado").innerHTML += `${producto.nombre} - ${producto.precio}€<br>`;
+            }
+        });
+
+    </script>
+</body>
+</html>

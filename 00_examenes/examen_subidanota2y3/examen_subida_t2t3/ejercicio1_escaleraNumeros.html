@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Escalera de Números</title>
+</head>
+<body>
+    <h1>La Escalera de Números</h1>
+
+    <!--
+    
+    Escribe un script que pida al usuario un número entero por teclado (ej. 5). El programa debe
+    pintar en el documento HTML una pirámide de números donde cada fila muestre la
+    secuencia numérica incremental hasta el número de esa fila. Ejemplo (Entrada: 4): 1 12 123
+    1234
+
+    -->
+
+    <label>Números total: </label><input type="number" min="0" step=1 id="ancho">
+    <!-- Botón para que el usuario efectue el evento "change" del input -->
+    <button>Calcular</button>
+    
+    <div id="resultado"></div>
+
+    <script>
+
+        document.getElementById("ancho").addEventListener("change", () => {
+            let numero = document.getElementById("ancho").value; // Variable para recoger el número introducido
+            let divResultado = document.getElementById("resultado"); // Variable para recoger el div
+            let mensaje = ""; // Mensaje que mostrará al usuario
+            
+            // El numero del usuario lo pasamos a entero
+            numero = parseInt(numero);
+            
+            // Si es NaN (Not a Number) o es igual o menor que 0, mostramos que es inválido
+            if (isNaN(numero) || numero <= 0){
+                mensaje = "El número introducido no es válido";
+            } else {
+                // Si es un numero mayor que 0, recorremos cada "fila"
+
+                for (let i = numero; i > 0 ; i--){
+                    // Y por cada fila mostramos los numeros del 1 (j+1) al numero de la fila
+                    for (let j = 0; j < i; j++){
+                        mensaje += j+1;
+                    }
+
+                    // Cuando terminamos de escribir en la fila, saltamos a la siguiente fila
+                    mensaje += "<br>";
+                }
+            }
+            
+            // console.log(numero);
+            // console.log(mensaje);
+
+            // Mostramos en el HTML el mensaje
+            divResultado.innerHTML = mensaje;
+            
+        });
+
+    </script>
+
+</body>
+</html>

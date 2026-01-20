@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clasificación de Arrays</title>
+</head>
+<body>
+    <h1>Clasificación de Arrays</h1>
+
+    <p>Mirar la consola, habrá más detalles</p>
+
+    <!--
+    Dado el array: mixto = [10, "web", true, 30, "cliente", 20].
+        1. Genera un nuevo array que contenga solo los números.
+        2. Ordena ese nuevo array de mayor a menor.
+        3. Muestra el resultado final por pantalla separado por guiones.
+    -->
+
+    <div id="resultado"></div>
+
+    <script>
+
+        const mixto = [10, "web", true, 30, "cliente", 20];
+
+        /**************************************************************
+            1. Genera un nuevo array que contenga solo los números.
+        ***************************************************************/
+        
+        // FORMA RAPIDA: filtramos el array antiguo por cada elemento que cumpla:
+        // el tipo de dato de ese elemento debe ser igual a "number", filtrando
+        // así solo los números
+        let nuevoArrayFilter = mixto.filter(dato => typeof(dato) == "number");
+
+        // FORMA TRADICIONAL: recorremos el array antiguo y si el elemento en el que estamos
+        // es un numero, lo empujamos al nuevo array
+        let nuevoArrayFor = [];
+
+        mixto.forEach(dato => {
+            if (typeof(dato) == "number") nuevoArrayFor.push(dato);
+        });
+
+        // Valores para comprobar que están bien los array:
+        console.log("Array antiguo: " + mixto);
+        console.log("Array nuevo usando filter: " + nuevoArrayFilter);
+        console.log("Array nuevo usando for: " + nuevoArrayFor);
+
+        /**************************************************************
+            2. Ordena ese nuevo array de mayor a menor.
+        ***************************************************************/
+
+        // FORMA RÁPIDA Y EFICIENTE: la función sort, dado dos numeros a y b, realiza una operación
+        // (a - b), y dependiendo del resultado, cambia el orden en el array
+        // si el resultado es positivo cambia el orden, sino, lo deja como está
+        nuevoArrayFilter.sort((a,b) => a - b);
+        console.log("Array ordenado (sort) de menor a mayor: " + nuevoArrayFilter);
+
+        // Por lo tanto, si usamos b - a, se ordenará de mayor a menor
+        nuevoArrayFilter.sort((a,b) => b - a);
+        console.log("Array ordenado (sort) de mayor a menor: " + nuevoArrayFilter);
+
+
+        // FORMA "TRADICIONAL"  Y MENOS EFICIENTE: usando un bucle while y un for
+
+        // Variables que nos ayudarán a gestionar los bucles
+
+        // contador de veces que no habrá cambio de variables (el anterior es mayor que el siguiente)
+        let contador = 1; 
+        // auxiliar para guardar el contenido de la variable que se cambiará
+        let aux;
+
+
+        // Mientras el contador sea menor que la longitud del array, es decir,
+        // ha cambiado al menos 1 valor en el bucle for, lo repetimos
+        while (contador < nuevoArrayFor.length) {
+            // Reiniciamos el contador a 1 por cada vez que 
+            // termina el bucle for y no se cumple la condicion del while
+            contador = 1;
+
+            // Recorremos el array completo desde el indice 1
+            for (let i = 1; i < nuevoArrayFor.length; i++) {
+                // Si en el que estamos es mayor que el anterior, volteamos los valores
+                // si queremos ordenar a la inversa, cambiamos unicamente el simbolo ">" por "<"
+                if (nuevoArrayFor[i] > nuevoArrayFor[i-1]) {
+                    aux = nuevoArrayFor[i];
+                    nuevoArrayFor[i] = nuevoArrayFor[i-1];
+                    nuevoArrayFor[i-1] = aux;
+                // en caso de que no sea asi, es decir, estamos yendo de un numero mayor a uno menor,
+                // sumamos uno al contador para poder salir del bucle while
+                } else {
+                    contador = contador + 1;
+                }
+            }
+        }
+
+        // Comprobación de orden:
+        console.log("Array ordenado (for): " + nuevoArrayFor);
+
+
+        /**************************************************************
+            3. Muestra el resultado final por pantalla separado por guiones.
+        ***************************************************************/
+        
+        document.getElementById("resultado").innerHTML = `
+            <b>Array ordenado</b>: ${nuevoArrayFilter.join(' - ')}`;
+    </script>
+</body>
+</html>

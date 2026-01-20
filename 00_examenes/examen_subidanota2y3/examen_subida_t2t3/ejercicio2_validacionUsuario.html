@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validación de Usuario</title>
+</head>
+<body>
+    <h1>Validación de Usuario</h1>
+
+    <!--
+    Solicita un "Nombre de Usuario" y una "Edad" mediante prompt:
+        ● Si el nombre es nulo o está vacío, muestra un alert de error.
+        ● Si la edad no es un número válido o es menor que 0, indica "Edad no válida".
+        ● Si los datos son correctos, muestra en el HTML: "Usuario [Nombre] registrado
+        correctamente".
+    -->
+
+    <div id="resultado"></div>
+
+    <script>
+
+        // Pedimos al usuario el nombre y la edad (convertida en numero o NaN)
+        const nombre = prompt("Introduce tu nombre: ");
+        const edad = parseInt(prompt("Introduce tu edad: "));
+
+        // Valores de depuración
+        console.log(nombre, edad);
+        console.log('Es un numero? : ' + isNaN(edad));
+        console.log('Es menor que 0? : ' + (edad < 0));
+
+        // Si el nombre es nulo o vacio, mostramos error
+        if (nombre == null || nombre == "") {
+            alert("Nombre no válido");
+        // Si la edad no es un numero o es menor que 0, mostramos error
+        } else if (isNaN(edad) || edad < 0) {
+            alert("Edad no válida");
+        } else {
+        // Si llegamos aquí, todo es correcto, mostramos el resultado en el HTML
+            document.getElementById("resultado").innerHTML = `
+            <b>Usuario</b>: ${nombre}<br>
+            <b>Edad</b>: ${edad}<br>
+            `;
+        }
+
+    </script>
+</body>
+</html>
