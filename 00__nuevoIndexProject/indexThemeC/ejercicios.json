@@ -1,0 +1,144 @@
+{
+    "units": [
+        {
+            "id": "unit1",
+            "name": "Unidad 1: Arquitectura",
+            "icon": "🏗️",
+            "activities": [
+                {
+                    "name": "Imprimir texto usuario",
+                    "file": "../../1_Arquitectura/1_Ejercicios_Introduccion/ejercicio1_1.html",
+                    "description": "Imprimir un texto aportado del usuario en el HTML"
+                },
+                {
+                    "name": "Colores",
+                    "file": "../../1_Arquitectura/1_Ejercicios_Introduccion/ejercicio1_2.html",
+                    "description": "Mostrar el color seleccionado en un formulario"
+                },
+                {
+                    "name": "Cambiar div",
+                    "file": "../../1_Arquitectura/1_Ejercicios_Introduccion/ejercicio1_3.html",
+                    "description": "Cambiar el texto de un div recogido de un input"
+                },
+                {
+                    "name": "Visualizar imagenes",
+                    "file": "../../1_Arquitectura/1_Ejercicios_Introduccion/ejercicio1_4.html",
+                    "description": "Uso de formulario para seleccionar una imagen a mostrar"
+                },
+                {
+                    "name": "Negrita y cursiva",
+                    "file": "../../1_Arquitectura/1_Ejercicios_Introduccion/ejercicio1_5.html",
+                    "description": "Cambiar el estilo de texto de un formulario"
+                }
+            ]
+        },
+        {
+            "id": "unit2",
+            "name": "Unit 2: CSS Fundamentals",
+            "icon": "🎨",
+            "activities": [
+                {
+                    "name": "CSS Selectors",
+                    "file": "unit2/selectors.html",
+                    "description": "Understanding CSS selectors and specificity"
+                },
+                {
+                    "name": "Box Model",
+                    "file": "unit2/box-model.html",
+                    "description": "Margin, padding, border, and content"
+                },
+                {
+                    "name": "Flexbox Layout",
+                    "file": "unit2/flexbox.html",
+                    "description": "Creating flexible layouts with Flexbox"
+                },
+                {
+                    "name": "CSS Grid",
+                    "file": "unit2/grid.html",
+                    "description": "Building complex layouts with CSS Grid"
+                },
+                {
+                    "name": "Responsive Design",
+                    "file": "unit2/responsive.html",
+                    "description": "Media queries and mobile-first design"
+                }
+            ]
+        },
+        {
+            "id": "unit3",
+            "name": "Unit 3: JavaScript Basics",
+            "icon": "⚡",
+            "activities": [
+                {
+                    "name": "Variables & Data Types",
+                    "file": "unit3/variables.html",
+                    "description": "Understanding JavaScript variables and types"
+                },
+                {
+                    "name": "Functions",
+                    "file": "unit3/functions.html",
+                    "description": "Creating and using functions"
+                },
+                {
+                    "name": "DOM Manipulation",
+                    "file": "unit3/dom.html",
+                    "description": "Interacting with the Document Object Model"
+                },
+                {
+                    "name": "Events",
+                    "file": "unit3/events.html",
+                    "description": "Handling user interactions with events"
+                }
+            ]
+        },
+        {
+            "id": "unit4",
+            "name": "Unit 4: Advanced JavaScript",
+            "icon": "🚀",
+            "activities": [
+                {
+                    "name": "Arrays & Objects",
+                    "file": "unit4/arrays-objects.html",
+                    "description": "Working with complex data structures"
+                },
+                {
+                    "name": "Async JavaScript",
+                    "file": "unit4/async.html",
+                    "description": "Promises, async/await, and fetch API"
+                },
+                {
+                    "name": "Local Storage",
+                    "file": "unit4/storage.html",
+                    "description": "Persisting data in the browser"
+                }
+            ]
+        },
+        {
+            "id": "unit5",
+            "name": "Unit 5: Projects",
+            "icon": "🏆",
+            "activities": [
+                {
+                    "name": "Calculator",
+                    "file": "unit5/calculator.html",
+                    "description": "Interactive calculator project"
+                },
+                {
+                    "name": "Todo List",
+                    "file": "unit5/todo.html",
+                    "description": "Task management application"
+                },
+                {
+                    "name": "Weather App",
+                    "file": "unit5/weather.html",
+                    "description": "Fetching and displaying weather data"
+                },
+                {
+                    "name": "Final Project",
+                    "file": "unit5/final.html",
+                    "description": "Complete web application project"
+                }
+            ]
+        }
+    ]
+}

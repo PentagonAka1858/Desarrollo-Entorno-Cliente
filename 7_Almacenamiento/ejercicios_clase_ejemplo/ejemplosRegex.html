@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        
+        /*
+        El código de producto debe ser: 
+            - 3 letras mayúsculas (Categoría), 
+            - un guion, y 
+            - 4 números (ID)
+        */
+        
+        const escenario1 = /^[A-Z]{3}\-\d{4}$/;
+        const escenario1extra = /^PAN|DAN|TON\-\d{4}$/;
+        
+        console.log("ESCENARIO 1 CON LLL-DDDD")
+        
+        console.log("PAN-0045 " + escenario1.test("PAN-0045"));
+        console.log("PA-0045 " + escenario1.test("PA-0045"));
+        console.log("ANZ-3333 " + escenario1.test("ANZ-3333"));
+        console.log("ANZ-333 " + escenario1.test("ANZ-333"));
+        console.log("ANZ-333a " + escenario1.test("ANZ-333a"));
+        console.log("AN3-3334 " + escenario1.test("AN3-3334"));
+        
+        console.log("ESCENARIO 1 CON PAN-DDDD")
+        
+        console.log("PAN-0045 " + escenario1extra.test("PAN-0045"));
+        console.log("DAN-0045 " + escenario1extra.test("DAN-0045"));
+        console.log("TON-0045 " + escenario1extra.test("TON-0045"));
+        console.log("PA-0045 " + escenario1extra.test("PA-0045"));
+        console.log("ANZ-3333 " + escenario1extra.test("ANZ-3333"));
+        
+        // Validar que el usuario ha introducido la fecha en el formato internacional AAAA-MM-DD.
+        
+        const escenario2 = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
+        
+        // La contraseña debe tener al menos 8 caracteres, incluir una mayúscula y un número
+        
+        const escenario3 = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
+        
+    </script>
+    
+</body>
+</html>

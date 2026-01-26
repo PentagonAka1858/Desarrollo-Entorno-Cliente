@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; padding: 30px; background-color: #f4f7f6; }
+        .container { background: white; padding: 20px; border-radius: 10px; max-width: 500px; margin: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        h2 { color: #333; text-align: center; }
+        input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
+        
+        .botones { display: flex; gap: 10px; }
+        button { flex: 1; padding: 12px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; color: white; }
+        
+        .btn-add { background-color: #007bff; }
+        .btn-clear { background-color: #dc3545; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Listado con Persistencia</h2>
+    <form id="formAlumno">
+        <input type="text" id="nombre" placeholder="Nombre del alumno" required>
+        <div class="botones">
+            <button type="submit" class="btn-add">Añadir Alumno</button>
+            <button type="button" id="btnBorrarTodo" class="btn-clear">Borrar Todo</button>
+        </div>
+    </form>
+
+    <table id="tabla">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Nombre</th>
+            </tr>
+        </thead>
+        <tbody id="cuerpo"></tbody>
+    </table>
+</div>
+
+<script>
+    // --- 1. INICIALIZACIÓN (Cargar datos del LocalStorage) ---
+    // Intentamos leer la lista guardada; si no existe, empezamos con un array vacío
+    let alumnos = JSON.parse(localStorage.getItem('alumnos_dwec')) || [];
+
+    const form = document.getElementById('formAlumno');
+    const cuerpo = document.getElementById('cuerpo');
+    const btnClear = document.getElementById('btnBorrarTodo');
+
+    // Al arrancar, pintamos lo que haya en memoria
+    renderizar();
+
+    // --- 2. GESTIÓN DE DATOS ---
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const nuevo = { nombre: document.getElementById('nombre').value };
+        
+        alumnos.push(nuevo);
+        guardarYSincronizar(); // Guardamos y pintamos
+        form.reset();
+    });
+
+    btnClear.addEventListener('click', () => {
+        if(confirm("¿Seguro que quieres borrar toda la lista?")) {
+            alumnos = [];
+            guardarYSincronizar();
+        }
+    });
+
+    // --- 3. PERSISTENCIA Y VISTA ---
+
+    function guardarYSincronizar() {
+        // Convertimos el array a STRING para guardarlo en LocalStorage
+        localStorage.setItem('alumnos_dwec', JSON.stringify(alumnos));
+        renderizar();
+    }
+
+    function renderizar() {
+        cuerpo.innerHTML = "";
+        alumnos.forEach((alum, i) => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td>${i + 1}</td><td>${alum.nombre}</td>`;
+            cuerpo.appendChild(tr);
+        });
+    }
+</script>
+
+</body>
+</html>

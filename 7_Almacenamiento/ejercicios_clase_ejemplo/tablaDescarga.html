@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; padding: 30px; background-color: #f4f7f6; }
+        .container { background: white; padding: 20px; border-radius: 10px; max-width: 500px; margin: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        h2 { color: #333; text-align: center; }
+        input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
+        
+        .botones { display: flex; gap: 10px; }
+        button { flex: 1; padding: 12px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; color: white; }
+        
+        .btn-add { background-color: #007bff; }
+        .btn-clear { background-color: #dc3545; }
+        .btn-download { background-color: #28a745; }
+        .btn-upload { background-color: #ffc107; color: #333; }
+        .repetidor {background-color: lightgray; border-radius: 20px; font-size: 0.8rem; padding: 3px;}
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Listado con Persistencia</h2>
+    <form id="formAlumno">
+        <input type="text" id="nombre" placeholder="Nombre del alumno" required>
+        <input type="text" id="apellidos" placeholder="Apellidos" required>
+        <input type="number" id="edad" placeholder="Edad" min="0" max="150" required>
+        <input type="number" id="nota" placeholder="Nota" min="0" max="10" required>
+        <input type="tel" id="movil" placeholder="Móvil" maxlength="9" pattern="^[67]\d{8}$" title="Debe empezar por 6 y tener 9 dígitos" required>
+        <label style="display: flex; align-items: center; gap: 8px; margin: 10px 0;">
+            <input type="checkbox" id="repetidor" style="width: auto; margin: 0;">
+            Repetidor
+        </label>
+        
+        <div class="botones">
+            <button type="submit" class="btn-add">Añadir Alumno</button>
+            <button type="button" id="btnBorrarTodo" class="btn-clear">Borrar Todo</button>
+        </div>
+        <div class="botones" style="margin-top: 10px;">
+            <button type="button" id="btnDescargar" class="btn-download">Descargar JSON</button>
+            <button type="button" id="btnCargar" class="btn-upload">Cargar JSON</button>
+        </div>
+        <input type="file" id="fileInput" accept=".json" style="display: none;">
+    </form>
+
+    <table id="tabla">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Edad</th>
+                <th>Nota</th>
+                <th>Móvil</th>
+            </tr>
+        </thead>
+        <tbody id="cuerpo"></tbody>
+    </table>
+</div>
+
+<script>
+    // --- 1. INICIALIZACIÓN (Cargar datos del LocalStorage) ---
+    let alumnos = JSON.parse(localStorage.getItem('alumnos_dwec')) || [];
+
+    const form = document.getElementById('formAlumno');
+    const cuerpo = document.getElementById('cuerpo');
+    const btnClear = document.getElementById('btnBorrarTodo');
+    const btnDescargar = document.getElementById('btnDescargar');
+    const btnCargar = document.getElementById('btnCargar');
+    const fileInput = document.getElementById('fileInput');
+
+    renderizar();
+
+    // --- 2. GESTIÓN DE DATOS ---
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const nuevo = { 
+            nombre: document.getElementById('nombre').value,
+            apellidos: document.getElementById('apellidos').value,
+            edad: parseInt(document.getElementById('edad').value),
+            nota: parseInt(document.getElementById('nota').value),
+            movil: document.getElementById('movil').value,
+            repetidor: document.getElementById('repetidor').checked == true ? "Rep" : ""
+        };
+        
+        alumnos.push(nuevo);
+        guardarYSincronizar();
+        form.reset();
+    });
+
+    btnClear.addEventListener('click', () => {
+        if(confirm("¿Seguro que quieres borrar toda la lista?")) {
+            alumnos = [];
+            guardarYSincronizar();
+        }
+    });
+
+    // --- 3. DESCARGA DE JSON ---
+    
+    btnDescargar.addEventListener('click', () => {
+        // Convertir el array a JSON con formato bonito
+        const jsonString = JSON.stringify(alumnos, null, 2);
+        
+        // Crear un Blob con el contenido JSON
+        const blob = new Blob([jsonString], { type: 'application/json' });
+        
+        // Crear un enlace temporal para descargar el json creado (blob)
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        
+        // Asignamos la URL (que pasa el blob a json) al enlace creado
+        a.href = url;
+        // Le asignamos el atributo de descarga con el nombre deseado, en nuestro caso 
+        // para no repetir archivos, crearemos un nombre variable dependiendo de la fecha y hora
+        a.download = 'alumnos_' + new Date().toISOString().slice(0,19) + '.json';
+        
+        // Simular click en el enlace
+        document.body.appendChild(a);
+        a.click();
+        
+        // Limpiamos el enlace
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    });
+
+    // --- 4. CARGA DE JSON ---
+    
+    btnCargar.addEventListener('click', () => {
+        fileInput.click(); // Abre el diálogo de selección de archivo
+    });
+
+    fileInput.addEventListener('change', (e) => {
+        
+        // Una vez cambiado el archivo (input type=file), lo asignamos a una variable
+        const file = e.target.files[0];
+        
+        // Si no hay datos en el archivo, cancelamos la función
+        if (!file) return;
+
+        // Creamos un objeto FileReader para poder cargar el JSON externo
+        const reader = new FileReader();
+        
+        // Cargamos el evento que contiene el archivo
+        reader.onload = (event) => {
+            try {
+                // Parseamos de JSON a objeto de JS
+                const datosImportados = JSON.parse(event.target.result);
+                
+                // Validar que sea un array
+                if (!Array.isArray(datosImportados)) {
+                    alert('El archivo JSON debe contener un array de alumnos');
+                    return;
+                }
+                
+                // Preguntar si reemplazar o añadir a los datos actuales
+                const accion = confirm(
+                    `Se encontraron ${datosImportados.length} alumnos.\n\n` +
+                    'OK = REEMPLAZAR lista actual\n' +
+                    'Cancelar = AÑADIR a la lista actual'
+                );
+                
+                if (accion) {
+                    // Reemplazar
+                    alumnos = datosImportados;
+                } else {
+                    // Añadir
+                    alumnos.push(...datosImportados);
+                }
+                
+                guardarYSincronizar();
+                alert('Datos cargados correctamente!');
+                
+            } catch (error) {
+                alert('Error al leer el archivo JSON: ' + error.message);
+            }
+        };
+        
+        reader.readAsText(file);
+        fileInput.value = ''; // Limpiar el input para poder cargar el mismo archivo de nuevo
+    });
+
+    // --- 4. PERSISTENCIA Y VISTA ---
+
+    function guardarYSincronizar() {
+        localStorage.setItem('alumnos_dwec', JSON.stringify(alumnos));
+        renderizar();
+    }
+
+    function renderizar() {
+        cuerpo.innerHTML = "";
+        alumnos.forEach((alum, i) => {
+            const tr = document.createElement('tr');
+            
+            // ID
+            tr.innerHTML = `<td>${i + 1}</td>`;
+            
+            // Datos de alumnos
+            tr.innerHTML += `<td>${alum.nombre} <span ${alum.repetidor == "Rep" ? ' class="repetidor" ': ""}>${alum.repetidor}</span></td>`;
+            tr.innerHTML += `<td>${alum.apellidos} </td>`;
+            tr.innerHTML += `<td>${alum.edad}</td>`;
+            tr.innerHTML += `<td${alum.nota < 5 ? ' style="color:red; font-weight:bolder;"' : ""}>${alum.nota}</td>`;
+            tr.innerHTML += `<td>${alum.movil}</td>`;
+            
+            cuerpo.appendChild(tr);
+        });
+    }
+</script>
+
+</body>
+</html>
