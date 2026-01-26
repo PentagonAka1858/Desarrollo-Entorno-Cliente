@@ -102,7 +102,7 @@
     // --- 3. DESCARGA DE JSON ---
     
     btnDescargar.addEventListener('click', () => {
-        // Convertir el array a JSON con formato bonito
+        // Convertir el array a JSON con formato bonito (el ...null, 2... hace que tenga una sangría de 2 espacios)
         const jsonString = JSON.stringify(alumnos, null, 2);
         
         // Crear un Blob con el contenido JSON
