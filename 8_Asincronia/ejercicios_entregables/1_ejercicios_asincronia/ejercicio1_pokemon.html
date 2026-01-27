@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokédex - Kanto Region</title>
+    
+    <!-- Pixel Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ===== BASE STYLES ===== */
+        :root {
+            --pokedex-red: #dc0a2d;
+            --pokedex-dark-red: #8b0000;
+            --screen-green: #98cb98;
+            --screen-dark-green: #0f380f;
+            --screen-bezel: #dedede;
+            --ui-dark: #232323;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background-color: #232323; /* Dark background so the red Pokedex pops */
+            color: var(--ui-dark);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.5;
+            image-rendering: pixelated;
+        }
+
+        /* ===== CONTROLS SECTION ===== */
+        #userInteraction {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .control-panel {
+            background-color: #f0f0f0;
+            border: 4px solid var(--ui-dark);
+            padding: 20px;
+            box-shadow: 4px 4px 0px #000;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h2 {
+            font-size: 0.7rem;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        input {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.6rem;
+            padding: 10px;
+            border: 2px solid var(--ui-dark);
+            background-color: #fff;
+            width: 100%;
+            margin-bottom: 15px;
+            outline: none;
+        }
+
+        /* ===== RETRO BUTTONS ===== */
+        button {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.6rem;
+            padding: 12px 10px;
+            background-color: #3b3b3b;
+            color: white;
+            border: 2px solid #000;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: inset -2px -2px 0px #1a1a1a, inset 2px 2px 0px #555;
+            transition: transform 0.1s;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        button:active {
+            transform: translateY(2px);
+            box-shadow: inset 2px 2px 0px #1a1a1a;
+        }
+
+        #clean {
+            background-color: #cc3333;
+            box-shadow: inset -2px -2px 0px #771c1c, inset 2px 2px 0px #ff6666;
+        }
+        #clean:hover { background-color: #ff4444; }
+
+        /* ===== THE POKEDEX (TABLE CONTAINER) ===== */
+        .pokedex-case {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--pokedex-red);
+            border: 4px solid var(--ui-dark);
+            border-radius: 15px 15px 40px 15px;
+            box-shadow: 
+                inset 5px 5px 0px rgba(255, 255, 255, 0.3),
+                inset -5px -5px 0px rgba(0, 0, 0, 0.3),
+                10px 10px 0px #000;
+            padding: 30px 20px 40px 20px;
+            position: relative;
+        }
+
+        /* Top Decoration (Blue Lens & LEDS) */
+        .pokedex-top {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            border-bottom: 4px solid var(--pokedex-dark-red);
+            padding-bottom: 10px;
+            gap: 15px;
+        }
+
+        .camera-lens {
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle at 30% 30%, #4facfe, #00f2fe 30%, #0072ff 100%);
+            border: 4px solid white;
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px var(--ui-dark);
+        }
+
+        .small-lights {
+            display: flex;
+            gap: 10px;
+        }
+
+        .dot {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            border: 2px solid var(--ui-dark);
+        }
+        .red-dot { background-color: #ff0000; }
+        .yellow-dot { background-color: #ffff00; }
+        .green-dot { background-color: #00ff00; }
+
+        /* The Screen Bezel (Grey Area) */
+        .screen-bezel {
+            background-color: var(--screen-bezel);
+            border: 4px solid var(--ui-dark);
+            border-radius: 10px 10px 30px 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: inset -3px -3px 0px rgba(0,0,0,0.2);
+        }
+
+        .screen-header {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        .screen-dot {
+            width: 10px;
+            height: 10px;
+            background-color: var(--pokedex-red);
+            border-radius: 50%;
+            border: 1px solid var(--ui-dark);
+        }
+
+        /* ===== THE TABLE (The Screen) ===== */
+        .gameboy-screen {
+            background-color: var(--screen-green);
+            border: 4px solid var(--ui-dark);
+            border-radius: 4px;
+            box-shadow: inset 4px 4px 0px rgba(0,0,0,0.1);
+            padding: 10px;
+            overflow-x: auto; /* Handle overflow on small screens */
+            min-height: 200px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            color: var(--screen-dark-green);
+        }
+
+        thead {
+            border-bottom: 3px solid var(--screen-dark-green);
+        }
+
+        th {
+            font-size: 0.55rem;
+            padding: 10px 5px;
+            text-align: left;
+            text-transform: uppercase;
+        }
+
+        td {
+            padding: 10px 5px;
+            font-size: 0.6rem;
+            border-bottom: 2px dashed rgba(15, 56, 15, 0.3); /* Dashed retro lines */
+            vertical-align: middle;
+            text-transform: uppercase;
+        }
+
+        /* Sprite styling */
+        td img {
+            width: 64px;
+            height: 64px;
+            image-rendering: pixelated;
+            filter: grayscale(100%) contrast(1.2); /* Makes it look like GameBoy display */
+            transition: filter 0.2s;
+        }
+
+        /* Hover effect to bring back color */
+        tbody tr:hover td img {
+            filter: grayscale(0%) contrast(1);
+        }
+
+        tbody tr:hover {
+            background-color: rgba(15, 56, 15, 0.1);
+            cursor: pointer;
+        }
+
+        /* Pokedex Vent Decorations */
+        .vents {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding-right: 20px;
+        }
+        .vent-line {
+            width: 40px;
+            height: 6px;
+            background-color: var(--ui-dark);
+            border-radius: 4px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 600px) {
+            .pokedex-case { padding: 15px; }
+            .camera-lens { width: 40px; height: 40px; }
+            th, td { font-size: 0.5rem; }
+            td img { width: 48px; height: 48px; }
+        }
+    </style>
+    
+</head>
+<body>
+
+    <div id="userInteraction">
+        <div class="control-panel">
+            <h2>Buscar Pokémon (ID/Nombre)</h2>
+            <input title="Se pueden cargar varios separados por espacio" id="input" placeholder="ej. pikachu 12">
+            <button onclick="getPokemons(document.getElementById('input').value)">Buscar Datos</button>
+        </div>
+        <div class="control-panel">
+            <h2>Acciones</h2>
+            <button onclick="getPokemons()">Cargar Iniciales (Red)</button>
+            <button id="clean" onclick="document.getElementById('forApi').innerHTML = '';">Apagar Pantalla</button>
+        </div>
+    </div>
+    
+    <!-- POKEDEX WRAPPER -->
+    <div class="pokedex-case">
+        <!-- Top Decoration -->
+        <div class="pokedex-top">
+            <div class="camera-lens"></div>
+            <div class="small-lights">
+                <div class="dot red-dot"></div>
+                <div class="dot yellow-dot"></div>
+                <div class="dot green-dot"></div>
+            </div>
+        </div>
+
+        <!-- Grey Bezel -->
+        <div class="screen-bezel">
+            <div class="screen-header">
+                <div class="screen-dot"></div>
+                <div class="screen-dot"></div>
+            </div>
+
+            <!-- Green Screen (The Table) -->
+            <div class="gameboy-screen">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Img</th>
+                            <th>Datos Pokémon</th>
+                            <th>EXP</th>
+                        </tr>
+                    </thead>
+                    <tbody id="forApi">
+                        <!-- JS injects here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Bottom Vents -->
+        <div class="vents">
+            <div class="vent-line"></div>
+            <div class="vent-line"></div>
+            <div class="vent-line"></div>
+        </div>
+    </div>
+    
+    <script>
+        
+        async function getPokemons(defaultIDs = [1,4,7]) {
+            
+            const pokeUrl = 'https://pokeapi.co/api/v2/pokemon/';
+            const tbody = document.getElementById('forApi');
+            
+            if (typeof(defaultIDs) == "string") {
+                defaultIDs = defaultIDs.split(" ");
+            }
+            
+            for (const id of defaultIDs){
+                try {
+                    const request = id.toString().toLowerCase();
+                    
+                    const responsePokeAPI = await fetch(pokeUrl + request);
+                    
+                    if(!responsePokeAPI.ok) throw new Error("Not found");
+                    
+                    const pokeApiData = await responsePokeAPI.json();
+                    
+                    const tr = document.createElement('tr');
+                    const tdPhoto = document.createElement('td');
+                    const tdName = document.createElement('td');
+                    const tdExp = document.createElement('td');
+                    
+                    tdPhoto.innerHTML = `<img src="${pokeApiData.sprites.front_default}" alt="${pokeApiData.name}"\>`;
+
+                    tdName.innerHTML = `No.${pokeApiData.id}<br>${pokeApiData.name}`;
+                    
+                    tdExp.innerHTML = `${pokeApiData.base_experience}`;
+                    
+                    tr.appendChild(tdPhoto);
+                    tr.appendChild(tdName);
+                    tr.appendChild(tdExp);
+                    
+                    tbody.appendChild(tr);
+                    
+                } catch (error) {
+                    console.log("Error loading Pokemon: " + id);
+                    alert(`No se encontró el Pokémon: ${id}`);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
