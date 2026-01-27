@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscador de Productos Detallado</title>
+</head>
+<body>
+    <h1>Buscador de Productos Detallado</h1>
+    
+    <div>
+        <input id="valor" type="text">
+        <button id="buscar">Buscar</button>
+    </div>
+    
+    <table>
+        
+        <thead>
+            <th>Imagen</th>
+            <th>Título</th>
+            <th>Descripción</th>
+            <th>Descuento</th>
+        </thead>
+        
+        <tbody id="forApi">
+            
+            
+            
+        </tbody>
+        
+    </table>
+    
+    <script>
+        
+        let productos = [];
+        const tbody = document.getElementById('forApi');
+        
+        async function getProducts(cadena) {
+            const responseProducts = await fetch("https://dummyjson.com/products/search?q="+cadena);
+            const products = await responseProducts.json();
+            console.log(products);
+            productos.push(...products.products);
+            // Alternativamente se podria usar:
+            // productos = products.products;
+            if (productos.length == 0) alert("No se encontraron productos que coincidan con tu búsqueda");
+            console.log(productos);
+            pintarTabla();
+        }
+        
+        function pintarTabla() {
+            
+            tbody.innerHTML = "";
+            
+            productos.forEach(producto => {
+                
+                // Imagen, Titulo, Descripción y Descuento
+                // images[0], title, description, discountPercentage
+                const tr = document.createElement('tr');
+                const tdImagen = document.createElement('td');
+                const tdTitulo = document.createElement('td');
+                const tdDescripcion = document.createElement('td');
+                const tdDescuento = document.createElement('td');
+                
+                tdImagen.innerHTML = `<img width="50px" src="${producto.images[0]}" alt=${producto.title}/>`;
+                tdTitulo.innerHTML = `${producto.title}`;
+                tdDescripcion.innerHTML = `${producto.description}`;
+                tdDescuento.innerHTML = `${producto.discountPercentage}%`;
+                
+                
+                tr.appendChild(tdImagen);
+                tr.appendChild(tdTitulo);
+                tr.appendChild(tdDescripcion);
+                tr.appendChild(tdDescuento);
+                
+                tbody.appendChild(tr);
+                
+            });
+        }
+        
+        document.getElementById("buscar").addEventListener("click", () => {
+            getProducts(document.getElementById("valor").value);
+            productos = [];
+        });
+        
+    </script>
+    
+</body>
+</html>

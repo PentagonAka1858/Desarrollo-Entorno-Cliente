@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Productos</title>
+</head>
+<body>
+    
+    <h1>Catálogo de Productos</h1>
+    
+    <button id="filtrar">Filtrar productos con &#x3c; 10 stock</button>
+    
+    <table>
+        
+        <thead>
+            <th>Título</th>
+            <th>Precio</th>
+            <th>Stock</th>
+            <th>Marca</th>
+        </thead>
+        
+        <tbody id="forApi">
+            
+            
+            
+        </tbody>
+        
+    </table>
+    
+    <script>
+        
+        let productos = [];
+        const tbody = document.getElementById('forApi');
+        
+        async function getProducts() {
+            const responseProducts = await fetch("https://dummyjson.com/products");
+            const products = await responseProducts.json();
+            console.log(products);
+            productos.push(...products.products);
+            console.log(productos);
+            pintarTabla();
+        }
+        
+        function pintarTabla() {
+            
+            tbody.innerHTML = "";
+            
+            productos.forEach(producto => {
+                const tr = document.createElement('tr');
+                const tdTitulo = document.createElement('td');
+                const tdPrecio = document.createElement('td');
+                const tdStock = document.createElement('td');
+                const tdMarca = document.createElement('td');
+                
+                tdTitulo.innerHTML = `${producto.title}`;
+                tdPrecio.innerHTML = `${producto.price}`;
+                tdStock.innerHTML = `${producto.stock}`;
+                tdMarca.innerHTML = `${producto.brand == undefined ? 'Sin Marca' : producto.brand}`;
+                
+                tr.appendChild(tdTitulo);
+                tr.appendChild(tdPrecio);
+                tr.appendChild(tdStock, tdMarca);
+                tr.appendChild(tdMarca);
+                
+                tbody.appendChild(tr);
+                
+            });
+        }
+        
+        function filtrar() {
+            productos = productos.filter((producto) => (producto.stock < 10));
+            pintarTabla();
+        }
+        
+        document.getElementById("filtrar").addEventListener("click", filtrar);
+        document.addEventListener("DOMContentLoaded", getProducts);
+        
+    </script>
+    
+</body>
+</html>
