@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario AJAX Fetch</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h2>Registro de Usuario</h2>
+    <form id="miFormulario" style="display: inline;">
+        <input type="text" name="nombre" placeholder="Tu nombre" required>
+        <input type="email" name="correo" placeholder="Tu correo">
+        <button type="submit" id="btnEnviar">Registrar</button>
+    </form>
+    <button type="submit" id="btnCargar">Cargar datos</button>
+    <div id="mensajeRespuesta"></div>
+    
+    <table>
+        <thead>
+            <tr id="cabeceraTabla">
+                
+            </tr>
+        </thead>
+        
+        <tbody id="table">
+            
+        </tbody>
+    </table>
+    
+    <script src="app.js"></script>
+</body>
+
+</html>
