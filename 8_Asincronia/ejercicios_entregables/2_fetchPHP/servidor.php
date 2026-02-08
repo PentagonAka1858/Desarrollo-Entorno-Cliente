@@ -6,12 +6,15 @@ error_reporting(E_ALL);
 // Habilitar CORS y JSON
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
-// --- CHIVATO: Guardar lo que llega en un archivo de texto ---
-$log = "Fecha: " . date("Y-m-d H:i:s") . "\n";
-$log .= "Método: " . $_SERVER['REQUEST_METHOD'] . "\n";
-$log .= "Datos recibidos: " . print_r($_POST, true) . "\n";
-$log .= "-----------------------------------\n";
-file_put_contents("debug_log.txt", $log, FILE_APPEND);
+
+// --- CHIVATO: Guardar lo que llega en un archivo de texto (SOLO POST) ---
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $log = "Fecha: " . date("Y-m-d H:i:s") . "\n";
+    $log .= "Método: " . $_SERVER['REQUEST_METHOD'] . "\n";
+    $log .= "Datos recibidos: " . print_r($_POST, true) . "\n";
+    $log .= "-----------------------------------\n";
+    file_put_contents("debug_log.txt", $log, FILE_APPEND);
+}
 
 // --- DATOS CONEXIÓN BD ---
 
@@ -35,8 +38,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Recibir datos (PHP los saca del FormData automáticamente)
     $nombre = $_POST['nombre'] ?? '';
     $correo = $_POST['correo'] ?? '';
+    $movil = $_POST['movil'] ?? '';
+    $edad = $_POST['edad'] ?? '';
+    $nivel_idioma = $_POST['nivel'] ?? null;
     // Validación básica
-    if (empty($nombre) || empty($correo)) {
+    if (empty($nombre) || empty($correo) || empty($movil) || empty($edad)) {
         http_response_code(400); // Bad Request
         echo json_encode(["status" => "error", "error" => "Faltan campos obligatorios"]);
         exit;
@@ -46,10 +52,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pdo = new PDO($dsn, $user, $pass, $options);
         // 2. Preparar la sentencia (El '?' o ':nombre' son marcadores de seguridad)
         // Usamos IGNORE o comprobación previa para evitar error fatal si el correo ya existe
-        $sql = "INSERT INTO usuarios (nombre, correo) VALUES (:nombre, :correo)";
+        $sql = "INSERT INTO usuarios (nombre, correo, movil, edad, nivel_idioma) VALUES (:nombre, :correo, :movil, :edad, :nivel_idioma)";
         $stmt = $pdo->prepare($sql);
         // 3. Ejecutar con los datos reales
-        $stmt->execute(['nombre' => $nombre, 'correo' => $correo]);
+        $stmt->execute(['nombre' => $nombre, 'correo' => $correo, 'movil' => $movil, 'edad' => $edad, 'nivel_idioma' => $nivel_idioma]);
         // 4. Responder Éxito
         echo json_encode([
             "status" => "ok",
@@ -71,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // 1. Conectar
         $pdo = new PDO($dsn, $user, $pass, $options);
         // 2. Preparar la sentencia
-        $sql = "SELECT nombre, correo FROM usuarios";
+        $sql = "SELECT nombre, correo, movil, edad, nivel_idioma FROM usuarios";
         $stmt = $pdo->query($sql);
         // 3. Obtener resultados
         $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -88,23 +94,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 } else if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
-    // Leer datos del body (PUT no usa $_POST)
     $input = json_decode(file_get_contents('php://input'), true);
-    
+        
     $correo = $input['correo'] ?? '';
-    $nuevoNombre = $input['nombre'] ?? '';
-    
-    if (empty($correo) || empty($nuevoNombre)) {
+    $nombre = $input['nombre'] ?? '';
+    $movil = $input['movil'] ?? '';
+    $edad = $input['edad'] ?? '';
+    $nivel_idioma = $input['nivel_idioma'] ?? null;
+
+    if (empty($correo) || empty($nombre) || empty($movil) || empty($edad)) {
         http_response_code(400);
         echo json_encode(["status" => "error", "error" => "Faltan campos obligatorios"]);
         exit;
     }
-    
+
     try {
         $pdo = new PDO($dsn, $user, $pass, $options);
-        $sql = "UPDATE usuarios SET nombre = :nombre WHERE correo = :correo";
+        $sql = "UPDATE usuarios SET nombre = :nombre, movil = :movil, edad = :edad, nivel_idioma = :nivel_idioma WHERE correo = :correo";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute(['nombre' => $nuevoNombre, 'correo' => $correo]);
+        $stmt->execute([
+            'correo' => $correo,
+            'nombre' => $nombre,
+            'movil' => $movil,
+            'edad' => $edad,
+            'nivel_idioma' => $nivel_idioma
+        ]);
         
         if ($stmt->rowCount() > 0) {
             echo json_encode([
@@ -113,13 +127,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]);
         } else {
             http_response_code(404);
-            echo json_encode(["status" => "error", "error" => "Usuario no encontrado"]);
+            echo json_encode(["status" => "error", "error" => "Usuario no encontrado o sin cambios"]);
         }
     } catch (\PDOException $e) {
         http_response_code(500);
         echo json_encode(["status" => "error", "error" => "Error en BDD: " . $e->getMessage()]);
     }
-    
 } else if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
     // Leer datos del body
     $input = json_decode(file_get_contents('php://input'), true);

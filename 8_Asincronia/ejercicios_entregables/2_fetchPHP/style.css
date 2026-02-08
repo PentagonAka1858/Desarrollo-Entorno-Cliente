@@ -6,7 +6,7 @@
 
 body {
     font-family: Arial, sans-serif;
-    max-width: 800px;
+    max-width: 80vw;
     margin: 50px auto;
     padding: 20px;
     background-color: #f5f5f5;
@@ -86,6 +86,30 @@ tr:hover {
 
 .btn-eliminar:hover {
     background-color: #c82333;
+}
+
+.btn-editar {
+    background-color: #ffc107;
+    margin-right: 5px;
+}
+
+.btn-editar:hover {
+    background-color: #e0a800;
+}
+
+.btn-guardar {
+    background-color: #28a745;
+    margin-right: 5px;
+}
+
+.btn-guardar:hover {
+    background-color: #1e7e34;
+}
+
+td input {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #007bff;
 }
 
 @media (max-width: 600px) {

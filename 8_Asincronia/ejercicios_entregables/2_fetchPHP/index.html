@@ -11,7 +11,19 @@
     <h2>Registro de Usuario</h2>
     <form id="miFormulario" style="display: inline;">
         <input type="text" name="nombre" placeholder="Tu nombre" required>
-        <input type="email" name="correo" placeholder="Tu correo">
+        <input type="email" name="correo" placeholder="Tu correo" required>
+        <input type="tel" name="movil" placeholder="Tu móvil" pattern="^[67][0-9]{8}$" title="Debe empezar por 6 o 7 y tener 9 dígitos" maxlength="9" required>
+        <input type="number" name="edad" placeholder="Tu edad" min="18" required>
+        <select name="nivel">
+            <option value="" disabled selected>Nivel de idioma (Opcional)</option>
+            <option value="">NS/NC</option>
+            <option value="A1">A1</option>
+            <option value="A2">A2</option>
+            <option value="B1">B1</option>
+            <option value="B2">B2</option>
+            <option value="C1">C1</option>
+            <option value="C2">C2</option>
+        </select>
         <button type="submit" id="btnEnviar">Registrar</button>
     </form>
     <button type="submit" id="btnCargar">Cargar datos</button>

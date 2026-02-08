@@ -63,7 +63,7 @@ async function cargarDatos() {
             // console.log(Object.keys(usuarios[0]));
             // console.log(usuarios);
             
-            if (usuarios.length == 0) throw new Error("Error, BD vacía");
+            if (usuarios.length == 0) throw new Error("BD vacía");
             
             let datosCabecera = Object.keys(usuarios[0]);
             
@@ -87,11 +87,148 @@ async function cargarDatos() {
                 datosCabecera.forEach(clave => {
                     const celda = document.createElement('td');
                     celda.innerHTML = usuario[clave];
+                    celda.dataset.campo = clave; // Guardar qué campo es
                     fila.appendChild(celda);
                 });
                 
                 // Celda con botón de eliminar
                 const celdaAcciones = document.createElement('td');
+                
+                // Botón Editar
+                const btnEditar = document.createElement('button');
+                btnEditar.innerHTML = 'Editar';
+                btnEditar.className = 'btn-editar';
+
+                btnEditar.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const celdas = fila.querySelectorAll('td');
+                    
+                    // Si ya está en modo edición (es botón "Guardar")
+                    if (btnEditar.className === 'btn-guardar') {
+                        const inputs = fila.querySelectorAll('input');
+                        const selects = fila.querySelectorAll('select');
+                        
+                        const nuevoNombre = inputs[0]?.value;
+                        const correoOriginal = celdas[1].textContent;
+                        const nuevoMovil = inputs[1]?.value;
+                        const nuevaEdad = inputs[2]?.value;
+                        const nuevoNivel = selects[0]?.value || null;
+                        
+                        console.log('Datos a enviar:');
+                        console.log('- Correo (identificador):', correoOriginal);
+                        console.log('- Nuevo nombre:', nuevoNombre);
+                        console.log('- Nuevo móvil:', nuevoMovil);
+                        console.log('- Nueva edad:', nuevaEdad);
+                        console.log('- Nuevo nivel:', nuevoNivel);
+                        
+                        // Validación de móvil (debe empezar con 6 o 7 y tener 9 dígitos)
+                        const movilRegex = /^[67][0-9]{8}$/;
+                        if (!movilRegex.test(nuevoMovil)) {
+                            alert('El móvil debe empezar por 6 o 7 y tener 9 dígitos');
+                            return;
+                        }
+                        
+                        // Validación de edad (debe ser mayor o igual a 18)
+                        const edadNum = parseInt(nuevaEdad);
+                        if (isNaN(edadNum) || edadNum < 18) {
+                            alert('La edad debe ser mayor o igual a 18');
+                            return;
+                        }
+                        
+                        actualizarUsuario(correoOriginal, nuevoNombre, nuevoMovil, nuevaEdad, nuevoNivel).then(actualizado => {
+                            if (actualizado) {
+                                // Volver a mostrar valores normales
+                                celdas[0].textContent = nuevoNombre;
+                                celdas[2].textContent = nuevoMovil;
+                                celdas[3].textContent = nuevaEdad;
+                                celdas[4].textContent = nuevoNivel || '';
+                                
+                                btnEditar.innerHTML = 'Editar';
+                                btnEditar.className = 'btn-editar';
+                                
+                                // Remover botón cancelar si existe
+                                const btnCancelar = btnEditar.parentElement.querySelector('.btn-cancelar');
+                                if (btnCancelar) {
+                                    btnCancelar.remove();
+                                }
+                            } else {
+                                alert('Error al actualizar');
+                            }
+                        });
+                    } else {
+                        // Guardar valores originales antes de editar
+                        const valoresOriginales = [];
+                        
+                        // Modo edición - convertir a inputs
+                        const correoOriginal = celdas[1].textContent;
+                        console.log('Correo original capturado:', correoOriginal);
+                        
+                        celdas.forEach((celda, index) => {
+                            // Excluir correo (index 1) y columna de botones (última)
+                            if (index !== 1 && index < celdas.length - 1) {
+                                const valorActual = celda.textContent.trim();
+                                valoresOriginales[index] = valorActual;
+                                
+                                // index 0: nombre
+                                // index 1: correo (no editable)
+                                // index 2: movil
+                                // index 3: edad
+                                // index 4: nivel_idioma
+                                
+                                if (index === 4) {
+                                    // Para nivel_idioma crear un select
+                                    celda.innerHTML = `
+                                        <select>
+                                            <option value="">Ninguno</option>
+                                            <option value="A1" ${valorActual === 'A1' ? 'selected' : ''}>A1</option>
+                                            <option value="A2" ${valorActual === 'A2' ? 'selected' : ''}>A2</option>
+                                            <option value="B1" ${valorActual === 'B1' ? 'selected' : ''}>B1</option>
+                                            <option value="B2" ${valorActual === 'B2' ? 'selected' : ''}>B2</option>
+                                            <option value="C1" ${valorActual === 'C1' ? 'selected' : ''}>C1</option>
+                                            <option value="C2" ${valorActual === 'C2' ? 'selected' : ''}>C2</option>
+                                        </select>
+                                    `;
+                                } else {
+                                    celda.innerHTML = `<input type="text" value="${valorActual}">`;
+                                }
+                            }
+                        });
+                        
+                        // Cambiar botón a "Guardar"
+                        btnEditar.innerHTML = 'Guardar';
+                        btnEditar.className = 'btn-guardar';
+                        
+                        // Crear botón "Cancelar"
+                        const btnCancelar = document.createElement('button');
+                        btnCancelar.innerHTML = 'Cancelar';
+                        btnCancelar.className = 'btn-cancelar';
+                        btnCancelar.style.marginLeft = '5px';
+                        
+                        btnCancelar.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            
+                            // Restaurar valores originales
+                            celdas.forEach((celda, index) => {
+                                if (valoresOriginales[index] !== undefined) {
+                                    celda.textContent = valoresOriginales[index];
+                                }
+                            });
+                            
+                            // Restaurar botón Editar
+                            btnEditar.innerHTML = 'Editar';
+                            btnEditar.className = 'btn-editar';
+                            btnCancelar.remove();
+                        });
+                        
+                        // Insertar botón cancelar después del botón guardar
+                        btnEditar.parentElement.appendChild(btnCancelar);
+                    }
+                });
+                
+                // Botón eliminar
                 const btnEliminar = document.createElement('button');
                 btnEliminar.innerHTML = 'Eliminar';
                 btnEliminar.className = 'btn-eliminar'; // Para CSS
@@ -101,6 +238,7 @@ async function cargarDatos() {
                     eliminarUsuario(usuario.correo);
                 });
                 
+                celdaAcciones.appendChild(btnEditar);
                 celdaAcciones.appendChild(btnEliminar);
                 fila.appendChild(celdaAcciones);
                 
@@ -137,5 +275,39 @@ async function eliminarUsuario(correo) {
         console.error('Error:', error);
     } finally {
         cargarDatos();
+    }
+}
+
+async function actualizarUsuario(correoActual, nuevoNombre, nuevoMovil, nuevaEdad, nuevoNivel) {
+    const payload = { 
+        correo: correoActual,
+        nombre: nuevoNombre,
+        movil: nuevoMovil,
+        edad: nuevaEdad,
+        nivel_idioma: nuevoNivel
+    };
+    
+    console.log('Payload enviado a servidor:', payload);
+    
+    try {
+        const respuesta = await fetch('servidor.php', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        
+        const data = await respuesta.json();
+        console.log('Respuesta del servidor:', data);
+        
+        if (data.status === 'ok') {
+            console.log('Usuario actualizado');
+            return true;
+        } else {
+            console.error(data.error);
+            return false;
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        return false;
     }
 }
